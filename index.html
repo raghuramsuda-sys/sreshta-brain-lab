@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sreshta's Brain Lab — Think Like a Detective</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--teal:#0b7285;--teal2:#15aabf;--turq:#22c3d6;--yellow:#ffd43b;--coral:#ff6b81;--cream:#fff9ec;--navy:#16324f;--green:#2f9e44}
+body{margin:0;font-family:'Nunito',sans-serif;color:var(--navy);background:linear-gradient(180deg,#dff8fa 0%,#eafcf3 55%,var(--cream) 100%);min-height:100dvh}
+h1,h2,h3,.baloo{font-family:'Baloo 2',cursive}
+.scr{display:none;max-width:480px;margin:0 auto;padding:12px 14px 30px;min-height:100dvh}
+.scr.on{display:block}
+.topbar{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.topbar .tb{background:#fff;border:2px solid var(--teal2);color:var(--teal);border-radius:999px;padding:5px 13px;font-weight:800;font-size:14px;cursor:pointer}
+.topbar .crumb{font-size:13px;font-weight:800;color:var(--teal);opacity:.85}
+.clubhouse{text-align:center;padding:8px 0 2px}
+.door{font-size:54px;line-height:1}
+h1.title{margin:4px 0 0;font-size:31px;background:linear-gradient(90deg,var(--teal),var(--turq));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-weight:800;color:var(--coral);letter-spacing:.4px;margin:2px 0 8px}
+.ollieRow{display:flex;gap:10px;align-items:flex-end;margin:6px 0}
+.ollieWrap{flex:0 0 100px;cursor:pointer;animation:bob 3s ease-in-out infinite}
+.ollieWrap svg{width:100px;height:auto}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.ollieWrap.hop{animation:hop .5s ease}
+@keyframes hop{30%{transform:translateY(-16px) rotate(-4deg)}60%{transform:translateY(0)}}
+.bubble{position:relative;background:#fff;border:3px solid var(--teal2);border-radius:22px;padding:12px 14px;font-family:'Baloo 2',cursive;font-size:17px;line-height:1.35;flex:1;box-shadow:0 4px 0 rgba(11,114,133,.15)}
+.bubble:after{content:"";position:absolute;left:-13px;bottom:20px;width:20px;height:20px;background:#fff;border-left:3px solid var(--teal2);border-bottom:3px solid var(--teal2);transform:rotate(45deg);border-bottom-left-radius:6px}
+.card{background:#fff;border-radius:20px;padding:14px;box-shadow:0 4px 14px rgba(11,114,133,.12);margin:10px 0}
+.btn{display:block;width:100%;border:none;cursor:pointer;border-radius:999px;padding:13px 16px;font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;background:var(--teal);color:#fff;box-shadow:0 4px 0 #084c5c;margin:8px 0}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 #084c5c}
+.btn.coral{background:var(--coral);box-shadow:0 4px 0 #c2435c}
+.btn.yellow{background:var(--yellow);color:var(--navy);box-shadow:0 4px 0 #d9a406}
+.btn.ghost{background:#fff;color:var(--teal);border:2px solid var(--teal2);box-shadow:none}
+.btn:disabled{opacity:.45}
+.entry{display:flex;align-items:center;gap:12px;background:#fff;border:3px solid var(--teal2);border-radius:18px;padding:12px 14px;width:100%;cursor:pointer;font-family:'Baloo 2',cursive;font-size:19px;font-weight:800;color:var(--navy);margin:8px 0;text-align:left}
+.entry .face{font-size:30px}
+.entry small{display:block;font-family:'Nunito';font-size:12px;color:#5b7a90;font-weight:700}
+.pinDots{display:flex;gap:10px;justify-content:center;margin:14px 0}
+.pinDots span{width:18px;height:18px;border-radius:50%;border:3px solid var(--teal);background:#fff}
+.pinDots span.f{background:var(--yellow)}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:280px;margin:0 auto}
+.pad button{font-family:'Baloo 2';font-size:22px;font-weight:800;padding:12px 0;border-radius:16px;border:2px solid var(--teal2);background:#fff;color:var(--navy);cursor:pointer}
+#pinMsg{text-align:center;font-weight:800;color:var(--coral);min-height:22px}
+.poster{background:linear-gradient(135deg,var(--coral),#ffa26b);color:#fff;border-radius:22px;padding:12px 14px;box-shadow:0 6px 16px rgba(255,107,129,.35);margin:8px 0}
+.poster h3{margin:0 0 2px;font-size:14px;letter-spacing:1px}
+.poster .ct{font-family:'Baloo 2';font-size:21px;font-weight:800;line-height:1.2}
+.poster button{background:#fff;color:var(--coral);border:none;border-radius:999px;padding:8px 18px;font-family:'Baloo 2';font-weight:800;font-size:16px;cursor:pointer;margin-top:6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#fff;border-radius:16px;padding:8px;text-align:center;box-shadow:0 3px 10px rgba(11,114,133,.1)}
+.stat .n{font-family:'Baloo 2';font-size:20px;font-weight:800;color:var(--teal)}
+.stat .l{font-size:12px;font-weight:800;color:#5b7a90}
+.powers{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.pw{background:#fff;border-radius:14px;padding:8px 2px;text-align:center;box-shadow:0 3px 8px rgba(11,114,133,.1)}
+.pw .ic{font-size:21px}
+.pw .nm{font-size:9.5px;font-weight:800;line-height:1.15;color:var(--navy)}
+.pw .bar{height:6px;background:#e3f2f4;border-radius:99px;margin-top:5px;overflow:hidden}
+.pw .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--turq),var(--yellow));border-radius:99px}
+.kit{display:flex;gap:8px}
+.kit .slot{flex:1;background:#fff;border:2px dashed #b7dfe6;border-radius:14px;padding:8px 4px;text-align:center;font-size:11px;font-weight:800;color:#5b7a90}
+.kit .slot.got{border:2px solid var(--yellow);background:#fffbe8;color:var(--navy)}
+.kit .slot .ic{font-size:24px;display:block}
+.mapPlace{display:flex;gap:10px;align-items:center;background:#fff;border-radius:16px;padding:11px 12px;margin:8px 0;box-shadow:0 3px 10px rgba(11,114,133,.1)}
+.mapPlace .ic{font-size:27px}
+.mapPlace .nm{font-family:'Baloo 2';font-weight:800;font-size:17px}
+.mapPlace .rk{font-size:12px;font-weight:800;color:#5b7a90}
+.mapPlace.lock{opacity:.55}
+.mapPlace.act{border:3px solid var(--yellow)}
+.caseRow{display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:10px 12px;margin:6px 0;box-shadow:0 2px 8px rgba(11,114,133,.09);width:100%;border:none;text-align:left;cursor:pointer;font-family:'Nunito'}
+.caseRow .no{font-family:'Baloo 2';font-weight:800;background:var(--teal2);color:#fff;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;flex:0 0 30px}
+.caseRow.done .no{background:var(--green)}
+.caseRow.lock{opacity:.55;cursor:default}
+.caseRow .tt{font-weight:800;font-size:15px;color:var(--navy)}
+.caseRow .st{margin-left:auto;font-size:17px}
+.panels{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}
+.panel{background:#fff;border:2px solid #bdeef4;border-radius:14px;padding:8px 6px;text-align:center;min-height:118px}
+.panel .sc{font-size:29px;line-height:1.25}
+.panel .sp{font-size:11.5px;font-weight:800;line-height:1.3;background:#fff7d6;border-radius:10px;padding:4px 5px;margin-top:4px;position:relative}
+.nbStrip{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0}
+.nbStrip .chip{background:#e8fbfd;border:2px solid var(--turq);color:var(--teal);border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:800}
+.qbox{background:#fff;border-radius:18px;padding:14px;box-shadow:0 4px 12px rgba(11,114,133,.12)}
+.qbox .qq{font-family:'Baloo 2';font-size:19px;font-weight:800;line-height:1.3}
+.sceneBig{font-size:40px;text-align:center;padding:6px 0;letter-spacing:3px}
+.opt{display:block;width:100%;text-align:left;background:#f2fcfd;border:2px solid var(--teal2);color:var(--navy);border-radius:14px;padding:12px 14px;font-family:'Nunito';font-weight:800;font-size:16px;margin:7px 0;cursor:pointer}
+.opt:active{transform:scale(.99)}
+.opt.pick{background:#fff3bf;border-color:var(--yellow)}
+.feedback{border-radius:14px;padding:10px 12px;font-weight:800;margin:8px 0;display:none}
+.feedback.show{display:block}
+.feedback.good{background:#e3fbe7;border:2px solid var(--green);color:#1c6b2e}
+.feedback.try{background:#fff3f5;border:2px solid var(--coral);color:#8f2d40}
+.hintBtn{background:none;border:none;color:var(--teal);font-weight:800;font-size:15px;cursor:pointer;padding:6px 0}
+.hintBox{background:#fffbe8;border:2px solid var(--yellow);border-radius:14px;padding:10px 12px;font-weight:700;margin:6px 0;display:none}
+.hintBox.show{display:block}
+.think{text-align:center;font-family:'Baloo 2';font-size:19px;color:var(--teal);padding:16px 0}
+.think .dots{font-size:26px;letter-spacing:6px;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.3}}
+.stampBox{text-align:center;padding:14px 0}
+.stamp{display:inline-block;border:5px solid var(--green);color:var(--green);font-family:'Baloo 2';font-weight:800;font-size:30px;padding:6px 20px;border-radius:14px;transform:rotate(-9deg);background:#eafff0;animation:stampIn .45s ease}
+@keyframes stampIn{0%{transform:rotate(-9deg) scale(2.4);opacity:0}100%{transform:rotate(-9deg) scale(1);opacity:1}}
+.envBox{text-align:center;padding:20px 8px}
+.env{font-size:84px;cursor:pointer;animation:bob 2.4s ease-in-out infinite}
+.capPick{display:flex;gap:9px;justify-content:center;margin:12px 0}
+.capPick button{width:56px;height:56px;border-radius:50%;border:4px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.18);font-size:26px;cursor:pointer}
+.capPick button.sel{border-color:var(--navy);transform:scale(1.1)}
+.stickers{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.stk{background:#fff;border-radius:14px;padding:10px 6px;text-align:center;box-shadow:0 3px 8px rgba(11,114,133,.1)}
+.stk .ic{font-size:30px}
+.stk .nm{font-size:11px;font-weight:800;line-height:1.2}
+.stk.empty{opacity:.45;border:2px dashed #c4dde2;box-shadow:none}
+.dashSec{display:none}.dashSec.on{display:block}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{padding:7px 6px;border-bottom:1px solid #e3f2f4;text-align:left;font-weight:700}
+th{color:var(--teal)}
+input[type=text]{width:100%;padding:11px;border:2px solid var(--teal2);border-radius:12px;font-family:'Nunito';font-weight:700;font-size:15px}
+.foot{font-size:11.5px;color:#7b97a8;font-weight:700;text-align:center;margin-top:16px;line-height:1.5}
+.magZone{background:#fff;border:2px dashed var(--teal2);border-radius:14px;padding:12px;text-align:center;margin:8px 0}
+.magZone .tiny{filter:blur(5px);font-weight:800;font-size:15px;transition:filter .3s}
+.magZone .tiny.seen{filter:none;color:var(--coral)}
+.secttl{font-family:'Baloo 2';font-size:18px;font-weight:800;margin:9px 0 3px;color:var(--teal)}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- ACCESS -->
+<section class="scr" id="scr-access">
+  <div class="clubhouse">
+    <div class="door">🏠</div>
+    <h1 class="title">Sreshta's Brain Lab</h1>
+    <div class="tagline">Think • Solve • Shine 🔍</div>
+  </div>
+  <div class="ollieRow"><div class="ollieWrap" id="ollieAccess"></div><div class="bubble" id="accessBubble">Hi Detective Sreshta! A new case is waiting for us!</div></div>
+  <button class="entry" onclick="openPin('child')"><span class="face">🕵️</span><span>Sreshta<small>Detective entry — your secret PIN</small></span></button>
+  <button class="entry" onclick="openPin('parent')"><span class="face">🔑</span><span>Parents<small>Detective Headquarters reports</small></span></button>
+  <p class="foot">A thinking clubhouse for Detective Sreshta and her family.</p>
+</section>
+
+<!-- PIN -->
+<section class="scr" id="scr-pin">
+  <div class="topbar"><button class="tb" onclick="show('scr-access')">← Back</button><span class="crumb">Secret PIN</span></div>
+  <h2 class="baloo" style="text-align:center" id="pinTitle">Detective Sreshta's PIN</h2>
+  <div class="pinDots" id="pinDots"><span></span><span></span><span></span><span></span></div>
+  <div id="pinMsg"></div>
+  <div class="pad" id="pinPad"></div>
+</section>
+
+<!-- OPENING RITUAL / CAP CHOICE -->
+<section class="scr" id="scr-ritual">
+  <div class="clubhouse"><div class="door">🏠</div><h2 class="baloo" style="margin:2px 0">The Clubhouse Door Opens…</h2></div>
+  <div class="ollieRow"><div class="ollieWrap" id="ollieRitual"></div><div class="bubble" id="ritualBubble">You are here! Something special just slid under the clubhouse door…</div></div>
+  <div class="envBox" id="envBox">
+    <div class="env" onclick="openEnvelope()">✉️</div>
+    <div class="baloo" style="font-size:19px">TOP SECRET — New Case for Detective Sreshta!</div>
+    <p style="font-weight:700">Tap the envelope to open it</p>
+  </div>
+  <div id="capBox" class="hidden">
+    <div class="card" style="text-align:center">
+      <div class="baloo" style="font-size:19px">First, Detective — pick your cap colour! 🧢</div>
+      <div class="capPick" id="capPick">
+        <button data-cap="teal" style="background:#15aabf" onclick="pickCap('teal')">🧢</button>
+        <button data-cap="coral" style="background:#ff6b81" onclick="pickCap('coral')">🧢</button>
+        <button data-cap="yellow" style="background:#ffd43b" onclick="pickCap('yellow')">🧢</button>
+        <button data-cap="purple" style="background:#9775fa" onclick="pickCap('purple')">🧢</button>
+      </div>
+      <div id="capName" style="font-weight:800;min-height:20px"></div>
+    </div>
+    <button class="btn coral" id="toHQBtn" onclick="toHQ()" disabled>Enter Headquarters →</button>
+  </div>
+</section>
+
+<!-- CHILD HOME / HEADQUARTERS -->
+<section class="scr" id="scr-home">
+  <div class="topbar"><span class="crumb">🏠 Detective Headquarters</span></div>
+  <div class="ollieRow"><div class="ollieWrap" id="ollieHome"></div><div class="bubble" id="homeBubble">Welcome back, Detective Sreshta!</div></div>
+  <div class="poster" id="todayPoster">
+    <h3>⭐ TODAY'S CASE ⭐</h3>
+    <div class="ct" id="todayTitle">The Missing Cupcakes</div>
+    <div id="todaySub" style="font-weight:700;font-size:13.5px">A brand-new mystery is waiting!</div>
+    <button id="todayBtn" onclick="todayAction()">Start Case →</button>
+  </div>
+  <div class="grid2">
+    <div class="stat"><div class="n" id="statRank">Rookie Detective</div><div class="l">MY RANK 🕵️</div></div>
+    <div class="stat"><div class="n" id="statStars">⭐ 0</div><div class="l">DETECTIVE STARS</div></div>
+    <div class="stat"><div class="n" id="statCases">0</div><div class="l">CASES SOLVED</div></div>
+    <div class="stat"><div class="n" id="statTricky">0</div><div class="l">TRICKY POCKET 🔖</div></div>
+  </div>
+  <div class="secttl">My Thinking Powers</div>
+  <div class="powers" id="powersRow"></div>
+  <div class="secttl">My Detective Kit</div>
+  <div class="kit" id="kitShelf"></div>
+  <div class="card" style="display:flex;align-items:center;gap:10px">
+    <span style="font-size:28px">🎁</span>
+    <div style="flex:1"><div style="font-size:12px;font-weight:800;color:#5b7a90">NEXT REWARD</div><div class="baloo" id="nextRewardHome" style="font-size:17px">A special family surprise!</div></div>
+  </div>
+  <button class="btn" onclick="openMap()">🗺️ Open the Journey Map</button>
+  <button class="btn yellow" onclick="openAlbum()">📖 My Detective Album</button>
+  <button class="btn ghost" id="baseBtn" onclick="startBaseline()">🦉 Ollie's Adventure (start here!)</button>
+</section>
+
+<!-- JOURNEY MAP -->
+<section class="scr" id="scr-map">
+  <div class="topbar"><button class="tb" onclick="goHome()">← Back</button><button class="tb" onclick="goHome()">🏠 Home</button><span class="crumb">Journey Map</span></div>
+  <h2 class="baloo" style="margin:4px 0">Where Shall We Detect?</h2>
+  <div id="mapList"></div>
+  <div class="secttl">Stage 1 — Clubhouse Village Cases</div>
+  <div id="caseList"></div>
+</section>
+
+<!-- BASELINE ADVENTURE -->
+<section class="scr" id="scr-base">
+  <div class="topbar"><button class="tb" onclick="leaveBase()">← Back</button><button class="tb" onclick="goHome()">🏠 Home</button><span class="crumb">Ollie's Adventure</span></div>
+  <div id="baseBody"></div>
+</section>
+
+<!-- CASE PLAYER -->
+<section class="scr" id="scr-case">
+  <div class="topbar"><button class="tb" onclick="leaveCase()">← Back</button><button class="tb" onclick="goHome()">🏠 Home</button><span class="crumb" id="caseCrumb">Case</span></div>
+  <div id="caseBody"></div>
+</section>
+
+<!-- ALBUM -->
+<section class="scr" id="scr-album">
+  <div class="topbar"><button class="tb" onclick="goHome()">← Back</button><button class="tb" onclick="goHome()">🏠 Home</button><span class="crumb">Detective Album</span></div>
+  <h2 class="baloo" style="margin:4px 0">My Solved Cases 📖</h2>
+  <p style="font-weight:700">Every case you solve earns a sticker here. Show Amma and Nanna!</p>
+  <div class="stickers" id="albumGrid"></div>
+</section>
+
+<!-- PARENT DASHBOARD -->
+<section class="scr" id="scr-dash">
+  <div class="topbar"><button class="tb" onclick="show('scr-access')">← Exit</button><span class="crumb">Parents — Brain Lab Dashboard</span></div>
+  <h2 class="baloo" style="margin:4px 0">Detective Reports 🦉</h2>
+  <div class="grid2">
+    <button class="btn" onclick="dashGo('ov')">Overview</button>
+    <button class="btn" onclick="dashGo('prof')">Thinking Profile</button>
+    <button class="btn" onclick="dashGo('hist')">Case History</button>
+    <button class="btn" onclick="dashGo('tricky')">Tricky Bank</button>
+  </div>
+  <button class="btn ghost" onclick="dashGo('ctrl')">⚙️ Controls</button>
+  <div class="dashSec" id="dash-ov"></div>
+  <div class="dashSec" id="dash-prof"></div>
+  <div class="dashSec" id="dash-hist"></div>
+  <div class="dashSec" id="dash-tricky"></div>
+  <div class="dashSec" id="dash-ctrl"></div>
+  <p class="foot">Sample build: all data on this device only (local storage). Nothing is uploaded anywhere in the sample.</p>
+</section>
+
+<script>
+"use strict";
+/* ============ OLLIE THE OWL (inline SVG, plush detective) ============ */
+function ollieSVG(){return '<svg viewBox="0 0 120 122" width="108" height="110" aria-label="Ollie the Owl">'
++'<path d="M30 26 L22 6 L44 16 Z" fill="#0b7285"/><path d="M90 26 L98 6 L76 16 Z" fill="#0b7285"/>'
++'<ellipse cx="60" cy="70" rx="38" ry="42" fill="#15aabf"/>'
++'<ellipse cx="24" cy="74" rx="9" ry="20" fill="#0b7285" transform="rotate(14 24 74)"/><ellipse cx="96" cy="74" rx="9" ry="20" fill="#0b7285" transform="rotate(-14 96 74)"/>'
++'<ellipse cx="60" cy="84" rx="23" ry="25" fill="#fff6df"/>'
++'<path d="M27 40 Q60 8 93 40 L93 45 L27 45 Z" fill="#0b7285"/><rect x="21" y="40" width="78" height="8" rx="4" fill="#ffd43b"/><circle cx="60" cy="22" r="5" fill="#ffd43b"/>'
++'<circle cx="45" cy="58" r="13.5" fill="#ffffff"/><circle cx="75" cy="58" r="13.5" fill="#ffffff"/>'
++'<circle cx="45" cy="59" r="6.2" fill="#16324f"/><circle cx="75" cy="59" r="6.2" fill="#16324f"/>'
++'<circle cx="47.5" cy="56" r="2.1" fill="#fff"/><circle cx="77.5" cy="56" r="2.1" fill="#fff"/>'
++'<polygon points="53,66 67,66 60,75" fill="#ffa94d"/>'
++'<circle cx="33" cy="70" r="5" fill="#ff6b81" opacity="0.55"/><circle cx="87" cy="70" r="5" fill="#ff6b81" opacity="0.55"/>'
++'<circle cx="97" cy="88" r="12.5" fill="rgba(190,242,250,0.55)" stroke="#16324f" stroke-width="4"/><line x1="106" y1="98" x2="114" y2="108" stroke="#16324f" stroke-width="6" stroke-linecap="round"/>'
++'<ellipse cx="48" cy="114" rx="8" ry="4" fill="#ffd43b"/><ellipse cx="72" cy="114" rx="8" ry="4" fill="#ffd43b"/></svg>';}
+const OLLIE_LINES=["Hmm, what do the clues say, Detective?","Slow and careful wins the case!","You are thinking like a true detective!","Every clue is a tiny story. Listen to it!","Tap me again and I will cheer for you!"];
+let ollieLineIx=0;
+
+/* ============ DATA ============ */
+const POWERS=[
+ {id:'see',ic:'👁️',nm:'See Carefully'},
+ {id:'pattern',ic:'🧩',nm:'Find Patterns'},
+ {id:'clue',ic:'🔍',nm:'Use the Clues'},
+ {id:'plan',ic:'♟️',nm:'Plan & Solve'},
+ {id:'memory',ic:'🧠',nm:'Remember & Focus'}];
+const PLACES=[
+ {nm:'Clubhouse Village',rk:'Stage 1 • Rookie Detective',ic:'🏠'},
+ {nm:'Pattern Garden',rk:'Stage 2 • Pattern Hunter',ic:'🌸'},
+ {nm:'Library of Clues',rk:'Stage 3 • Clue Detective',ic:'📚'},
+ {nm:'River & Mountain Puzzle Trail',rk:'Stage 4 • Puzzle Master',ic:'🏞️'},
+ {nm:'Festival City',rk:'Stage 5 • Super Thinker',ic:'🎡'}];
+const LOCKED_TITLES=['The Lost Red Pencil','The Odd Sock Mystery','The Vanishing Bookmark','The Garden Snail Trail','The Umbrella Mix-Up','The Missing Puzzle Piece','The Case of the Empty Cookie Jar'];
+
+const BASELINE=[
+ {power:'see',scene:'🍎 🍌 🍎 🍇 🍎',q:'Look at the fruit shelf. Which fruit do you see the MOST times?',opts:[['Apple 🍎',1,'Yes! There are three apples — careful counting!'],['Banana 🍌',0,'Count once more, slowly, fruit by fruit.'],['Grapes 🍇',0,'There is only one bunch of grapes. Count the apples again.']]},
+ {power:'pattern',scene:'🔴 🔵 🔵 🔴 🔵 🔵 🔴',q:'The beads follow a pattern. Which two beads come NEXT?',opts:[['🔵 🔵',1,'You found it — red, blue, blue, repeating!'],['🔴 🔵',0,'Look again: after every red there are TWO blues.'],['🔵 🔴',0,'After a red, two blues always come together.']]},
+ {power:'clue',scene:'👧🏽 👧🏻 👧🏾',q:'Meena is taller than Asha. Asha is taller than Riya. Who is the TALLEST?',opts:[['Meena',1,'Super deducing! You chained the clues together.'],['Asha',0,'Asha is taller than Riya, but someone is taller than Asha too.'],['Riya',0,'Riya is the shortest here — check the first clue again.']]},
+ {power:'plan',scene:'🪣 💧 💧 💧',q:'A small jug carries 3 cups of water. A pot needs exactly 6 cups. How many jug trips fill the pot?',opts:[['2 trips',1,'Perfect planning — 3 + 3 = 6!'],['1 trip',0,'One trip is only 3 cups. The pot still needs more.'],['6 trips',0,'That would overflow the pot! Think: 3 cups at a time…']]},
+ {power:'memory',scene:'🐶 🐱 🐰',pre:'Look well at the three friends, then tap the button…',q:'Which animal friend was sitting in the MIDDLE?',opts:[['The cat 🐱',1,'What a memory! The cat was right in the middle.'],['The dog 🐶',0,'The dog was first, on the left side.'],['The rabbit 🐰',0,'The rabbit was last, on the right side.']]}
+];
+</script>
+
+<script>
+"use strict";
+const CASES=[
+/* ---------------- CASE 1 ---------------- */
+{id:'c1',no:1,title:'The Missing Cupcakes',sticker:'🧁',powersUsed:'See Carefully + Use the Clues + Remember & Focus',powers:['see','clue','memory'],
+ story:[{sc:'🧁🧁🧁🧁🧁🧁',sp:'Amma baked 6 cupcakes and left them on the tray to cool.'},{sc:'🐶 🧺 😴',sp:'Coco the puppy was sleeping quietly near the big basket.'},{sc:'😲 🧁❓',sp:'But now only 5 cupcakes are here! One has vanished!'}],
+ clues:[
+  {power:'see',label:'Clue 1 • The Tray',scene:'🧁 🧁 🧁 🧁 🧁 ⬜',q:'The tray holds 6 cupcakes when it is full. How many EMPTY spots are on the tray now?',hard:false,
+   opts:[['1 empty spot',1,'Exactly! 6 places, 5 cupcakes — one cupcake is truly missing.'],['2 empty spots',0,'Count slowly: five cupcakes are still sitting on the tray.'],['3 empty spots',0,'Too many! Look again — count the cupcakes one by one.']],
+   hints:['Count the cupcakes that are still on the tray first.','The tray has 6 places. Places minus cupcakes = empty spots.','Mini-example: a tray of 4 with 3 cakes has 1 empty spot, because 4 − 3 = 1.'],
+   prove:{ex:'Worked example: Ravi had a box for 8 crayons. Only 7 crayons were inside, so 8 − 7 = 1 crayon was missing.',q:'Now you try: a shelf holds 5 jars. Only 4 jars are there. How many jars are missing?',opts:[['1 jar',1,'You did it all by yourself!'],['2 jars',0,'Try 5 − 4 once more, slowly.'],['4 jars',0,'That is how many jars ARE there. We need the missing ones.']]}},
+  {power:'clue',label:'Clue 2 • The Crumb Trail',scene:'🧁 · · · 🚪',q:'Tiny crumbs make a trail across the kitchen floor. Which way does the trail go?',hard:true,
+   opts:[['Towards the garden door',1,'Yes! The crumbs march all the way to the garden door.'],['Round and round in a circle',0,'Look at the crumb line again — it travels straight, not in a circle.'],['They stop at the fridge',0,'The fridge is behind us! The crumbs pass the fridge and keep going.']],
+   hints:['Follow the crumbs from the tray with your eyes, one by one.','The crumbs get smaller and smaller as the eater walked further away.','Mini-example: flour footprints that get lighter and lighter point in the direction the walker went.'],
+   prove:{ex:'Worked example: drops of juice make a trail from a glass to the balcony, getting smaller on the way. The spiller walked to the balcony.',q:'Now you try: muddy drops get smaller going from the gate to the store room. Where did the walker go?',opts:[['To the store room',1,'Superb! You used the trail all by yourself.'],['To the gate',0,'That is where the trail STARTS. It ends somewhere else.'],['Nowhere at all',0,'A trail always leads somewhere — follow it to the end.']]}},
+  {power:'memory',label:'Clue 3 • Think Back',scene:'🤔 📸',q:'Think back to the FIRST picture of our story. What was sitting beside the cupcake tray?',hard:false,
+   opts:[['A big basket with a cloth',1,'Wonderful memory! The basket was there from the very start.'],['A flower vase',0,'No vase appeared in the first picture. Picture the tray again…'],['A toy car',0,'No toy car was there. It was something big and woven.']],
+   hints:['Close your eyes and picture the kitchen at the start of the story.','It was big, round, and had a cloth on top.','Mini-example: if a story starts with an umbrella by the door, good detectives remember it — it may matter later!'],
+   prove:{ex:'Worked example: at the start of Tara\u2019s story, a red kite hung on the wall. Later, when the kite vanished, Tara remembered exactly where it had been.',q:'Now you try: at the start of Dev\u2019s story, his cap was on the blue chair. Later the cap is gone. Where should Dev look FIRST?',opts:[['The blue chair',1,'Yes — remembering the start solved it!'],['The roof',0,'The story never put the cap on the roof.'],['Inside the fridge',0,'The story said the cap was somewhere else, on furniture.']]}},
+  {power:'clue',label:'Clue 4 • The Moving Cloth',scene:'🧺 👀 🎵',q:'The cloth on the basket is wiggling, and a happy munching sound comes from inside. Who is most likely hiding under the cloth?',hard:true,
+   opts:[['Coco the puppy',1,'Who else? Coco loves snacks — and Coco was sleeping right there!'],['A toy mouse',0,'Toy mice do not munch! This hiding friend is alive and hungry.'],['The wind',0,'The wind cannot lift a cloth from INSIDE the basket. Someone is in there!']],
+   hints:['Listen like a detective: munching sounds come from a mouth.','Who in our story was near the basket the whole time?','Mini-example: rustling + giggles from a curtain means a friend is hiding behind it — sounds tell us who.'],
+   prove:{ex:'Worked example: meowing comes from inside a cardboard box, and the box shakes. A cat is most likely inside the box.',q:'Now you try: splashing and quacking come from behind the bathroom door. Who is most likely there?',opts:[['A duck in the tub',1,'Quack-detecting at its finest!'],['A sleeping fish',0,'Fish do not quack, and they stay in water. Listen to the sound again.'],['A towel',0,'Towels are quiet and cannot splash by themselves.']]}}
+ ],
+ twist:{text:'WAIT — a twist! Amma shows us the garden door key: the door was LOCKED all morning! Nobody carried the cupcake outside. The garden-door trail was just crumbs that old Coco shook off earlier!',q:'So where must the cupcake be now?',opts:[['Still inside the kitchen',1,'Right! Locked door means the answer stayed indoors all along.'],['In the garden',0,'The locked door makes that impossible. Cross it out!'],['On the roof',0,'Nothing in any clue points to the roof at all.']]},
+ deduction:{q:'Detective, the big moment! WHO took the missing cupcake?',opts:[['Coco the puppy 🐶',1,'CASE CRACKED! Crumbs, basket, munching — everything fits Coco!'],['Ollie the owl 🦉',0,'Ollie was with YOU the whole time, helping. Check the clues again.'],['Amma 👩',0,'Amma was the one who REPORTED the mystery. She wants it solved!']]},
+ explain:{q:'Why are we SURE it was Coco?',opts:[['The crumb trail leads to the basket, and Coco was hiding there munching',1,'That is proper detective reasoning — clues joined together!'],['Coco is the smallest',0,'Being small is not a clue. We need evidence, Detective!'],['Cupcakes simply like puppies',0,'That is a funny idea, but it is not evidence from our case.']]},
+ whatif:{q:'What if the garden door had NOT been locked?',opts:[['We would also have to search the garden carefully',1,'Flexible thinking! One changed clue changes the whole search.'],['Coco could fly away',0,'Puppies are great, but wings are not in this story.'],['Nothing would change at all',0,'A locked or open door changes where a cupcake can go.']]}},
+
+/* ---------------- CASE 2 ---------------- */
+{id:'c2',no:2,title:'Muddy Footprints at the Door',sticker:'👣',powersUsed:'See Carefully + Use the Clues + Plan & Solve',powers:['see','clue','plan'],
+ story:[{sc:'🌧️ 🚪 👣',sp:'It rained all morning, and now muddy footprints cross the floor! '},{sc:'👢 🩴 👟',sp:'Three pairs wait by the door: Grandpa\u2019s red boots, Dev\u2019s blue sandals, Tara\u2019s yellow shoes.'},{sc:'🔍 ✨',sp:'Ollie whispers: one tiny clue is hiding in the mud. Your Magnifying Glass can find it!'}],
+ clues:[
+  {power:'see',label:'Clue 1 • Count the Prints',scene:'👣 👣 👣 👣 👣 👣',q:'How many muddy footprints are on the floor?',hard:false,
+   opts:[['6 footprints',1,'Careful counting wins again!'],['4 footprints',0,'You missed two! Count each print slowly, pointing as you go.'],['8 footprints',0,'A few too many — count each print once only.']],
+   hints:['Point at each footprint as you count it.','Count in pairs: two, four, six…','Mini-example: 👣👣👣👣 is 4 prints. Counting one by one always works.'],
+   prove:{ex:'Worked example: ⭐⭐⭐⭐⭐ has 5 stars — point at each star as you say its number.',q:'Now you try: how many moons? 🌙 🌙 🌙 🌙 🌙 🌙 🌙',opts:[['7 moons',1,'Counted like a champion!'],['5 moons',0,'Two more are hiding at the end — recount slowly.'],['9 moons',0,'Too many moons! Point and count once each.']]}},
+  {power:'clue',label:'Clue 2 • Big Prints',scene:'👣 🥾',q:'The footprints are BIG and deep. Which footwear makes big, deep prints like that?',hard:true,
+   opts:[['Grandpa\u2019s big red boots',1,'Most likely! Big boots make big prints. But keep checking, Detective…'],['Dev\u2019s small sandals',0,'Small sandals make small, light prints — not these giants!'],['The cat\u2019s paws',0,'Cat paws are tiny. These prints are far too big.']],
+   hints:['Compare sizes: the print and the shoe must match.','Little shoes cannot make giant prints.','Mini-example: a baby\u2019s sock cannot fit a grown-up\u2019s foot — size is a clue!'],
+   prove:{ex:'Worked example: a giant handprint is on the wall, much bigger than a child\u2019s hand. A grown-up most likely made it.',q:'Now you try: a very tiny footprint is in the sand, smaller than your thumb. Who most likely made it?',opts:[['A baby bird',1,'Tiny print, tiny maker — perfect matching!'],['An elephant',0,'Elephant prints are enormous — the opposite of tiny.'],['Grandpa',0,'Grandpa\u2019s prints are big. This one is very tiny.']]}},
+  {power:'see',label:'Clue 3 • The Tiny Hidden Clue',mag:true,scene:'🌿 👟',q:'The leaf in the mud is a NEEM leaf. Which footwear has a neem leaf stuck on it?',hard:true,
+   opts:[['Tara\u2019s yellow shoes',1,'The leaf matches! The trail and the shoes tell the same story.'],['Dev\u2019s blue sandals',0,'No leaf is stuck on the sandals — look at the pair with green on it.'],['Grandpa\u2019s red boots',0,'The boots are muddy but leafless. The leaf points somewhere else.']],
+   hints:['Leaves stick to shoes that walked under the same tree.','Look for green on the footwear, not just mud.','Mini-example: red sand on red beach shoes shows which beach the walker visited.'],
+   prove:{ex:'Worked example: yellow flower petals are stuck on Meera\u2019s slippers, and petals fell from the yellow flower tree. Meera walked under that tree.',q:'Now you try: white sand is stuck on Arjun\u2019s shoes. Where did Arjun most likely walk?',opts:[['On the sandy beach',1,'You matched the stuck-on clue all by yourself!'],['On the grass',0,'Grass leaves green bits, not white sand.'],['In the snow',0,'There is no snow in this clue — the stuck bits are sand.']]}},
+  {power:'plan',label:'Clue 4 • The Smart Check',scene:'👟 🔍 👣',q:'Before we decide, what is the SMARTEST way to check the yellow shoes?',hard:false,
+   opts:[['Compare the shoe\u2019s sole pattern with the footprint',1,'Yes! Matching patterns is how real detectives prove it.'],['Wash all the shoes quickly',0,'Washing destroys the evidence! Detectives never clean clues away.'],['Ask the rain who did it',0,'Rain makes great puddles, but it cannot talk.']],
+   hints:['Think: what two things can we place side by side?','Patterns match like puzzle pieces — sole and print.','Mini-example: a key fits one lock. We test by matching, not by guessing.'],
+   prove:{ex:'Worked example: to check which lid fits a box, we try the lid ON the box — a perfect fit proves it.',q:'Now you try: two puzzle pieces might fit the empty space. What is the smartest check?',opts:[['Try each piece in the space',1,'Trying and matching — perfect plan!'],['Throw both pieces away',0,'Then the puzzle can never be finished!'],['Pick the prettier piece',0,'Pretty is not proof. Fitting is proof.']]}}
+ ],
+ twist:{text:'WAIT — a twist! Grandpa smiles: "I wore my red boots BEFORE the rain, when the ground was dry!" Dry boots cannot pick up mud!',q:'So can Grandpa\u2019s boots have made the MUDDY prints?',opts:[['No — dry shoes make no mud prints',1,'Brilliant checking! A favourite suspect, cleared by one fact.'],['Yes — boots always make mud',0,'Mud needs wet ground. Before the rain, the ground was dry.'],['Yes — because they are red',0,'Colour never makes mud. Timing does!']]},
+ deduction:{q:'Detective, use ALL the clues. WHOSE shoes made the muddy footprints?',opts:[['Tara\u2019s yellow shoes 👟',1,'CASE CRACKED! The neem leaf and the sole pattern both point to Tara\u2019s shoes.'],['Dev\u2019s blue sandals 🩴',0,'Clean sandals, no leaf, small prints — the clues do not fit Dev.'],['Grandpa\u2019s red boots 👢',0,'The twist cleared Grandpa — he walked before the rain.']]},
+ explain:{q:'Why are we SURE it was Tara\u2019s shoes?',opts:[['The neem leaf and the sole pattern both match Tara\u2019s yellow shoes',1,'Two clues agreeing — that is strong detective proof!'],['Yellow is a muddy colour',0,'Colour is not evidence. Matching clues are!'],['Tara stood nearest the door',0,'Standing near something is not proof. We need clue matches.']]},
+ whatif:{q:'What if there had been NO neem leaf in the mud?',opts:[['We would still have the sole pattern to check',1,'Exactly — good detectives keep a second clue ready.'],['The case could never be solved',0,'One missing clue does not end a case. Others remain!'],['The footprints would vanish',0,'Footprints stay until someone cleans the floor.']]}},
+
+/* ---------------- CASE 3 ---------------- */
+{id:'c3',no:3,title:'The Mixed-Up Lunchboxes',sticker:'🍱',powersUsed:'Find Patterns + Remember & Focus + Use the Clues',powers:['pattern','memory','clue'],
+ story:[{sc:'🍱 🍱 🍱',sp:'Three lunchboxes — red, blue and green — got all mixed up at lunch time!'},{sc:'👧🏽 👦🏽 👧🏻',sp:'Anya, Ravi and Meera are hungry, but nobody wants a surprise lunch!'},{sc:'🔍 🏷️',sp:'Each box hides clues. A tiny label is hiding too — good thing you have a Magnifying Glass!'}],
+ clues:[
+  {power:'pattern',label:'Clue 1 • The Sticker Pattern',scene:'⭐ 🌙 ⭐ 🌙 ⭐ ❓',q:'The blue box lid has a sticker pattern: star, moon, star, moon, star… Which sticker comes NEXT?',hard:false,
+   opts:[['Moon 🌙',1,'Pattern power! Star, moon, star, moon — taking turns.'],['Star ⭐',0,'Two stars in a row would break the turn-taking pattern.'],['Sun ☀️',0,'No sun has appeared in this pattern at all.']],
+   hints:['Say the pattern aloud: star, moon, star, moon…','The two stickers take turns. Whose turn is next?','Mini-example: clap, jump, clap, jump — next comes clap. Turns!'],
+   prove:{ex:'Worked example: 🍓 🍋 🍓 🍋 — strawberry and lemon take turns, so after a lemon comes a strawberry.',q:'Now you try: 🔺 🔵 🔺 🔵 🔺 — what comes next?',opts:[['Circle 🔵',1,'Turn-taking spotted all by yourself!'],['Triangle 🔺',0,'Two triangles in a row would break the pattern.'],['Square 🟦',0,'Squares are not part of this pattern.']]}},
+  {power:'memory',label:'Clue 2 • The Tiny Label',mag:true,scene:'🏷️ 🍱',q:'The tiny label on the GREEN box says a name. Whose name is it?',hard:true,
+   opts:[['Ravi',1,'The label says Ravi! But hold on, Detective — labels can surprise us…'],['Anya',0,'The letters spell a different name. Read the revealed label once more.'],['Meera',0,'Not Meera — the label name starts with R.']],
+   hints:['Read the revealed label letter by letter.','The name starts with the letter R.','Mini-example: name tags tell us the OWNER — but owners can swap things! Remember that.'],
+   prove:{ex:'Worked example: a water bottle has Kiran\u2019s name tag, so the bottle belongs to Kiran — unless someone borrowed it.',q:'Now you try: a book has Sana\u2019s name sticker inside. Whose book is it, most likely?',opts:[['Sana\u2019s book',1,'Name clues are strong — you read it perfectly.'],['The library\u2019s book',0,'The sticker gives a person\u2019s name, not a place.'],['Nobody\u2019s book',0,'A name sticker means it belongs to that person.']]}},
+  {power:'clue',label:'Clue 3 • The Pink Spoon',scene:'🥄 💗 🍱',q:'Inside the green box sits a PINK spoon. Anya ALWAYS keeps a pink spoon in her lunchbox. Whose lunch is inside the green box?',hard:true,
+   opts:[['Anya\u2019s lunch',1,'The spoon clue beats the label! Anya\u2019s lunch is in the green box.'],['Ravi\u2019s lunch',0,'The label says Ravi, but the pink spoon is Anya\u2019s special mark.'],['Meera\u2019s lunch',0,'Meera\u2019s spoon is a yellow one — a different clue entirely.']],
+   hints:['Some clues are habits: what does Anya ALWAYS do?','A habit clue can tell us more than a name label.','Mini-example: only Dev always carries a blue hanky. A blue hanky in a bag points to Dev.'],
+   prove:{ex:'Worked example: a bag contains a striped scarf. Only Lila ever wears a striped scarf. The bag most likely holds Lila\u2019s things.',q:'Now you try: a desk has a notebook with a rainbow strap. Only Tara uses a rainbow strap. Whose notebook is it?',opts:[['Tara\u2019s notebook',1,'Habit clue mastered!'],['Anybody\u2019s notebook',0,'The special strap points to one special owner.'],['The teacher\u2019s notebook',0,'No clue mentions the teacher. Follow the strap!']]}},
+  {power:'clue',label:'Clue 4 • The Last Box Standing',scene:'🔴 🔵 🟢',q:'The red box has Ravi\u2019s label AND his favourite lemon rice — that one is truly Ravi\u2019s. The green box holds Anya\u2019s lunch. Only the blue box is left. Whose lunch is in the BLUE box?',hard:false,
+   opts:[['Meera\u2019s lunch',1,'Last box standing — clever elimination, Detective!'],['Ravi\u2019s lunch again',0,'Ravi\u2019s lunch is already found in the red box. One lunch each!'],['Anya\u2019s lunch again',0,'Anya\u2019s is in the green box. Who is left?']],
+   hints:['Cross out the friends whose lunches are already found.','Ravi — found. Anya — found. Who remains?','Mini-example: 3 friends, 3 boxes; two are matched, so the last pair must match too.'],
+   prove:{ex:'Worked example: hats for Ana, Ben and Cy. Ana\u2019s hat and Ben\u2019s hat are found. The remaining hat must be Cy\u2019s.',q:'Now you try: umbrellas for Pia, Raj and Sue. Pia\u2019s and Raj\u2019s are found. The last umbrella belongs to…?',opts:[['Sue',1,'Elimination expert!'],['Pia again',0,'Pia already has hers. One each!'],['Raj again',0,'Raj is matched already. Who is left over?']]}}
+ ],
+ twist:{text:'WAIT — a twist! Ravi pipes up: "I swapped boxes with Anya this morning, because my box had no spoon!" So the NAME LABEL tells us the box — but not whose LUNCH is inside!',q:'Can a name label alone tell us whose lunch is inside a box?',opts:[['No — after a swap, the inside can belong to someone else',1,'Exactly! Labels name the box; clues about the INSIDE name the lunch.'],['Yes — labels never mislead',0,'But the swap happened! Labels can be left behind.'],['Yes — spoons do not matter',0,'The pink spoon was a real clue — it mattered a lot!']]},
+ deduction:{q:'Detective, final answer: whose lunch is inside the GREEN box?',opts:[['Anya\u2019s lunch 🍱',1,'CASE CRACKED! The swap plus the pink spoon prove it.'],['Ravi\u2019s lunch 🍱',0,'That is what the label wants us to think — but the twist and the spoon say otherwise.'],['Meera\u2019s lunch 🍱',0,'Meera\u2019s lunch was found in the blue box by elimination.']]},
+ explain:{q:'Why are we SURE the green box holds Anya\u2019s lunch?',opts:[['Ravi swapped boxes with Anya, and Anya\u2019s pink spoon is inside',1,'Two clues together — the swap and the spoon. Perfect reasoning!'],['The green box is the prettiest',0,'Pretty is lovely, but it is never evidence!'],['Green is Anya\u2019s favourite colour',0,'No clue told us that. We only use clues we were given.']]},
+ whatif:{q:'What if Ravi had NOT swapped boxes with Anya?',opts:[['Then the label alone would have been enough',1,'Right! The swap is what made this case tricky.'],['The pink spoon would disappear',0,'Spoons stay put — swapping changes owners, not spoons.'],['All lunches would be sweets',0,'Nothing in our clues talks about sweets at all.']]}}
+];
+</script>
+
+<script>
+"use strict";
+/* ============ STATE ============ */
+const LS_KEY='brainlab_v1';
+const MAGTEXT={'c2_2':'🌿 A tiny NEEM LEAF is stuck inside this footprint!','c3_1':'🏷️ The tiny writing says: RAVI'};
+function freshState(){return {v:1,cap:null,baseline:null,solved:[],stars:0,stickers:[],kit:{glass:false},nextReward:'A special family surprise!',powerUse:{see:0,pattern:0,clue:0,plan:0,memory:0},tricky:[],history:{},prog:null};}
+let S=freshState();
+try{const raw=localStorage.getItem(LS_KEY); if(raw){const p=JSON.parse(raw); if(p&&p.v===1){const f=freshState(); Object.assign(f,p); f.powerUse=Object.assign(freshState().powerUse,p.powerUse||{}); S=f;}}}catch(e){}
+function save(){try{localStorage.setItem(LS_KEY,JSON.stringify(S));}catch(e){}}
+window.S=S;
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+function show(id){$$('.scr').forEach(x=>x.classList.toggle('on',x.id===id)); window.scrollTo(0,0);}
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+
+/* ============ OLLIE TAPS ============ */
+function ollieTap(which){const w=document.querySelector(which==='home'?'#ollieHome .x':null);}
+$$('.ollieWrap').forEach(w=>{w.innerHTML=ollieSVG();});
+['ollieAccess','ollieRitual','ollieHome'].forEach((id,ix)=>{const el=document.getElementById(id); if(el){el.addEventListener('click',()=>{el.classList.remove('hop'); void el.offsetWidth; el.classList.add('hop'); const line=OLLIE_LINES[ollieLineIx++%OLLIE_LINES.length]; const b=document.getElementById(id==='ollieAccess'?'accessBubble':id==='ollieRitual'?'ritualBubble':'homeBubble'); if(b)b.textContent=line;});}});
+
+/* ============ PIN ============ */
+let pinRole='child', pinBuf='';
+(function buildPad(){const pad=$('#pinPad'); ['1','2','3','4','5','6','7','8','9','C','0','⌫'].forEach(k=>{const b=document.createElement('button'); b.textContent=k; b.onclick=()=>pinKey(k); pad.appendChild(b);});})();
+function openPin(role){pinRole=role; pinBuf=''; $('#pinMsg').textContent=''; $('#pinTitle').textContent=role==='child'?"Detective Sreshta's PIN":"Parents' PIN"; drawDots(); show('scr-pin');}
+function drawDots(){$$('#pinDots span').forEach((d,i)=>d.classList.toggle('f',i<pinBuf.length));}
+function pinKey(k){ if(k==='C'){pinBuf='';} else if(k==='⌫'){pinBuf=pinBuf.slice(0,-1);} else if(pinBuf.length<4){pinBuf+=k;} drawDots(); if(pinBuf.length===4){ const want=pinRole==='child'?'2017':'2208'; if(pinBuf===want){ pinBuf=''; if(pinRole==='child'){enterRitual();} else {renderDash(); show('scr-dash'); dashGo('ov');} } else { $('#pinMsg').textContent='That PIN did not match — try again!'; pinBuf=''; drawDots(); } } }
+window.openPin=openPin; window.pinKey=pinKey;
+
+/* ============ RITUAL / CAP ============ */
+function enterRitual(){ $('#envBox').classList.remove('hidden'); $('#capBox').classList.add('hidden'); $('#ritualBubble').textContent='You are here! Something special just slid under the clubhouse door…'; show('scr-ritual'); }
+function openEnvelope(){ $('#envBox').classList.add('hidden'); $('#capBox').classList.remove('hidden'); $('#ritualBubble').textContent='A new case! But first — every detective needs a cap. Pick your colour!'; if(S.cap){markCap(S.cap);} }
+function pickCap(c){ S.cap=c; save(); markCap(c); }
+function markCap(c){ $$('#capPick button').forEach(b=>b.classList.toggle('sel',b.dataset.cap===c)); $('#capName').textContent='Your cap: '+c.toUpperCase()+' — looking sharp, Detective!'; $('#toHQBtn').disabled=false; }
+function toHQ(){ renderHome(); show('scr-home'); }
+window.openEnvelope=openEnvelope; window.pickCap=pickCap; window.toHQ=toHQ;
+
+/* ============ HOME ============ */
+function goHome(){ renderHome(); show('scr-home'); }
+window.goHome=goHome;
+function powerFill(p){return Math.min(100,(S.powerUse[p]||0)*34);}
+function renderHome(){
+ $('#statStars').textContent='⭐ '+S.stars; $('#statCases').textContent=S.solved.length; $('#statTricky').textContent=S.tricky.length;
+ $('#nextRewardHome').textContent=S.nextReward;
+ $('#powersRow').innerHTML=POWERS.map(p=>'<div class="pw"><div class="ic">'+p.ic+'</div><div class="nm">'+p.nm+'</div><div class="bar"><i style="width:'+powerFill(p.id)+'%"></i></div></div>').join('');
+ const slots=[['🔍','Magnifying Glass',S.kit.glass,'Case 1'],['📓','Clue Notebook',false,'Stage 2'],['🔦','Torch',false,'Stage 3'],['🧭','Decoder Wheel',false,'Stage 4'],['⭐','Thinker Badge',false,'Stage 5']];
+ $('#kitShelf').innerHTML=slots.map(s=>'<div class="slot'+(s[2]?' got':'')+'"><span class="ic">'+(s[2]?s[0]:'🔒')+'</span>'+s[1]+'<br><small>'+(s[2]?'Earned!':s[3])+'</small></div>').join('');
+ const bb=$('#baseBtn');
+ if(!S.baseline){ bb.textContent="🦉 Start with Ollie's Adventure!"; bb.disabled=false; }
+ else { bb.textContent='✔ Ollie\u2019s Adventure — Done!'; }
+ let t='The Missing Cupcakes', sub='A brand-new mystery is waiting!', btn='Start Case →';
+ if(!S.baseline){ t="Ollie's Adventure"; sub='A short adventure before your first case!'; btn='Start Adventure →'; }
+ else if(S.prog){ const c=CASES.find(x=>x.id===S.prog.cid); t='Continue: '+c.title; sub='Your case is saved right where you left it!'; btn='Continue Case →'; }
+ else { const nx=CASES.find(c=>!S.solved.includes(c.id)); if(nx){ t=nx.title; sub='Case '+nx.no+' of Stage 1 — Clubhouse Village'; } else { t='All Sample Cases Solved! 🎉'; sub='Open the Journey Map to replay a favourite.'; btn='Open Map →'; } }
+ $('#todayTitle').textContent=t; $('#todaySub').textContent=sub; $('#todayBtn').textContent=btn;
+}
+function todayAction(){ if(!S.baseline){startBaseline(); return;} if(S.prog){startCase(CASES.findIndex(c=>c.id===S.prog.cid)); return;} const nx=CASES.findIndex(c=>!S.solved.includes(c.id)); if(nx>=0) startCase(nx); else openMap(); }
+window.todayAction=todayAction;
+
+/* ============ MAP & ALBUM ============ */
+function openMap(){
+ $('#mapList').innerHTML=PLACES.map((p,i)=>'<div class="mapPlace'+(i===0?' act':' lock')+'"><span class="ic">'+p.ic+'</span><div><div class="nm">'+p.nm+'</div><div class="rk">'+p.rk+(i===0?'':' • Coming in the full Brain Lab')+'</div></div><span style="margin-left:auto">'+(i===0?'🗺️':'🔒')+'</span></div>').join('');
+ $('#caseList').innerHTML=CASES.map((c,i)=>{const done=S.solved.includes(c.id), un=caseUnlocked(i); return '<button class="caseRow'+(done?' done':'')+(un?'':' lock')+'" '+(un?'onclick="startCase('+i+')"':'')+'><span class="no">'+c.no+'</span><span class="tt">'+esc(c.title)+'</span><span class="st">'+(done?'✅':un?'▶️':'🔒')+'</span></button>';}).join('')
+  + LOCKED_TITLES.map((t,i)=>'<div class="caseRow lock"><span class="no">'+(i+4)+'</span><span class="tt">'+esc(t)+'</span><span class="st">🔒</span></div>').join('');
+ show('scr-map');
+}
+window.openMap=openMap;
+function openAlbum(){
+ const all=CASES.map(c=>({t:c.title,ic:c.sticker,id:c.id})).concat(LOCKED_TITLES.map(t=>({t:t,ic:'❔',id:null})));
+ $('#albumGrid').innerHTML=all.map(a=>{const got=a.id&&S.stickers.includes(a.id); return '<div class="stk'+(got?'':' empty')+'"><div class="ic">'+(got?a.ic:'🔒')+'</div><div class="nm">'+esc(a.t)+'</div></div>';}).join('');
+ show('scr-album');
+}
+window.openAlbum=openAlbum;
+</script>
+
+<script>
+"use strict";
+/* ============ BASELINE ADVENTURE (mini) ============ */
+let B=null;
+function startBaseline(){
+ if(S.baseline){ $('#baseBody').innerHTML='<div class="card" style="text-align:center"><div style="font-size:44px">🦉🎉</div><div class="baloo" style="font-size:20px">Adventure complete!</div><p style="font-weight:700">You finished Ollie\u2019s Adventure. Your cases are open, Detective!</p><button class="btn" onclick="openMap()">Go to Cases →</button></div>'; show('scr-base'); return; }
+ B={ix:0,res:{},tried:{},mem:false,fb:null}; renderBase(); show('scr-base');
+}
+window.startBaseline=startBaseline;
+function leaveBase(){ goHome(); }
+window.leaveBase=leaveBase;
+function renderBase(){
+ const it=BASELINE[B.ix], pw=POWERS.find(p=>p.id===it.power);
+ let h='<div class="ollieRow"><div class="ollieWrap">'+ollieSVG()+'</div><div class="bubble">Adventure stop '+(B.ix+1)+' of 5 — '+pw.nm+'! Just have fun, Detective.</div></div>';
+ if(it.power==='memory'&&!B.mem){
+   h+='<div class="qbox"><div class="sceneBig">'+it.scene+'</div><div class="qq" style="text-align:center">'+esc(it.pre)+'</div><button class="btn coral" onclick="baseMemReveal()">I have seen it — ask me!</button></div>';
+ } else {
+   h+='<div class="qbox"><div class="sceneBig">'+it.scene+'</div><div class="qq">'+esc(it.q)+'</div><div id="baseOpts">'+it.opts.map((o,i)=>'<button class="opt" onclick="baseAnswer('+i+')">'+esc(o[0])+'</button>').join('')+'</div><div class="feedback" id="baseFb"></div></div>';
+ }
+ $('#baseBody').innerHTML=h;
+ if(B.fb){const f=$('#baseFb'); if(f){f.className='feedback show '+(B.fb[0]?'good':'try'); f.textContent=B.fb[1];} B.fb=null;}
+}
+function baseMemReveal(){ B.mem=true; renderBase(); }
+window.baseMemReveal=baseMemReveal;
+function baseAnswer(i){
+ const it=BASELINE[B.ix], o=it.opts[i];
+ if(!(B.ix in B.tried)){ B.tried[B.ix]=1; B.res[it.power]=(o[1]===1); }
+ if(o[1]===1){
+   B.ix++; B.mem=false;
+   if(B.ix>=BASELINE.length){ S.baseline=B.res; B=null; save(); $('#baseBody').innerHTML='<div class="card" style="text-align:center"><div style="font-size:46px">🎉🦉⭐</div><div class="baloo" style="font-size:22px">Adventure Complete, Detective Sreshta!</div><p style="font-weight:700">Ollie is SO proud. Your very first case is now open!</p><button class="btn coral" onclick="openMap()">Open Case 1 →</button><button class="btn ghost" onclick="goHome()">Back to Headquarters</button></div>'; return; }
+   B.fb=[true,o[2]]; renderBase();
+ } else { B.fb=[false,o[2]]; renderBase(); }
+}
+window.baseAnswer=baseAnswer;
+
+/* ============ CASE ENGINE ============ */
+function caseUnlocked(i){ return !!S.baseline && (i===0 || S.solved.includes(CASES[i-1].id)); }
+window.caseUnlocked=caseUnlocked;
+function curCase(){ return CASES.find(c=>c.id===S.prog.cid); }
+function startCase(i){
+ const c=CASES[i]; if(!caseUnlocked(i)) return false;
+ if(!(S.prog&&S.prog.cid===c.id)){ S.prog={cid:c.id,phase:'story',clue:0,nb:[],hints:{},counted:{},magShown:{},thought:-1,proveFor:-1,twistDone:false,twistTried:false,twistOk:false,dedTried:false,expTried:false,expOk:false,tellVal:null,awardedStars:0}; save(); }
+ show('scr-case'); renderCase(); return true;
+}
+window.startCase=startCase;
+function leaveCase(){ openMap(); }
+window.leaveCase=leaveCase;
+function caseBegin(){ S.prog.phase='clue'; save(); renderCase(); }
+window.caseBegin=caseBegin;
+function fbHTML(){ return '<div class="feedback" id="caseFb"></div>'; }
+function setFb(good,txt){ const f=$('#caseFb'); if(f){ f.className='feedback show '+(good?'good':'try'); f.textContent=txt; } }
+function nbHTML(){ const p=S.prog; if(!p.nb.length) return ''; return '<div class="nbStrip">'+p.nb.map(n=>'<span class="chip">📓 '+esc(n)+'</span>').join('')+'</div>'; }
+function optsHTML(fn,opts){ return opts.map((o,i)=>'<button class="opt" onclick="'+fn+'('+i+')">'+esc(o[0])+'</button>').join(''); }
+
+function renderCase(){
+ const p=S.prog, c=curCase(); if(!p||!c) return;
+ $('#caseCrumb').textContent='Case '+c.no+' • '+c.title;
+ let h='';
+ if(p.phase==='story'){
+   h='<div class="ollieRow"><div class="ollieWrap">'+ollieSVG()+'</div><div class="bubble">A new case, Detective! Read the story — every picture may hide a clue.</div></div>'
+    +'<h2 class="baloo" style="margin:2px 0">Case '+c.no+': '+esc(c.title)+'</h2>'
+    +'<div class="panels">'+c.story.map(s=>'<div class="panel"><div class="sc">'+s.sc+'</div><div class="sp">'+esc(s.sp)+'</div></div>').join('')+'</div>'
+    +'<button class="btn coral" onclick="caseBegin()">Start Finding Clues →</button>';
+ } else if(p.phase==='clue'){ h=renderClue(c,p);
+ } else if(p.phase==='twist'){
+   h=nbHTML()+'<div class="qbox"><div class="sceneBig">😲🔀</div><div class="qq">'+esc(c.twist.text)+'</div><div class="qq" style="margin-top:10px">'+esc(c.twist.q)+'</div>'+optsHTML('twistAnswer',c.twist.opts)+fbHTML()+'</div>';
+ } else if(p.phase==='ded'){
+   h=nbHTML()+'<div class="qbox"><div class="sceneBig">🕵️⭐</div><div class="qq">'+esc(c.deduction.q)+'</div>'+optsHTML('dedAnswer',c.deduction.opts)+fbHTML()+'</div>';
+ } else if(p.phase==='exp'){
+   h='<div class="qbox"><div class="sceneBig">💭🦉</div><div class="qq">'+esc(c.explain.q)+'</div>'+optsHTML('expAnswer',c.explain.opts)+fbHTML()+'</div>';
+ } else if(p.phase==='tell'){
+   h='<div class="card" style="text-align:center"><div style="font-size:42px">🗣️🦉</div><div class="baloo" style="font-size:20px">Tell Ollie Why!</div><p style="font-weight:700">Say it aloud, Detective: <i>"I think it is… because…"</i><br>Then a grown-up taps the button that matches how you did:</p><button class="btn" onclick="tellTap(\'well\')">⭐ Explained Well</button><button class="btn yellow" onclick="tellTap(\'help\')">🤝 Needed Help</button></div>';
+ } else if(p.phase==='done'){
+   h='<div class="stampBox"><div class="stamp">CASE SOLVED ✓</div></div>'
+    +'<div class="ollieRow"><div class="ollieWrap">'+ollieSVG()+'</div><div class="bubble">You did it, Detective Sreshta! You used '+esc(c.powersUsed)+' today!</div></div>'
+    +'<div class="card" style="text-align:center"><div class="baloo" style="font-size:19px">⭐ +'+p.awardedStars+' Detective Stars</div><div style="font-weight:700">Sticker earned for your Album: '+c.sticker+' '+esc(c.title)+'</div>'
+    +(c.id==='c1'?'<div style="font-weight:800;color:var(--teal);margin-top:6px">🔍 You earned the MAGNIFYING GLASS for your Detective Kit!</div>':'')
+    +'</div>'
+    +'<div class="qbox"><div class="qq">🤔 What If? '+esc(c.whatif.q)+'</div>'+optsHTML('whatifAnswer',c.whatif.opts)+fbHTML()+'</div>'
+    +'<button class="btn" onclick="openMap()">🗺️ Back to the Map</button><button class="btn ghost" onclick="goHome()">🏠 Headquarters</button>';
+ }
+ $('#caseBody').innerHTML=h;
+ if(p.phase==='clue'){ const cl=c.clues[p.clue]; if(cl.hard&&p.thought!==p.clue&&p.proveFor!==p.clue){ const cid=c.id,ix=p.clue; setTimeout(()=>{ if(S.prog&&S.prog.cid===cid&&S.prog.phase==='clue'&&S.prog.clue===ix&&S.prog.thought!==ix){ S.prog.thought=ix; save(); renderCase(); } },900); } }
+}
+function renderClue(c,p){
+ const ix=p.clue, cl=c.clues[ix], pw=POWERS.find(x=>x.id===cl.power);
+ let h=nbHTML();
+ h+='<div class="qbox"><div style="font-weight:800;color:var(--teal)">'+esc(cl.label)+' • '+pw.ic+' '+pw.nm+'</div>';
+ if(p.proveFor===ix){
+   h+='<div class="sceneBig">🦉📖</div><div class="qq">Let\u2019s learn it together, then YOU prove it!</div><p style="font-weight:700">'+esc(cl.prove.ex)+'</p><div class="qq">'+esc(cl.prove.q)+'</div>'+optsHTML('proveAnswer',cl.prove.opts)+fbHTML()+'</div>';
+   return h;
+ }
+ h+='<div class="sceneBig">'+cl.scene+'</div>';
+ if(cl.mag){
+   const key=c.id+'_'+ix, seen=!!p.magShown[ix];
+   h+='<div class="magZone"><div class="tiny'+(seen?' seen':'')+'">'+(seen?MAGTEXT[key]:'• • • something tiny is hiding here • • •')+'</div>'
+     +(seen?'':'<button class="btn yellow" style="margin-top:8px" onclick="useMag()">🔍 Use My Magnifying Glass</button>')+'</div>';
+ }
+ if(cl.hard&&p.thought!==ix){
+   h+='<div class="think">🤔 Think First, Detective…<div class="dots">• • •</div><div style="font-size:14px">Let your brain work before the answers appear!</div></div>';
+ } else {
+   h+='<div class="qq">'+esc(cl.q)+'</div>'+optsHTML('clueAnswer',cl.opts);
+ }
+ h+=fbHTML();
+ const hl=p.hints[ix]||0;
+ if(hl<3) h+='<button class="hintBtn" onclick="useHint()">💡 Need a hint? (Hint '+(hl+1)+' of 3)</button>';
+ for(let i=0;i<hl;i++) h+='<div class="hintBox show">💡 Hint '+(i+1)+': '+esc(cl.hints[i])+'</div>';
+ h+='</div>';
+ return h;
+}
+function useMag(){ const p=S.prog; p.magShown[p.clue]=true; save(); renderCase(); }
+window.useMag=useMag;
+function useHint(){ const p=S.prog,c=curCase(),ix=p.clue; const cur=p.hints[ix]||0; if(cur>=3) return; p.hints[ix]=cur+1; if(p.hints[ix]===3) addTricky(c,c.clues[ix]); save(); renderCase(); }
+window.useHint=useHint;
+function addTricky(c,cl){ if(!S.tricky.some(t=>t.cid===c.id&&t.clue===cl.label)){ S.tricky.push({cid:c.id,case:c.title,clue:cl.label,power:cl.power,when:'First try: needed full hints'}); } }
+function solveClue(){
+ const p=S.prog,c=curCase(),ix=p.clue,cl=c.clues[ix];
+ if(!p.counted[ix]){ p.counted[ix]=1; S.powerUse[cl.power]=(S.powerUse[cl.power]||0)+1; }
+ if(!p.nb.includes(cl.label)) p.nb.push(cl.label);
+ p.proveFor=-1; p.clue++;
+ if(p.clue===2&&!p.twistDone) p.phase='twist'; else if(p.clue>=4) p.phase='ded'; else p.phase='clue';
+ save(); renderCase();
+}
+function clueAnswer(i){
+ const p=S.prog,c=curCase(),ix=p.clue,cl=c.clues[ix];
+ if(cl.mag&&!p.magShown[ix]){ setFb(false,'Something tiny is hiding in this clue! Use your Magnifying Glass first, Detective.'); return; }
+ const o=cl.opts[i];
+ if(o[1]===1){ solveClue(); }
+ else {
+   if((p.hints[ix]||0)>=3&&cl.prove){ p.proveFor=ix; save(); renderCase(); }
+   else setFb(false,o[2]);
+ }
+}
+window.clueAnswer=clueAnswer;
+function proveAnswer(i){
+ const p=S.prog,c=curCase(),cl=c.clues[p.clue],o=cl.prove.opts[i];
+ if(o[1]===1){ setTimeout(()=>{},0); solveClue(); } else setFb(false,o[2]);
+}
+window.proveAnswer=proveAnswer;
+function twistAnswer(i){
+ const p=S.prog,c=curCase(),o=c.twist.opts[i];
+ if(o[1]===1){ p.twistOk=!p.twistTried; p.twistDone=true; p.phase='clue'; save(); renderCase(); }
+ else { p.twistTried=true; save(); setFb(false,o[2]); }
+}
+window.twistAnswer=twistAnswer;
+function dedAnswer(i){
+ const p=S.prog,c=curCase(),o=c.deduction.opts[i];
+ if(o[1]===1){ p.phase='exp'; save(); renderCase(); } else { p.dedTried=true; save(); setFb(false,o[2]); }
+}
+window.dedAnswer=dedAnswer;
+function expAnswer(i){
+ const p=S.prog,c=curCase(),o=c.explain.opts[i];
+ if(o[1]===1){ p.expOk=!p.expTried; p.phase='tell'; save(); renderCase(); } else { p.expTried=true; save(); setFb(false,o[2]); }
+}
+window.expAnswer=expAnswer;
+function tellTap(v){
+ const p=S.prog,c=curCase(); p.tellVal=v;
+ if(!S.solved.includes(c.id)){
+   const totalHints=Object.values(p.hints).reduce((a,b)=>a+b,0);
+   const proveUsed=Object.keys(p.counted).length>0 && S.tricky.some(t=>t.cid===c.id);
+   let stars=1+(p.expOk?1:0)+((proveUsed||totalHints<=2)?1:0);
+   p.awardedStars=stars; S.stars+=stars; S.solved.push(c.id); S.stickers.push(c.id);
+   if(c.id==='c1') S.kit.glass=true;
+   S.history[c.id]={hints:totalHints,twist:p.twistOk,explain:p.expOk,tell:v,stars:stars};
+ } else { p.awardedStars=0; }
+ p.phase='done'; save(); renderCase();
+}
+window.tellTap=tellTap;
+function whatifAnswer(i){
+ const c=curCase(),o=c.whatif.opts[i];
+ setFb(o[1]===1,o[2]);
+}
+window.whatifAnswer=whatifAnswer;
+
+/* ============ PARENT DASHBOARD ============ */
+function lvlFor(pw){ const u=S.powerUse[pw]||0; return u>=3?'Strong':u>=1?'Growing':'Just Started'; }
+function renderDash(){
+ const rank=S.solved.length>=3?'Rookie Detective (Stage 1)':'Rookie Detective';
+ $('#dash-ov').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Overview</h3><table>'
+  +'<tr><th>Cases solved</th><td>'+S.solved.length+' of 3 (sample)</td></tr>'
+  +'<tr><th>Rank</th><td>'+rank+'</td></tr>'
+  +'<tr><th>Detective Stars</th><td>⭐ '+S.stars+'</td></tr>'
+  +'<tr><th>Cap colour</th><td>'+(S.cap||'not chosen yet')+'</td></tr>'
+  +'<tr><th>Baseline Adventure</th><td>'+(S.baseline?'Completed':'Not done yet — Case 1 stays locked until it is')+'</td></tr>'
+  +'<tr><th>Next Reward</th><td>'+esc(S.nextReward)+'</td></tr></table></div>';
+ $('#dash-prof').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Thinking Profile</h3><table><tr><th>Power</th><th>Adventure start</th><th>Now</th></tr>'
+  +POWERS.map(p=>{const b=S.baseline?(S.baseline[p.id]?'Solved alone':'Needed story help'):'—'; return '<tr><td>'+p.ic+' '+p.nm+'</td><td>'+b+'</td><td>'+(S.baseline?lvlFor(p.id):'—')+'</td></tr>';}).join('')+'</table><p style="font-weight:700;font-size:12.5px">Levels grow as she uses each power inside cases. The Adventure start is her Day-1 baseline and is never reset.</p></div>';
+ const hs=Object.keys(S.history);
+ $('#dash-hist').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Case History</h3>'+(hs.length?'<table><tr><th>Case</th><th>Hints</th><th>Twist 1st try</th><th>Explain Why</th><th>Tell Ollie Why</th><th>Stars</th></tr>'+hs.map(id=>{const c=CASES.find(x=>x.id===id),hh=S.history[id]; return '<tr><td>'+esc(c.title)+'</td><td>'+hh.hints+'</td><td>'+(hh.twist?'Yes':'With help')+'</td><td>'+(hh.explain?'Correct 1st try':'With tries')+'</td><td>'+(hh.tell==='well'?'Explained Well':'Needed Help')+'</td><td>⭐ '+hh.stars+'</td></tr>';}).join('')+'</table>':'<p style="font-weight:700">No cases completed yet.</p>')+'</div>';
+ $('#dash-tricky').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Tricky Bank</h3>'+(S.tricky.length?'<table><tr><th>Case</th><th>Clue</th><th>Power</th><th>Note</th></tr>'+S.tricky.map(t=>'<tr><td>'+esc(t.case)+'</td><td>'+esc(t.clue)+'</td><td>'+t.power+'</td><td>'+esc(t.when)+' → revisit in 3 and 7 days</td></tr>').join('')+'</table>':'<p style="font-weight:700">Nothing in the Tricky Bank yet. Clues that need all 3 hints land here.</p>')+'</div>';
+ $('#dash-ctrl').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Controls</h3><label style="font-weight:800">Next Reward (shown on her home)</label><input type="text" id="rewardInput" value="'+esc(S.nextReward)+'"><button class="btn" onclick="saveReward()">Save Reward</button><hr style="border:none;border-top:1px solid #e3f2f4;margin:14px 0"><div style="font-weight:800;margin-bottom:6px">Reset sample progress</div><p style="font-weight:700;font-size:13px">Clears cases, stars, stickers, kit and tricky bank. Her Baseline Adventure result and cap choice are kept, always.</p><button class="btn coral" id="resetBtn" onclick="resetTap()">Reset Progress</button></div>';
+}
+function dashGo(name){ ['ov','prof','hist','tricky','ctrl'].forEach(n=>$('#dash-'+n).classList.toggle('on',n===name)); renderDash(); ['ov','prof','hist','tricky','ctrl'].forEach(n=>$('#dash-'+n).classList.toggle('on',n===name)); }
+window.dashGo=dashGo; window.renderDash=renderDash;
+function saveReward(){ const v=$('#rewardInput').value.trim(); if(v){ S.nextReward=v; save(); } renderDash(); dashGo('ctrl'); }
+window.saveReward=saveReward;
+let resetArm=false;
+function resetTap(){
+ const b=$('#resetBtn');
+ if(!resetArm){ resetArm=true; b.textContent='Tap again to confirm reset'; setTimeout(()=>{resetArm=false; const bb=$('#resetBtn'); if(bb)bb.textContent='Reset Progress';},4000); return; }
+ const keepB=S.baseline, keepC=S.cap, keepR=S.nextReward;
+ const f=freshState(); f.baseline=keepB; f.cap=keepC; f.nextReward=keepR;
+ Object.keys(f).forEach(k=>{S[k]=f[k];}); resetArm=false; save(); renderDash(); dashGo('ov');
+}
+window.resetTap=resetTap;
+
+/* ============ INIT ============ */
+window.CASES=CASES; window.BASELINE=BASELINE; window.POWERS=POWERS;
+window.renderCase=renderCase; window.startBaseline=startBaseline; window.baseAnswer=baseAnswer; window.leaveCase=leaveCase;
+renderHome();
+show('scr-access');
+</script>
+</body>
+</html>
