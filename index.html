@@ -380,7 +380,7 @@ const CASES=[
 /* ============ STATE ============ */
 const LS_KEY='brainlab_v1';
 const MAGTEXT={'c2_2':'🌿 A tiny NEEM LEAF is stuck inside this footprint!','c3_1':'🏷️ The tiny writing says: RAVI'};
-function freshState(){return {v:1,cap:null,baseline:null,solved:[],stars:0,stickers:[],kit:{glass:false},nextReward:'A special family surprise!',powerUse:{see:0,pattern:0,clue:0,plan:0,memory:0},tricky:[],history:{},prog:null};}
+function freshState(){return {v:1,cap:null,baseline:null,solved:[],stars:0,stickers:[],kit:{glass:false},nextReward:'A special family surprise!',powerUse:{see:0,pattern:0,clue:0,plan:0,memory:0},tricky:[],history:{},prog:null,baseProg:null};}
 let S=freshState();
 try{const raw=localStorage.getItem(LS_KEY); if(raw){const p=JSON.parse(raw); if(p&&p.v===1){const f=freshState(); Object.assign(f,p); f.powerUse=Object.assign(freshState().powerUse,p.powerUse||{}); S=f;}}}catch(e){}
 function save(){try{localStorage.setItem(LS_KEY,JSON.stringify(S));}catch(e){}}
@@ -421,10 +421,10 @@ function renderHome(){
  const slots=[['🔍','Magnifying Glass',S.kit.glass,'Case 1'],['📓','Clue Notebook',false,'Stage 2'],['🔦','Torch',false,'Stage 3'],['🧭','Decoder Wheel',false,'Stage 4'],['⭐','Thinker Badge',false,'Stage 5']];
  $('#kitShelf').innerHTML=slots.map(s=>'<div class="slot'+(s[2]?' got':'')+'"><span class="ic">'+(s[2]?s[0]:'🔒')+'</span>'+s[1]+'<br><small>'+(s[2]?'Earned!':s[3])+'</small></div>').join('');
  const bb=$('#baseBtn');
- if(!S.baseline){ bb.textContent="🦉 Start with Ollie's Adventure!"; bb.disabled=false; }
+ if(!S.baseline){ bb.textContent=S.baseProg?"🦉 Continue Ollie's Adventure!":"🦉 Start with Ollie's Adventure!"; bb.disabled=false; }
  else { bb.textContent='✔ Ollie\u2019s Adventure — Done!'; }
  let t='The Missing Cupcakes', sub='A brand-new mystery is waiting!', btn='Start Case →';
- if(!S.baseline){ t="Ollie's Adventure"; sub='A short adventure before your first case!'; btn='Start Adventure →'; }
+ if(!S.baseline){ t="Ollie's Adventure"; if(S.baseProg){ sub='Your adventure is saved right where you left it!'; btn='Continue Adventure →'; } else { sub='A short adventure before your first case!'; btn='Start Adventure →'; } }
  else if(S.prog){ const c=CASES.find(x=>x.id===S.prog.cid); t='Continue: '+c.title; sub='Your case is saved right where you left it!'; btn='Continue Case →'; }
  else { const nx=CASES.find(c=>!S.solved.includes(c.id)); if(nx){ t=nx.title; sub='Case '+nx.no+' of Stage 1 — Clubhouse Village'; } else { t='All Sample Cases Solved! 🎉'; sub='Open the Journey Map to replay a favourite.'; btn='Open Map →'; } }
  $('#todayTitle').textContent=t; $('#todaySub').textContent=sub; $('#todayBtn').textContent=btn;
@@ -454,8 +454,12 @@ window.openAlbum=openAlbum;
 let B=null;
 function startBaseline(){
  if(S.baseline){ $('#baseBody').innerHTML='<div class="card" style="text-align:center"><div style="font-size:44px">🦉🎉</div><div class="baloo" style="font-size:20px">Adventure complete!</div><p style="font-weight:700">You finished Ollie\u2019s Adventure. Your cases are open, Detective!</p><button class="btn" onclick="openMap()">Go to Cases →</button></div>'; show('scr-base'); return; }
- B={ix:0,res:{},tried:{},mem:false,fb:null}; renderBase(); show('scr-base');
+ if(S.baseProg&&typeof S.baseProg.ix==='number'&&S.baseProg.ix<BASELINE.length){ B={ix:S.baseProg.ix,res:Object.assign({},S.baseProg.res),tried:Object.assign({},S.baseProg.tried),mem:!!S.baseProg.mem,fb:null}; }
+ else { B={ix:0,res:{},tried:{},mem:false,fb:null}; persistBase(); }
+ renderBase(); show('scr-base');
 }
+function persistBase(){ if(!B){ S.baseProg=null; return; } S.baseProg={ix:B.ix,res:B.res,tried:B.tried,mem:B.mem}; save(); }
+window.persistBase=persistBase;
 window.startBaseline=startBaseline;
 function leaveBase(){ goHome(); }
 window.leaveBase=leaveBase;
@@ -470,16 +474,16 @@ function renderBase(){
  $('#baseBody').innerHTML=h;
  if(B.fb){const f=$('#baseFb'); if(f){f.className='feedback show '+(B.fb[0]?'good':'try'); f.textContent=B.fb[1];} B.fb=null;}
 }
-function baseMemReveal(){ B.mem=true; renderBase(); }
+function baseMemReveal(){ B.mem=true; persistBase(); renderBase(); }
 window.baseMemReveal=baseMemReveal;
 function baseAnswer(i){
  const it=BASELINE[B.ix], o=it.opts[i];
  if(!(B.ix in B.tried)){ B.tried[B.ix]=1; B.res[it.power]=(o[1]===1); }
  if(o[1]===1){
    B.ix++; B.mem=false;
-   if(B.ix>=BASELINE.length){ S.baseline=B.res; B=null; save(); $('#baseBody').innerHTML='<div class="card" style="text-align:center"><div style="font-size:46px">🎉🦉⭐</div><div class="baloo" style="font-size:22px">Adventure Complete, Detective Sreshta!</div><p style="font-weight:700">Ollie is SO proud. Your very first case is now open!</p><button class="btn coral" onclick="openMap()">Open Case 1 →</button><button class="btn ghost" onclick="goHome()">Back to Headquarters</button></div>'; return; }
-   B.fb=[true,o[2]]; renderBase();
- } else { B.fb=[false,o[2]]; renderBase(); }
+   if(B.ix>=BASELINE.length){ S.baseline=B.res; B=null; S.baseProg=null; save(); $('#baseBody').innerHTML='<div class="card" style="text-align:center"><div style="font-size:46px">🎉🦉⭐</div><div class="baloo" style="font-size:22px">Adventure Complete, Detective Sreshta!</div><p style="font-weight:700">Ollie is SO proud. Your very first case is now open!</p><button class="btn coral" onclick="openMap()">Open Case 1 →</button><button class="btn ghost" onclick="goHome()">Back to Headquarters</button></div>'; return; }
+   B.fb=[true,o[2]]; persistBase(); renderBase();
+ } else { B.fb=[false,o[2]]; persistBase(); renderBase(); }
 }
 window.baseAnswer=baseAnswer;
 
