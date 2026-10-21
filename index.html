@@ -246,7 +246,7 @@ input[type=text]{width:100%;padding:11px;border:2px solid var(--teal2);border-ra
   <div class="dashSec" id="dash-hist"></div>
   <div class="dashSec" id="dash-tricky"></div>
   <div class="dashSec" id="dash-ctrl"></div>
-  <p class="foot">All data on this device only (local storage). Nothing is uploaded anywhere.</p>
+  <p class="foot">Progress is saved on this device and synced to the family cloud, so parents can view it on any device.</p>
 </section>
 
 <script>
@@ -561,10 +561,100 @@ const CASES=[
 /* ============ STATE ============ */
 const LS_KEY='brainlab_v1';
 const MAGTEXT={'c2_2':'🌿 A tiny NEEM LEAF is stuck inside this footprint!','c3_1':'🏷️ The tiny writing says: RAVI','c4_2':'✨ Tiny RED pencil shavings are sprinkled on the drawing book’s cover!','c5_3':'🧦 A tiny PINK thread is caught on the towel’s fold — the thread matches the lonely pink sock!','c6_3':'✨ A sparkly STAR sticker — the twin of the bookmark’s star — is stuck on the sofa cushion!','c7_3':'🐌 The trail is visible again here — and tiny fresh nibbles shine on the lettuce leaf right beside it!','c9_2':'🧩 A grey ZIGZAG pattern covers this piece’s back — the peacock puzzle’s own family pattern!','c10_2':'🔍 Three sizes of floury fingerprints ring the lid — BIG, medium and small!'};
-function freshState(){return {v:1,cap:null,baseline:null,solved:[],stars:0,stickers:[],kit:{glass:false},nextReward:'A special family surprise!',powerUse:{see:0,pattern:0,clue:0,plan:0,memory:0},tricky:[],history:{},prog:null,baseProg:null};}
+function freshState(){return {v:1,cap:null,baseline:null,solved:[],stars:0,stickers:[],kit:{glass:false},nextReward:'A special family surprise!',powerUse:{see:0,pattern:0,clue:0,plan:0,memory:0},tricky:[],history:{},prog:null,baseProg:null,updatedAt:0};}
 let S=freshState();
 try{const raw=localStorage.getItem(LS_KEY); if(raw){const p=JSON.parse(raw); if(p&&p.v===1){const f=freshState(); Object.assign(f,p); f.powerUse=Object.assign(freshState().powerUse,p.powerUse||{}); S=f;}}}catch(e){}
-function save(){try{localStorage.setItem(LS_KEY,JSON.stringify(S));}catch(e){}}
+function persistLocal(){try{localStorage.setItem(LS_KEY,JSON.stringify(S));}catch(e){}}
+function save(){ S.updatedAt=Date.now(); persistLocal(); pushCloudSoon(); }
+
+/* ============ CLOUD SYNC (family cloud — pull first, never overwrite blindly) ============
+   Mirrors the proven Telugu pattern: an inline module script signs in anonymously to
+   Firebase and hands this app an adapter via window.__setCloud(adapterOrNull).
+   Safety gates: no push ever fires before the session's first pull settles; queued
+   pushes are always rebuilt from the CURRENT post-merge state; the merge keeps the
+   state with more solved cases (ties: more stars, then newer updatedAt), so a fresh
+   device can never wipe a richer cloud record. */
+const CLOUD_SLUG='brainlab';
+let cloudObj=null, cloudPulled=false, pushQueued=false, pushTimer=null, pullPromise=null;
+let cloudStatus={mode:'pending',at:0};
+function syncStatusText(){
+ if(cloudStatus.mode==='on') return '☁️ Cloud sync ON — updated '+new Date(cloudStatus.at).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+ if(cloudStatus.mode==='pending') return '☁️ Cloud sync — connecting…';
+ return '📴 Offline — showing this device’s copy; will sync when internet returns';
+}
+function cloudPayload(){ return {v:1, updatedAt:S.updatedAt||0, state:JSON.parse(JSON.stringify(S))}; }
+function pushCloudNow(){
+ if(!cloudObj) return;
+ if(!cloudPulled){ pushQueued=true; return; }
+ const payload=cloudPayload();
+ cloudObj.save(CLOUD_SLUG,payload).then(function(){
+   cloudStatus={mode:'on',at:Date.now()};
+   const dEl=document.getElementById('scr-dash'); if(dEl && dEl.classList.contains('on')) renderDash();
+ }).catch(function(){});
+}
+function pushCloudSoon(){
+ if(pushTimer) clearTimeout(pushTimer);
+ pushTimer=setTimeout(function(){
+   pushTimer=null;
+   if(!cloudObj){ pushQueued=true; return; }
+   if(!cloudPulled){ pushQueued=true; return; }
+   pushCloudNow();
+ },1500);
+}
+function adoptCloudState(cs){
+ const f=freshState();
+ const merged=Object.assign(f, JSON.parse(JSON.stringify(cs)));
+ merged.powerUse=Object.assign(freshState().powerUse,(cs&&cs.powerUse)||{});
+ if(!Array.isArray(merged.solved)) merged.solved=[];
+ Object.keys(merged).forEach(function(k){ S[k]=merged[k]; });
+ persistLocal();
+ const dEl=document.getElementById('scr-dash'), hEl=document.getElementById('scr-home');
+ if(dEl && dEl.classList.contains('on')) renderDash();
+ else if(hEl && hEl.classList.contains('on')) renderHome();
+}
+function pullCloud(reason){
+ if(!cloudObj) return Promise.resolve(false);
+ if(pullPromise) return pullPromise;
+ pullPromise=cloudObj.load(CLOUD_SLUG).then(function(d){
+   let pushAfter=false;
+   if(d && d.state){
+     const cs=d.state;
+     const ln=(S.solved||[]).length, cn=(cs.solved||[]).length;
+     const ls=S.stars||0, csStars=cs.stars||0;
+     const lt=S.updatedAt||0, ct=cs.updatedAt||0;
+     if(cn>ln || (cn===ln && csStars>ls) || (cn===ln && csStars===ls && ct>lt)){ adoptCloudState(cs); }
+     else if(cn<ln || (cn===ln && csStars<ls) || (cn===ln && csStars===ls && ct<lt)){ pushAfter=true; }
+   } else {
+     if((S.solved||[]).length>0 || (S.stars||0)>0 || !!S.baseline || (S.updatedAt||0)>0) pushAfter=true;
+   }
+   cloudStatus={mode:'on',at:Date.now()};
+   return pushAfter;
+ }).catch(function(){
+   cloudStatus={mode:'off',at:cloudStatus.at};
+   return false;
+ }).then(function(pushAfter){
+   cloudPulled=true; pullPromise=null;
+   if(pushAfter) pushQueued=true;
+   if(pushQueued){ pushQueued=false; pushCloudNow(); }
+   const dEl=document.getElementById('scr-dash'); if(dEl && dEl.classList.contains('on')) renderDash();
+   return true;
+ });
+ return pullPromise;
+}
+window.__setCloud=function(adapter){
+ if(adapter){
+   cloudObj=adapter; cloudPulled=false;
+   pullCloud('startup');
+ } else {
+   cloudObj=null; cloudPulled=true; pushQueued=false; cloudStatus={mode:'off',at:cloudStatus.at};
+ }
+};
+window.__cloudSync={
+ pull:function(){ return pullCloud('manual'); },
+ flush:function(){ if(pushTimer){ clearTimeout(pushTimer); pushTimer=null; } if(!cloudPulled){ pushQueued=true; return; } pushCloudNow(); },
+ status:function(){ return {mode:cloudStatus.mode, pulled:cloudPulled, queued:pushQueued}; },
+ payload:cloudPayload
+};
 window.S=S;
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 function show(id){$$('.scr').forEach(x=>x.classList.toggle('on',x.id===id)); window.scrollTo(0,0);}
@@ -817,15 +907,16 @@ function renderDash(){
   +'<tr><th>Detective Stars</th><td>⭐ '+S.stars+'</td></tr>'
   +'<tr><th>Cap colour</th><td>'+(S.cap||'not chosen yet')+'</td></tr>'
   +'<tr><th>Baseline Adventure</th><td>'+(S.baseline?'Completed':'Not done yet — Case 1 stays locked until it is')+'</td></tr>'
-  +'<tr><th>Next Reward</th><td>'+esc(S.nextReward)+'</td></tr></table></div>';
+  +'<tr><th>Next Reward</th><td>'+esc(S.nextReward)+'</td></tr></table>'
+  +'<p style="font-weight:700;font-size:12.5px;margin:8px 0 0">'+syncStatusText()+'</p></div>';
  $('#dash-prof').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Thinking Profile</h3><table><tr><th>Power</th><th>Adventure start</th><th>Now</th></tr>'
   +POWERS.map(p=>{const b=S.baseline?(S.baseline[p.id]?'Solved alone':'Needed story help'):'—'; return '<tr><td>'+p.ic+' '+p.nm+'</td><td>'+b+'</td><td>'+(S.baseline?lvlFor(p.id):'—')+'</td></tr>';}).join('')+'</table><p style="font-weight:700;font-size:12.5px">Levels grow as she uses each power inside cases. The Adventure start is her Day-1 baseline and is never reset.</p></div>';
  const hs=Object.keys(S.history);
  $('#dash-hist').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Case History</h3>'+(hs.length?'<table><tr><th>Case</th><th>Hints</th><th>Twist 1st try</th><th>Explain Why</th><th>Tell Ollie Why</th><th>Stars</th></tr>'+hs.map(id=>{const c=CASES.find(x=>x.id===id),hh=S.history[id]; return '<tr><td>'+esc(c.title)+'</td><td>'+hh.hints+'</td><td>'+(hh.twist?'Yes':'With help')+'</td><td>'+(hh.explain?'Correct 1st try':'With tries')+'</td><td>'+(hh.tell==='well'?'Explained Well':'Needed Help')+'</td><td>⭐ '+hh.stars+'</td></tr>';}).join('')+'</table>':'<p style="font-weight:700">No cases completed yet.</p>')+'</div>';
  $('#dash-tricky').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Tricky Bank</h3>'+(S.tricky.length?'<table><tr><th>Case</th><th>Clue</th><th>Power</th><th>Note</th></tr>'+S.tricky.map(t=>'<tr><td>'+esc(t.case)+'</td><td>'+esc(t.clue)+'</td><td>'+t.power+'</td><td>'+esc(t.when)+' → revisit in 3 and 7 days</td></tr>').join('')+'</table>':'<p style="font-weight:700">Nothing in the Tricky Bank yet. Clues that need all 3 hints land here.</p>')+'</div>';
- $('#dash-ctrl').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Controls</h3><label style="font-weight:800">Next Reward (shown on her home)</label><input type="text" id="rewardInput" value="'+esc(S.nextReward)+'"><button class="btn" onclick="saveReward()">Save Reward</button><hr style="border:none;border-top:1px solid #e3f2f4;margin:14px 0"><div style="font-weight:800;margin-bottom:6px">Reset progress</div><p style="font-weight:700;font-size:13px">Clears cases, stars, stickers, kit and tricky bank. Her Baseline Adventure result and cap choice are kept, always.</p><button class="btn coral" id="resetBtn" onclick="resetTap()">Reset Progress</button></div>';
+ $('#dash-ctrl').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Controls</h3><label style="font-weight:800">Next Reward (shown on her home)</label><input type="text" id="rewardInput" value="'+esc(S.nextReward)+'"><button class="btn" onclick="saveReward()">Save Reward</button><hr style="border:none;border-top:1px solid #e3f2f4;margin:14px 0"><div style="font-weight:800;margin-bottom:6px">Reset progress</div><p style="font-weight:700;font-size:13px">Clears cases, stars, stickers, kit and tricky bank — on this device and in the synced family record, so the reset clears the record on all devices too. Her Baseline Adventure result and cap choice are kept, always.</p><button class="btn coral" id="resetBtn" onclick="resetTap()">Reset Progress</button></div>';
 }
-function dashGo(name){ ['ov','prof','hist','tricky','ctrl'].forEach(n=>$('#dash-'+n).classList.toggle('on',n===name)); renderDash(); ['ov','prof','hist','tricky','ctrl'].forEach(n=>$('#dash-'+n).classList.toggle('on',n===name)); }
+function dashGo(name){ ['ov','prof','hist','tricky','ctrl'].forEach(n=>$('#dash-'+n).classList.toggle('on',n===name)); renderDash(); ['ov','prof','hist','tricky','ctrl'].forEach(n=>$('#dash-'+n).classList.toggle('on',n===name)); pullCloud('dash'); }
 window.dashGo=dashGo; window.renderDash=renderDash;
 function saveReward(){ const v=$('#rewardInput').value.trim(); if(v){ S.nextReward=v; save(); } renderDash(); dashGo('ctrl'); }
 window.saveReward=saveReward;
@@ -844,6 +935,26 @@ window.CASES=CASES; window.BASELINE=BASELINE; window.POWERS=POWERS;
 window.renderCase=renderCase; window.startBaseline=startBaseline; window.baseAnswer=baseAnswer; window.leaveCase=leaveCase;
 renderHome();
 show('scr-access');
+</script>
+
+<script type="module">
+try {
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+  const { getAuth, signInAnonymously } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+  const { getFirestore, doc, setDoc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+  const cfg = { apiKey: "AIzaSyBeHVF64TGhes-3oLBUhm2CXqeH2BkXeZU", authDomain: "sreshta-telugu.firebaseapp.com", projectId: "sreshta-telugu", storageBucket: "sreshta-telugu.firebasestorage.app", messagingSenderId: "879527273306", appId: "1:879527273306:web:32980f0fe534477521c963" };
+  const fapp = initializeApp(cfg);
+  const auth = getAuth(fapp);
+  const db = getFirestore(fapp);
+  async function ensureAuth() { if (!auth.currentUser) await signInAnonymously(auth); }
+  const cloud = {
+    async save(slug, payload) { await ensureAuth(); await setDoc(doc(db, "players", slug), payload, { merge: true }); },
+    async load(slug) { await ensureAuth(); const snap = await getDoc(doc(db, "players", slug)); return snap.exists() ? snap.data() : null; }
+  };
+  if (window.__setCloud) window.__setCloud(cloud);
+} catch (e) {
+  if (window.__setCloud) window.__setCloud(null);
+}
 </script>
 </body>
 </html>
