@@ -246,7 +246,7 @@ input[type=text]{width:100%;padding:11px;border:2px solid var(--teal2);border-ra
   <div class="dashSec" id="dash-hist"></div>
   <div class="dashSec" id="dash-tricky"></div>
   <div class="dashSec" id="dash-ctrl"></div>
-  <p class="foot">Sample build: all data on this device only (local storage). Nothing is uploaded anywhere in the sample.</p>
+  <p class="foot">All data on this device only (local storage). Nothing is uploaded anywhere.</p>
 </section>
 
 <script>
@@ -812,7 +812,7 @@ function lvlFor(pw){ const u=S.powerUse[pw]||0; return u>=3?'Strong':u>=1?'Growi
 function renderDash(){
  const rank=S.solved.length>=3?'Rookie Detective (Stage 1)':'Rookie Detective';
  $('#dash-ov').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Overview</h3><table>'
-  +'<tr><th>Cases solved</th><td>'+S.solved.length+' of 3 (sample)</td></tr>'
+  +'<tr><th>Cases solved</th><td>'+S.solved.length+' of '+CASES.length+' (Stage 1)</td></tr>'
   +'<tr><th>Rank</th><td>'+rank+'</td></tr>'
   +'<tr><th>Detective Stars</th><td>⭐ '+S.stars+'</td></tr>'
   +'<tr><th>Cap colour</th><td>'+(S.cap||'not chosen yet')+'</td></tr>'
@@ -823,7 +823,7 @@ function renderDash(){
  const hs=Object.keys(S.history);
  $('#dash-hist').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Case History</h3>'+(hs.length?'<table><tr><th>Case</th><th>Hints</th><th>Twist 1st try</th><th>Explain Why</th><th>Tell Ollie Why</th><th>Stars</th></tr>'+hs.map(id=>{const c=CASES.find(x=>x.id===id),hh=S.history[id]; return '<tr><td>'+esc(c.title)+'</td><td>'+hh.hints+'</td><td>'+(hh.twist?'Yes':'With help')+'</td><td>'+(hh.explain?'Correct 1st try':'With tries')+'</td><td>'+(hh.tell==='well'?'Explained Well':'Needed Help')+'</td><td>⭐ '+hh.stars+'</td></tr>';}).join('')+'</table>':'<p style="font-weight:700">No cases completed yet.</p>')+'</div>';
  $('#dash-tricky').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Tricky Bank</h3>'+(S.tricky.length?'<table><tr><th>Case</th><th>Clue</th><th>Power</th><th>Note</th></tr>'+S.tricky.map(t=>'<tr><td>'+esc(t.case)+'</td><td>'+esc(t.clue)+'</td><td>'+t.power+'</td><td>'+esc(t.when)+' → revisit in 3 and 7 days</td></tr>').join('')+'</table>':'<p style="font-weight:700">Nothing in the Tricky Bank yet. Clues that need all 3 hints land here.</p>')+'</div>';
- $('#dash-ctrl').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Controls</h3><label style="font-weight:800">Next Reward (shown on her home)</label><input type="text" id="rewardInput" value="'+esc(S.nextReward)+'"><button class="btn" onclick="saveReward()">Save Reward</button><hr style="border:none;border-top:1px solid #e3f2f4;margin:14px 0"><div style="font-weight:800;margin-bottom:6px">Reset sample progress</div><p style="font-weight:700;font-size:13px">Clears cases, stars, stickers, kit and tricky bank. Her Baseline Adventure result and cap choice are kept, always.</p><button class="btn coral" id="resetBtn" onclick="resetTap()">Reset Progress</button></div>';
+ $('#dash-ctrl').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Controls</h3><label style="font-weight:800">Next Reward (shown on her home)</label><input type="text" id="rewardInput" value="'+esc(S.nextReward)+'"><button class="btn" onclick="saveReward()">Save Reward</button><hr style="border:none;border-top:1px solid #e3f2f4;margin:14px 0"><div style="font-weight:800;margin-bottom:6px">Reset progress</div><p style="font-weight:700;font-size:13px">Clears cases, stars, stickers, kit and tricky bank. Her Baseline Adventure result and cap choice are kept, always.</p><button class="btn coral" id="resetBtn" onclick="resetTap()">Reset Progress</button></div>';
 }
 function dashGo(name){ ['ov','prof','hist','tricky','ctrl'].forEach(n=>$('#dash-'+n).classList.toggle('on',n===name)); renderDash(); ['ov','prof','hist','tricky','ctrl'].forEach(n=>$('#dash-'+n).classList.toggle('on',n===name)); }
 window.dashGo=dashGo; window.renderDash=renderDash;
