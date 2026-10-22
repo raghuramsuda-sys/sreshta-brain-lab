@@ -212,6 +212,10 @@ input[type=text]{width:100%;padding:11px;border:2px solid var(--teal2);border-ra
   <div id="caseList2"></div>
   <div class="secttl">Stage 3 — Library of Clues Cases</div>
   <div id="caseList3"></div>
+  <div class="secttl">Stage 4 — River &amp; Mountain Puzzle Trail Cases</div>
+  <div id="caseList4"></div>
+  <div class="secttl" id="ownSecttl" style="display:none">Cases by Detective Sreshta ✏️</div>
+  <div id="caseListOwn"></div>
 </section>
 
 <!-- BASELINE ADVENTURE -->
@@ -224,6 +228,12 @@ input[type=text]{width:100%;padding:11px;border:2px solid var(--teal2);border-ra
 <section class="scr" id="scr-case">
   <div class="topbar"><button class="tb" onclick="leaveCase()">← Back</button><button class="tb" onclick="goHome()">🏠 Home</button><span class="crumb" id="caseCrumb">Case</span></div>
   <div id="caseBody"></div>
+</section>
+
+<!-- CREATOR: BUILD A CASE -->
+<section class="scr" id="scr-create">
+  <div class="topbar"><button class="tb" onclick="leaveCreator()">← Back</button><button class="tb" onclick="goHome()">🏠 Home</button><span class="crumb">Build a Case</span></div>
+  <div id="createBody"></div>
 </section>
 
 <!-- ALBUM -->
@@ -1069,7 +1079,243 @@ const CASES=[
  twist:{text:'WAIT — a twist! Meera announces proudly to the whole party: "My hat has PETALS!" But Ollie\u2019s party PHOTO shows Meera wearing a hat with a big smiling SUN face! Detectives, what beats what?',q:'What is Meera REALLY wearing?',opts:[['The sun hat — the photo beats her words',1,'Claim checked against the photo — and the photo wins! Meera wears the sun hat.'],['The flower hat — she said petals, loudly',0,'Loud is not the same as true. Her claim does not pass the photo check.'],['The moon hat',0,'The photo shows a SUN face on her hat, not a moon.']]},
  deduction:{q:'Detective, the grand finale of the Library! Match all FOUR friends to their party hats!',opts:[['Tara — flower, Dev — moon, Meera — sun, Arjun — star',1,'🎉 THE GREAT CLUE PARTY IS SOLVED! Cards crossed out, a claim photo-checked, night hats chained and points counted — you are a true CLUE DETECTIVE, Detective Sreshta!'],['Tara — flower, Dev — star, Meera — sun, Arjun — moon',0,'That swaps Dev and Arjun — but the star\u2019s POINTS cannot sit on Dev, whose hat has none.'],['Tara — sun, Dev — moon, Meera — flower, Arjun — star',0,'That swaps Tara and Meera — but the PHOTO shows Meera wearing the sun.']]},
  explain:{q:'Which checking habit cracked the whole party?',opts:[['Crossing out with the claim cards, and CHECKING a claim against the photo before believing it',1,'The two habits of a Clue Detective, named perfectly!'],['Believing the loudest claim first',0,'The loudest claim — Meera\u2019s petals — was the one that did not pass its check.'],['Choosing the prettiest hat for everyone',0,'Pretty never proved a thing at this party.']]},
- whatif:{q:'What if Dev\u2019s hat HAD worn five points in the photo?',opts:[['Then Dev would wear the STAR, and Arjun would take the moon — the last two hats would swap',1,'Exactly — one detail flips the final pair. Details are destiny in detective work!'],['Then everyone would keep exactly the same hats',0,'The points detail is precisely what split Dev from Arjun. Change it, and they swap.'],['Then Meera would wear the moon',0,'Meera\u2019s sun comes from her own photo — points on Dev\u2019s hat cannot move it.']]}}
+ whatif:{q:'What if Dev\u2019s hat HAD worn five points in the photo?',opts:[['Then Dev would wear the STAR, and Arjun would take the moon — the last two hats would swap',1,'Exactly — one detail flips the final pair. Details are destiny in detective work!'],['Then everyone would keep exactly the same hats',0,'The points detail is precisely what split Dev from Arjun. Change it, and they swap.'],['Then Meera would wear the moon',0,'Meera\u2019s sun comes from her own photo — points on Dev\u2019s hat cannot move it.']]}},
+/* ---------------- STAGE 4 CASE 1 ---------------- */
+{id:'s4c1',stage:4,no:1,title:'The Maze to the Mango Tree',sticker:'🥭',powersUsed:'Plan & Solve + See Carefully + Remember & Focus',powers:['plan','see','memory'],
+ story:[{sc:'🥭 🌳 🧺',sp:'The BIG golden mango hangs on the tree in the middle of the garden maze. Amma is waiting there with a basket!'},{sc:'🗺️ 🦉 🔀',sp:'Ollie gives you the maze map. Three tunnels start at the gate — left, middle and right. A good detective PLANS the route before stepping in!'},{sc:'🐶 💧 😅',sp:'Coco tried the short LEFT tunnel and slipped back with muddy paws — that way is wet and slippery!'}],
+ clues:[
+  {power:'plan',label:'Clue 1 • The Three Tunnels',scene:'🚪 🕳️ 🕳️ 🕳️',q:'Look at the three tunnels. The MIDDLE tunnel ends at a brick wall. The LEFT tunnel is wet — Coco slipped there! Which tunnel does our plan take?',hard:false,
+   opts:[['The RIGHT tunnel — dry and open',1,'Right! The middle is a wall, the left is a slip-slide. The right tunnel it is!'],['The MIDDLE tunnel — it looks shortest',0,'Shortest is no use when it ends at a brick wall! Check the map once more.'],['The LEFT tunnel — Coco went that way',0,'Coco came back with muddy paws! That tunnel is wet and slippery.']],
+   hints:['A plan checks EVERY path before choosing.','Cross out the tunnel that ends at a wall. Cross out the wet one too.','Mini-example: if one door is locked and one is muddy, a planner picks the clean, open door.'],
+   prove:{ex:'Worked example: three bridges — one broken, one covered in ice, one dry and strong. The planner crossed the dry, strong bridge.',q:'Now you try: three ladders — one is too short, one is wobbly, one is tall and steady. Which ladder does the planner pick?',opts:[['The tall, steady ladder',1,'You planned it all by yourself!'],['The wobbly ladder — wobbling is fun',0,'Wobbly is unsafe. Planners check first!'],['The short ladder — it is quickest to carry',0,'Too short means it cannot reach. Check what each ladder CAN do.']]}},
+  {power:'plan',label:'Clue 2 • The Big Stone Turn',scene:'🪨 🦋 ⬅️ ➡️ 🐝',q:'At the big stone the path splits. The map says: turn towards the BUTTERFLY garden. The left sign shows butterflies 🦋. The right sign leads to the thorn bushes. Which way do we turn?',hard:true,
+   opts:[['LEFT — towards the butterfly garden, just like the map says',1,'Map followed perfectly! The butterfly path leads on towards the tree.'],['RIGHT — the thorn bushes look exciting',0,'Thorns! The map never sends us into thorns. What did the map say?'],['STRAIGHT — the round arrow path',0,'That round arrow loops back to the gate. We would walk in a circle!']],
+   hints:['Read the map line again: it names the garden we turn towards.','Match the sign picture to the map word.','Mini-example: a map that says "turn at the rose" means we look for the rose sign, not any other sign.'],
+   prove:{ex:'Worked example: a treasure map said "turn at the big rock". Tara turned where she SAW the big rock, not at the small pebble.',q:'Now you try: your map says "turn at the FOUNTAIN". You reach a fountain and a statue. Where do you turn?',opts:[['At the fountain — the map named it',1,'Map matched to place — perfect planning!'],['At the statue — it is taller',0,'Tall is not the clue. The map named the fountain.'],['Nowhere — keep walking straight',0,'The turn is here! The map’s named place has arrived.']]}},
+  {power:'see',label:'Clue 3 • The Sunflower Stones',scene:'🌻 🪨 🪨 🪨 🪨 🌳',q:'The sunflower path is open and safe! Count its stepping stones between the sunflowers and the mango tree. How many stones will we step on?',hard:false,
+   opts:[['4 stones',1,'Counted like a champion — 1, 2, 3, 4 and we are at the tree!'],['3 stones',0,'One more is hiding near the tree. Count again, pointing at each stone.'],['6 stones',0,'Too many! There are four stones on this path — count them slowly.']],
+   hints:['Point at each stone as you count it.','Start at the sunflowers and walk your eyes to the tree.','Mini-example: 🪨🪨🪨 is 3 stones. Count one by one, always.'],
+   prove:{ex:'Worked example: 🍄 🍄 has 2 mushrooms — point, count, done.',q:'Now you try: how many shells? 🐚 🐚 🐚 🐚 🐚',opts:[['5 shells',1,'Careful counting wins again!'],['4 shells',0,'One more shell at the end — recount slowly.'],['6 shells',0,'Too many shells! Point and count once each.']]}},
+  {power:'memory',label:'Clue 4 • The Way Back',scene:'🌳 🔙 🚪',q:'Mango collected! Now think BACKWARDS: we came UP the sunflower path to the tree. What is the safe way back to the gate?',hard:true,
+   opts:[['Walk the sunflower path backwards, step by step, to the gate',1,'Exactly! The way back is the same safe path, walked in reverse.'],['Take the butterfly path back — it is shorter',0,'The butterfly path is BLOCKED by the fallen branch — remember the twist!'],['Take the wet frog path back — it is downhill',0,'Wet and slippery is never the safe plan, Detective.']],
+   hints:['Think of the trip as a film playing backwards.','Which path did we actually walk to GET here?','Mini-example: you walk home the same way you came — the route in reverse.'],
+   prove:{ex:'Worked example: Dev walked shop → park → home of his friend. To return, he walked friend’s home → park → shop — the same road, backwards.',q:'Now you try: Mia walked gate → fountain → tree. What is her way back?',opts:[['Tree → fountain → gate',1,'Backwards walking — perfect!'],['Tree → gate → fountain',0,'Backwards means the MIDDLE stop stays in the middle.'],['Gate → fountain → tree',0,'That is the way she CAME. We need the way BACK.']]}}
+ ],
+ twist:{text:'WAIT — a twist! A fallen branch blocks the BUTTERFLY path — the gardener has hung a big leaf sign: PATH CLOSED TODAY! Our plan must change!',q:'What do good planners do when a path closes?',opts:[['Make a NEW plan using another open, safe path',1,'That is real planning — plans can change, detectives adapt!'],['Climb over the fallen branch anyway',0,'Climbing blocked branches is not safe. Planners find another way.'],['Give up and leave the mango forever',0,'Detectives never give up on a mango! There is another path.']]},
+ deduction:{q:'Detective, the big moment! What is our FINAL route to the mango tree?',opts:[['Right tunnel → sunflower path → 4 stones → mango tree',1,'CASE CRACKED! A plan that survived a twist — true Puzzle Master thinking!'],['Right tunnel → butterfly path → mango tree',0,'The butterfly path is CLOSED by the fallen branch. Check the twist!'],['Left tunnel → wet frog path → mango tree',0,'That way is wet and slippery — Coco proved it!']]},
+ explain:{q:'Why did our plan change in the middle of the maze?',opts:[['The butterfly path got blocked, so we planned a new safe route',1,'That is proper planning — check, adapt, carry on!'],['Because the mango ran away',0,'Mangoes stay on trees. Our PATH changed, not the mango.'],['Because longer paths are always better',0,'Longer is not better — SAFE and OPEN is better.']]},
+ whatif:{q:'What if the frog path had been dry and clean?',opts:[['Then we could have planned that shorter route — after checking it first',1,'Flexible thinking! A changed clue changes the best plan.'],['Nothing would change at all',0,'A dry frog path would be a real choice — plans follow the facts.'],['Then the maze would disappear',0,'Mazes stay mazes, Detective! Only our route would change.']]}},
+
+/* ---------------- STAGE 4 CASE 2 ---------------- */
+{id:'s4c2',stage:4,no:2,title:'Cross the River',sticker:'🌉',powersUsed:'Plan & Solve + Use the Clues + Remember & Focus',powers:['plan','clue','memory'],
+ story:[{sc:'🏞️ 🛶 🧺',sp:'Picnic time! Sreshta must ferry everyone across the river in her little boat: Coco the puppy, a cheeky goat, and a basket of mangoes.'},{sc:'🛶 👧 ➕ 1️⃣',sp:'The boat is small: every trip carries Sreshta and only ONE passenger. She rows every trip herself.'},{sc:'🐐 🥭 😴',sp:'But watch out! The goat must never be left alone with the mangoes — gobble gobble, picnic gone! And Coco is too sleepy to guard anything — she just naps.'}],
+ clues:[
+  {power:'clue',label:'Clue 1 • The Danger Pair',scene:'🐐 + 🥭 = 😱',q:'The danger rule is about ONE pair. Which two must NEVER be left alone together on a river bank?',hard:false,
+   opts:[['The goat and the mangoes',1,'Exactly! The goat dreams of mangoes. That pair is the whole puzzle!'],['Coco and the mangoes',0,'Coco eats only her biscuits — and mostly she naps. Not the danger pair.'],['Coco and the goat',0,'Those two are sleepy best friends. The rule is about the goat and something it loves to eat.']],
+   hints:['Which animal would EAT which thing, given the chance?','Look at the story picture: the goat is licking its lips at something.','Mini-example: a cat and a fish bowl are a danger pair — the cat would love the fish!'],
+   prove:{ex:'Worked example: a fox and a hen must never wait alone together — the fox would chase the hen. They are a danger pair.',q:'Now you try: a mouse and a cheese plate wait by a boat. Are they a danger pair?',opts:[['Yes — the mouse would nibble the cheese',1,'Danger spotted — perfect clue thinking!'],['No — mice do not like cheese',0,'Mice LOVE cheese. That is exactly the danger!'],['No — cheese can run away',0,'Cheese cannot run anywhere. Think about who eats what.']]}},
+  {power:'plan',label:'Clue 2 • The First Trip',scene:'🛶 ❓ 🐐',q:'Think hard! After the first trip, Sreshta rows back ALONE, so the first passenger waits alone across the river. And on the start bank, two friends wait together. Who MUST cross first so that BOTH banks stay safe?',hard:true,
+   opts:[['The GOAT — take the danger away first',1,'Brilliant! Alone across the river, the goat harms nothing. Behind, Coco naps beside the mangoes safely.'],['The MANGOES — food should go first',0,'Then the goat waits with Coco — fine — but next crossings trap you: the goat would land beside the mangoes with nobody watching. The goat must move first.'],['COCO — she is the smallest',0,'Then the goat waits ALONE with the mangoes on the start bank — GOBBLE! Think about the danger pair.']],
+   hints:['Move the DANGEROUS one away from its favourite snack first.','Check each choice: who waits with whom on each bank?','Mini-example: to move a fox, a hen and corn safely, the fox-and-hen rule decides the first trip.'],
+   prove:{ex:'Worked example: a cat, a bird and a seed bag wait to cross. The cat must never wait alone with the bird. The wise first trip takes the CAT — the danger moves first.',q:'Now you try: a dog, a duck and a loaf wait to cross. The dog must never wait alone with the duck. Who crosses first?',opts:[['The dog — move the danger first',1,'You used the danger rule all by yourself!'],['The loaf — food first',0,'Then the dog waits with the duck later in the puzzle — trouble! Danger first.'],['The duck — it can swim anyway',0,'Swimming is not the puzzle. The danger pair decides!']]}},
+  {power:'plan',label:'Clue 3 • The Swap Move',scene:'🐐 🔙 🛶 🐶',q:'The goat is back on the start bank, and the mangoes are safe across the river. Who crosses NEXT, so the goat is never left alone with the mangoes?',hard:true,
+   opts:[['COCO crosses — the goat waits alone safely, then rides last',1,'The swap move, mastered! Coco joins the mangoes; the goat waits alone (safe!), then makes the final trip.'],['The GOAT crosses again right away',0,'Then the goat lands beside the mangoes — and Sreshta must row back alone. GOBBLE!'],['Nobody — the picnic is over',0,'The goat is still waiting to cross! The plan is not finished yet.']],
+   hints:['Who can wait beside the mangoes without eating them?','The goat is safe ALONE. It is only dangerous WITH the mangoes.','Mini-example: in the cat puzzle, the bird crosses while the cat waits alone — alone is safe.'],
+   prove:{ex:'Worked example: the cat has been brought back; the bird and the cat wait on the start bank. The bird crosses next — the cat waits alone, harming nothing.',q:'Now you try: who is SAFE waiting alone — the one who eats the picnic, or the picnic itself?',opts:[['Both can wait alone safely — danger needs the PAIR together',1,'Exactly! Alone is safe; together is gobble-time.'],['Neither — everything must cross at once',0,'The boat carries only one passenger. Alone must be safe for the plan to work.'],['Only the picnic — eaters love waiting by food',0,'An eater waiting alone WITH food is the danger. Alone WITHOUT food is fine.']]}},
+  {power:'memory',label:'Clue 4 • Count the Rides',scene:'🛶 🔢 🐐',q:'Tell the ferry story back: goat across → mangoes across → goat BACK → Coco across → goat across. Which passenger rode the boat the MOST times?',hard:false,
+   opts:[['The goat — three rides!',1,'What a memory! Out, back, and out again — the goat is the champion traveller.'],['Coco — three rides',0,'Coco rode just once, napping all the way. Count the goat’s rides!'],['The mangoes — two rides',0,'The mangoes rode once. Listen to the story list again: goat, mangoes, goat, Coco, goat.']],
+   hints:['Say the passenger list slowly: goat, mangoes, goat, Coco, goat.','Count how many times ONE name appears.','Mini-example: in "ant, bee, ant", the ant appears 2 times — the most.'],
+   prove:{ex:'Worked example: the list "star, moon, star, star" — the star appears 3 times, more than the moon.',q:'Now you try: in the list "fish, crab, fish", who appears the most?',opts:[['The fish — two times',1,'List counting — perfect!'],['The crab — two times',0,'The crab appears once. Count the fish!'],['Both the same',0,'Fish 2, crab 1 — not the same.']]}}
+ ],
+ twist:{text:'WAIT — a twist! The mangoes have crossed, and Sreshta is about to row back ALONE. But look at the far bank: the GOAT is waiting there… with the MANGOES! If she rows back alone — GOBBLE!',q:'What clever move fixes the plan?',opts:[['Bring the GOAT back with her, then swap the crossings',1,'THE swap move! The goat rides back, Coco crosses, and the goat rides last. Plan saved!'],['Row back very fast so the goat has no time to eat',0,'Goats are faster than rowing, Detective. The pair must simply never be left alone.'],['Shout at the goat from the boat',0,'Shouting is not a plan. The goat must ride back with her.']]},
+ deduction:{q:'Detective, the big moment! What is the FULL safe order of the ferry trips?',opts:[['Goat across → mangoes across → goat back → Coco across → goat across',1,'CASE CRACKED! Every bank safe at every step — a perfect plan!'],['Goat across → Coco across → mangoes across, and done',0,'Check the end: the goat and mangoes would wait together while she rows back. GOBBLE!'],['Mangoes across → goat across → Coco across, and done',0,'When Coco crosses last, the goat waits with the mangoes on the far bank — the danger pair again!']]},
+ explain:{q:'Why did the goat ride the boat THREE times?',opts:[['Riding back once kept the goat away from the mangoes while Coco crossed',1,'That is proper planning — sometimes a plan must step BACK to move forwards!'],['Because the goat loves boat rides the most',0,'The goat may love rides, but the PLAN needed that ride — the danger rule!'],['Because the boat was too small for the mangoes',0,'The boat carried the mangoes happily. Size was never the problem.']]},
+ whatif:{q:'What if the boat could carry TWO passengers at once?',opts:[['The whole puzzle changes — the goat and mangoes could cross together with Sreshta watching',1,'Flexible thinking! Change one rule, and the whole plan changes.'],['Nothing would change at all',0,'A bigger boat changes every trip — plans follow the rules of the boat.'],['Then nobody could cross at all',0,'A bigger boat makes crossing EASIER, not impossible!']]}},
+
+/* ---------------- STAGE 4 CASE 3 ---------------- */
+{id:'s4c3',stage:4,no:3,title:'The Locked Toy Box Code',sticker:'🔐',powersUsed:'Plan & Solve + Use the Clues + See Carefully',powers:['plan','clue','see'],
+ story:[{sc:'🧺 🔐 🎁',sp:'The toy box is locked with a picture lock! Three… no, FOUR picture wheels must show a secret word before the box will click open.'},{sc:'🎡 🦉 📜',sp:'Ollie gives you the DECODER WHEEL: every picture stands for a letter. Turn the wheel to read any code!'},{sc:'🪽 📝 ❓',sp:'A note taped to the box says: "The secret word is something that FLIES." Detective — crack the code!'}],
+ clues:[
+  {power:'see',label:'Clue 1 • Reading the Wheel',scene:'🍎=A 🐝=B 🐱=C 🐶=D 🐘=E 🐸=F',q:'The Decoder Wheel pairs pictures with letters. Look carefully: which letter hides behind the CAT picture 🐱?',hard:false,
+   opts:[['C — the cat means C',1,'Wheel read perfectly! Every picture has its own letter.'],['A — the first letter',0,'A belongs to the APPLE picture. Find the cat on the wheel!'],['D — the dog’s letter',0,'D is the DOG. The cat has its own letter — look again.']],
+   hints:['Find the cat picture on the wheel and read its letter.','Each picture owns exactly ONE letter.','Mini-example: if 🍎=A, then the apple always means A.'],
+   prove:{ex:'Worked example: on a fruit wheel, 🍌=B. When Tara saw a banana picture in a code, she read the letter B.',q:'Now you try: on the same wheel 🍇=G. What letter does a GRAPE picture mean?',opts:[['G',1,'Wheel reading — you did it yourself!'],['B',0,'B was the banana. The grape has its own letter.'],['F',0,'Look for the grape’s own pair on the wheel.']]}},
+  {power:'clue',label:'Clue 2 • The Code Strip',scene:'🔤 🐝 🍦 🌹 ❓',decode:true,q:'A code strip is stuck on the lock: 🐝 🍦 🌹 and one smudged picture. Turn your Decoder Wheel, then tell me: what do the FIRST THREE letters say?',hard:true,
+   opts:[['B-I-R',1,'Decoded! Bee, ice-cream, rose — B, I, R. The word is taking shape!'],['D-I-B',0,'That reads the strip backwards. Codes read left to right, Detective!'],['R-I-B',0,'RIB is a different order — and not something that flies. Read the pictures in order.']],
+   hints:['Turn the wheel for each picture, one at a time, from the LEFT.','Write each letter down before moving to the next picture.','Mini-example: 🐝=B and 🍎=A, so 🐝🍎 reads "BA" — in order!'],
+   prove:{ex:'Worked example: the strip 🐱 🍎 🐶 with 🐱=C, 🍎=A, 🐶=D reads C-A-D, left to right.',q:'Now you try: the strip 🐶 🍎 🐱. What does it read?',opts:[['D-A-C',1,'Left to right — perfectly decoded!'],['C-A-D',0,'That is the strip read BACKWARDS. Start from the left!'],['A-D-C',0,'Letters must follow the pictures in their own order.']]}},
+  {power:'clue',label:'Clue 3 • The Flying Word',scene:'🪽 ❓ B I R + ?',q:'Our word so far: B-I-R plus one smudged letter. The note says the word is something that FLIES. Which letter finishes the word?',hard:true,
+   opts:[['D — BIRD! A bird flies!',1,'The note and the letters agree — BIRD is the flying word!'],['C — BIRC!',0,'BIRC is not a word at all, and nothing called a birc can fly. Check the note!'],['A — BIRA!',0,'BIRA is not a flying thing either. The note is the boss of this clue.']],
+   hints:['Say the word out loud with each ending. Which one is a REAL word?','Now check the real word against the note: does it FLY?','Mini-example: "something that swims" + F-I-S-H — the note tells us which word to build.'],
+   prove:{ex:'Worked example: the letters F-I-S and a note saying "it swims" — the last letter H makes FISH, a swimming word.',q:'Now you try: letters C-A and a note saying "it says meow". Which letter finishes it?',opts:[['T — CAT!',1,'Note plus letters — cracked it!'],['R — CAR!',0,'A car does not say meow. The note is the boss!'],['P — CAP!',0,'A cap cannot meow either. Which animal says meow?']]}},
+  {power:'plan',label:'Clue 4 • Set the Wheels',scene:'🎡 🐝 🍦 🌹 🐶',q:'Time to open the box! Set the four picture wheels in the right order to spell BIRD. Which row is correct?',hard:false,
+   opts:[['🐝 🍦 🌹 🐶',1,'Click, click, click, CLICK — the box opens! Wheels set in perfect order.'],['🐶 🌹 🍦 🐝',0,'That row is the word written backwards. Locks read forwards!'],['🐝 🌹 🍦 🐶',0,'The middle two wheels are swapped — that spells B-R-I-D. Check each letter!']],
+   hints:['Spell B-I-R-D slowly and find each picture after its letter.','Check the MIDDLE wheels extra carefully — swaps love to hide there.','Mini-example: to spell CAT we set cat-picture, apple-picture, then the T picture — in word order.'],
+   prove:{ex:'Worked example: to spell E-G-G with 🐘=E and 🍇=G, the wheels go 🐘 🍇 🍇 — the same picture can repeat!',q:'Now you try: which row spells A-B-A with 🍎=A and 🐝=B?',opts:[['🍎 🐝 🍎',1,'Order and repeats both right!'],['🍎 🐝 🐝',0,'The last letter of A-B-A is A again, not B.'],['🐝 🍎 🐝',0,'That spells B-A-B — the whole word is flipped.']]}}
+ ],
+ twist:{text:'WAIT — a twist! The LAST picture on the strip is SMUDGED with jam! It looks like 🐶… but it might be 🐱! Reading it carelessly could give us "BIRC"!',q:'What should a careful detective do about the smudged picture?',opts:[['Use the note clue — the word must be something that FLIES',1,'Smart! When one picture is smudged, the other clues carry the case.'],['Just guess any letter and hope',0,'Guessing is not detecting! We have a note to check against.'],['Try BIRC on the lock anyway',0,'BIRC is not a word — the lock would never open, and we would learn nothing.']]},
+ deduction:{q:'Detective, the big moment! The box clicks and swings open. What was the secret word?',opts:[['BIRD',1,'CASE CRACKED! Decoded picture by picture, checked against the note — superb code work!'],['BIRC',0,'BIRC is not a word — the smudge nearly tricked us. Remember the note!'],['BRID',0,'The letters are in a mixed-up order — the wheels must spell B-I-R-D.']]},
+ explain:{q:'How did we crack a code we could not read at first?',opts:[['The Decoder Wheel turned each picture into a letter, and the note told us the word must fly',1,'That is proper code-breaking — tools plus clues, together!'],['We shook the box until it opened',0,'Shaking solves nothing — and might break the toys!'],['Ollie already knew the word, so we copied him',0,'Ollie never told us — WE decoded it, picture by picture.']]},
+ whatif:{q:'What if the note had said "something that SWIMS"?',opts:[['Then we would hunt for a swimming word the pictures could spell, like F-I-S-H',1,'Flexible thinking! The note decides WHICH word we build.'],['The word would still be BIRD',0,'Birds fly — they are not the swimming word. The note rules!'],['Then the box could never open',0,'A different note just means a different word — detectives adapt.']]}},
+
+/* ---------------- STAGE 4 CASE 4 ---------------- */
+{id:'s4c4',stage:4,no:4,title:'Work Backwards: The Bus Trip',sticker:'🚌',powersUsed:'Plan & Solve + Remember & Focus + See Carefully',powers:['plan','memory','see'],
+ story:[{sc:'🎡 🚌 ⏰',sp:'The little bus rolls into the Garden Fair at 5 o’clock. What a trip it was!'},{sc:'🎟️ 🧁 🌉 🧺',sp:'Ollie kept the ticket stubs: on the way, the bus stopped at the Bakery, the River Bridge and the Market.'},{sc:'🔙 🦉 👣',sp:'To find where the bus was BEFORE, detectives walk the trip BACKWARDS — starting from the end!'}],
+ clues:[
+  {power:'plan',label:'Clue 1 • One Step Back',scene:'🎡 5:00 🔙 🧁',q:'We stand at the END of the trip: the Garden Fair, 5 o’clock. Walking backwards, which stop came JUST BEFORE the fair?',hard:false,
+   opts:[['The Bakery',1,'One step back — the Bakery! Backwards walking has begun.'],['The Market',0,'The Market was much earlier. Backwards means the NEAREST stop first.'],['Home',0,'Home is the very START — the last place our backwards walk will reach.']],
+   hints:['Backwards walking visits the LATEST stop first.','Which stop is closest to the fair in the trip?','Mini-example: after lunch comes playtime, after playtime comes home — one step back from home is playtime.'],
+   prove:{ex:'Worked example: Ana’s day went home → school gate → classroom. One step back from the classroom is the school gate.',q:'Now you try: a trip went park → shop → beach. One step back from the beach is…?',opts:[['The shop',1,'Backwards walking — perfect!'],['The park',0,'The park is the START — two steps back. Take just ONE step.'],['Home',0,'Home is not in this trip at all!']]}},
+  {power:'memory',label:'Clue 2 • The Ticket Stubs',scene:'🎟️ 🧺 2:00 • 🧁 4:00 • 🌉 ❓',q:'Two stubs are easy to read: Market 2 o’clock, Bakery 4 o’clock. (The Bridge stub looks chewed — more about that soon!) At 4 o’clock, where was the bus?',hard:true,
+   opts:[['The Bakery',1,'Stub matched to time — the Bakery at 4!'],['The River Bridge',0,'The Bridge stub is the chewed one — its time is still a secret. Match the 4 to ITS stub!'],['The Market',0,'The Market stub says 2 o’clock. We need the 4 o’clock stop.']],
+   hints:['Find the stub with the number 4 on it.','Read its picture — that place is the answer.','Mini-example: a stub that says "pond 3" means at 3 we were at the pond.'],
+   prove:{ex:'Worked example: stubs say "zoo 1, library 2". At 2 o’clock the class was at the LIBRARY — the stub with 2 says so.',q:'Now you try: stubs say "garden 4, tower 5". Where were we at 5 o’clock?',opts:[['The tower',1,'Stub and time matched — superb!'],['The garden',0,'The garden stub says 4. We need the place with 5.'],['Nowhere — 5 is too late',0,'Five is right there on a stub. Read it again!']]}},
+  {power:'plan',label:'Clue 3 • All the Way Back',scene:'🎡5 🔙 🧁4 🔙 🌉3 🔙 🧺2 🔙 ❓',q:'The whole chain is clear: Fair 5 → Bakery 4 → Bridge 3 → Market 2 → ? Where did the trip START, and at what time?',hard:true,
+   opts:[['Home, at 1 o’clock',1,'All the way back! Every backwards chain ends at the very start: home, 1 o’clock.'],['Home, at 5 o’clock',0,'5 o’clock is the END, at the fair. The start has its own earlier time.'],['The Market, at 1 o’clock',0,'The Market was 2 o’clock — one MORE step back reaches home.']],
+   hints:['Keep walking back past the Market — one more step exists.','Each step back takes away one hour: 5, 4, 3, 2, …','Mini-example: a chain 4→3→2 ends one more step back at 1.'],
+   prove:{ex:'Worked example: a delivery went depot 1 → shop 2 → house 3. Walking backwards from the house: shop, then depot — the START was the depot at 1.',q:'Now you try: a walk went nest 1 → branch 2 → roof 3. Where did it start?',opts:[['The nest, at step 1',1,'Back to the very start — cracked it!'],['The roof, at step 3',0,'The roof is the END of that walk. Backwards!'],['The branch, at step 2',0,'The branch is the middle. One more step back!']]}},
+  {power:'see',label:'Clue 4 • The Fountain Photo',scene:'⛲ 📸 🧺➡️🌉',q:'Ollie’s photo shows the bus passing a FOUNTAIN. The fountain stands on the road between the Market and the Bridge. When did the bus pass the fountain?',hard:false,
+   opts:[['Between 2 and 3 o’clock — after the Market, before the Bridge',1,'Placed perfectly! Between its two neighbours on the road.'],['Before 1 o’clock, before the trip began',0,'The trip started at 1 — the fountain is ON the road, during the trip.'],['After 5 o’clock, after the fair',0,'The fair is the end of the road. The fountain sits between two middle stops.']],
+   hints:['The fountain is BETWEEN two stops. Find their times.','Between 2 and 3 is the only gap that fits.','Mini-example: a shop between the 2 o’clock stop and the 4 o’clock stop is passed between 2 and 4.'],
+   prove:{ex:'Worked example: a statue stands between the 1 o’clock gate and the 3 o’clock tower, so walkers passed it between 1 and 3.',q:'Now you try: a bridge lies between the 4 o’clock bakery and the 5 o’clock fair. When did we cross it?',opts:[['Between 4 and 5 o’clock',1,'Between its neighbours — exactly right!'],['At 3 o’clock',0,'Three is BEFORE both neighbours. Between means in the middle!'],['At 6 o’clock',0,'Six is after the trip ended. Between 4 and 5!']]}}
+ ],
+ twist:{text:'WAIT — a twist! One ticket stub is CHEWED — Coco nibbled it, and the ink has run! The BRIDGE stub’s time is smudged away completely!',q:'Can we still work out the bridge’s time?',opts:[['Yes — the Bridge sits between Market 2 and Bakery 4, so it must be 3',1,'Detective thinking! A missing middle can be rebuilt from its neighbours.'],['No — the whole trip is a mystery now',0,'One smudged stub cannot stop us — its neighbours remember it!'],['Yes — the Bridge must be 5 o’clock',0,'Five is the fair, at the END. The Bridge sits in the middle — between 2 and 4.']]},
+ deduction:{q:'Detective, the big moment! Tell the whole trip BACKWARDS, in the right order:',opts:[['Fair → Bakery → Bridge → Market → Home',1,'CASE CRACKED! The whole journey, walked backwards without one slip!'],['Fair → Market → Bakery → Bridge → Home',0,'Check the middle: backwards goes Bakery (4) THEN Bridge (3) THEN Market (2).'],['Home → Market → Bridge → Bakery → Fair',0,'That is the trip FORWARDS! We were asked for backwards, Detective.']]},
+ explain:{q:'Why do detectives walk a finished trip backwards?',opts:[['Starting from the END we are sure of, each step back is easy to check',1,'That is proper backwards thinking — sure ground, one step at a time!'],['Because buses always drive backwards',0,'Buses drive forwards! It is our THINKING that walks backwards.'],['Because the start of a trip is a secret',0,'The start is not secret — backwards is simply a strong way to rebuild a story.']]},
+ whatif:{q:'What if we only knew the START of a trip and one middle stop?',opts:[['Then we would walk FORWARDS from the start and meet our clues in the middle',1,'Flexible thinking! Detectives can walk a story both ways.'],['Then backwards would still be the only way',0,'With the end unknown, backwards has nowhere to start!'],['Then the trip never really happened',0,'Trips happen whether or not we track them, Detective!']]}},
+
+/* ---------------- STAGE 4 CASE 5 ---------------- */
+{id:'s4c5',stage:4,no:5,title:'The Best Way to Pack a Bag',sticker:'🎒',powersUsed:'Plan & Solve + See Carefully + Use the Clues',powers:['plan','see','clue'],
+ story:[{sc:'🎒 ⭐ ⚖️',sp:'Picnic day! Sreshta’s bag holds exactly 6 stars of weight — no more, or the strap will snap!'},{sc:'💧 🥪 ✅',sp:'Two things MUST go in: the water bottle (2 stars) and the sandwiches (2 stars). Thirsty, hungry detectives cannot think!'},{sc:'🌂 📖 ⚽ 🪁',sp:'On the table wait the extras: an umbrella (3 stars), a story book (1 star), a ball (2 stars) and a kite (3 stars). Choose wisely!'}],
+ clues:[
+  {power:'plan',label:'Clue 1 • Space Left',scene:'🎒 💧2 + 🥪2 = 4 … ❓ left',q:'The must-packs go in first: water 2 stars + sandwiches 2 stars = 4 stars. The bag holds 6. How many stars of space are LEFT?',hard:false,
+   opts:[['2 stars of space',1,'Exactly! 6 − 4 = 2. Only small things can join now.'],['4 stars of space',0,'Four is what is already INSIDE. Space left is what remains: 6 − 4.'],['6 stars of space',0,'Six is the whole bag — but the must-packs are already using some of it!']],
+   hints:['Start with the whole bag: 6. Take away what is packed: 4.','Space left = 6 − 4. Say it slowly.','Mini-example: a shelf holds 5, with 3 books on it — space for 2 more.'],
+   prove:{ex:'Worked example: a box holds 8 stars. Toys inside weigh 5 stars. Space left = 8 − 5 = 3 stars.',q:'Now you try: a bag holds 7 stars. Packed: 4 stars. How much space is left?',opts:[['3 stars',1,'Take-away planning — perfect!'],['4 stars',0,'Four is what is packed, not what is left. 7 − 4!'],['7 stars',0,'Seven is the whole bag. Some of it is already full.']]}},
+  {power:'plan',label:'Clue 2 • The Exact Fit',scene:'🌂3 📖1 ⚽2 🪁3',q:'Two stars of space are left. Which ONE extra fills the last space EXACTLY, with nothing left over?',hard:true,
+   opts:[['The ball (2 stars) — 4 + 2 = 6, just right!',1,'An exact fit! The ball fills the bag to the very top, safely.'],['The umbrella (3 stars) — it is the most useful',0,'Useful, yes — but 4 + 3 = 7 stars. Over the limit, snap goes the strap!'],['The kite (3 stars) — picnics need kites',0,'Lovely, but also 3 stars — 4 + 3 = 7. Too heavy for the last space.']],
+   hints:['The winner’s stars must EQUAL the space left: 2.','Check each extra’s number against 2 — no bigger, no smaller.', 'Mini-example: a 2-star gap needs a 2-star piece — a 3-star piece cannot squeeze in.'],
+   prove:{ex:'Worked example: a puzzle tray has a 3-star gap. Pieces weigh 3, 4 and 2 stars. Only the 3-star piece fills the gap exactly.',q:'Now you try: a 1-star gap, pieces of 1, 2 and 3 stars. Which piece fits exactly?',opts:[['The 1-star piece',1,'Exact fit found — planner’s eye!'],['The 2-star piece',0,'Two stars into a 1-star gap? It would burst out!'],['Any piece — packing is magic',0,'Packing is NUMBERS, Detective. Only the matching number fits.']]}},
+  {power:'plan',label:'Clue 3 • The New Plan',scene:'🌂 ✋ 🎒 💧🥪📖',q:'The umbrella (3) is a MUST now — but it does not have to ride in the bag! It can be CARRIED in her hand. Which plan keeps both must-packs AND stays within 6 stars in the bag?',hard:true,
+   opts:[['Bag: water + sandwiches + book (5 stars); umbrella carried in hand',1,'A planner’s rescue! Bag = 5 stars, umbrella safe in hand, nothing important left behind.'],['Bag: water + sandwiches + umbrella (7 stars)',0,'Seven stars — over the limit! The umbrella must travel another way.'],['Bag: sandwiches + umbrella + ball (7 stars)',0,'Also 7 — and the WATER is left behind! Water is a must-pack.']],
+   hints:['The umbrella can travel in her HAND — the bag is not the only way to carry.','Now fill the bag: must-packs (4) + the lightest extra (1) = 5. Safe!','Mini-example: when a box is full, a wise carrier holds one light thing in a hand instead.'],
+   prove:{ex:'Worked example: a basket holds 4. Apples (2) and bread (2) fill it. The flowers (1) cannot fit — so Ana carries the flowers in her hand. Everything travels!',q:'Now you try: what does a smart carrier do when ONE light thing cannot fit?',opts:[['Carry it in a hand — everything still travels',1,'Plan rescued — just like the umbrella!'],['Throw it in a bush',0,'Throwing away needed things is not a plan!'],['Sit on the basket to squash more in',0,'Squashing breaks things. Carrying is the smart move.']]}},
+  {power:'see',label:'Clue 4 • Check the Bag',scene:'🎒 💧2 🥪2 📖1',q:'Final check with your eyes! The bag now holds water (2), sandwiches (2) and the book (1). Count the stars: 2 + 2 + 1 = ?',hard:false,
+   opts:[['5 stars — one star of space to spare!',1,'Checked and safe! Five is under six, with room to spare.'],['6 stars — bursting full',0,'Count again slowly: 2 + 2 is 4, and 1 more makes 5.'],['7 stars — over the limit!',0,'Too many! Add them one at a time: 2… 4… 5.']],
+   hints:['Add in order: 2 + 2 first.','Then add the book’s 1.','Mini-example: 2 + 2 + 1 — fingers up: two, four, five!'],
+   prove:{ex:'Worked example: 3 + 1 + 1 = 5. Add the first two (4), then the last one (5).',q:'Now you try: what is 2 + 3 + 1?',opts:[['6',1,'Step-by-step adding — perfect!'],['5',0,'2 + 3 is 5, but there is one more +1!'],['7',0,'Too many — add slowly: 2 + 3 = 5, + 1 = 6.']]}}
+ ],
+ twist:{text:'WAIT — a twist! Dark clouds are gathering over the picnic hill! Amma calls: "The UMBRELLA (3 stars) is now a MUST too!" But 2 + 2 + 3 = 7 — one star OVER the bag’s limit!',q:'What must a smart packer do now?',opts:[['Re-pack: something must travel another way — the plan must change',1,'Right! When the musts change, the plan changes. Detectives re-pack, not squeeze!'],['Squeeze it in — straps love a good snap',0,'A snapped strap spills the whole picnic. Re-pack, Detective!'],['Leave the water bottle behind and never drink',0,'Water is the FIRST must — a thirsty detective cannot think. The umbrella needs another way.']]},
+ deduction:{q:'Detective, the big moment! What is THE BEST final packing plan?',opts:[['Must-packs + book in the bag (5 stars), umbrella in hand, ball and kite stay home',1,'CASE CRACKED! Every must travels, the bag is safe, and a good book is aboard!'],['Everything in the bag — all 10 stars of things!',0,'Ten stars in a 6-star bag? SNAP! Over the limit is never the best plan.'],['Only the book in the bag — a light, easy picnic',0,'Light, yes — but no water, no sandwiches, no umbrella. The musts matter most!']]},
+ explain:{q:'Why is this packing plan the BEST one?',opts:[['Every must is packed, the weight stays under the limit, and nothing important is left behind',1,'That is proper planning — needs first, numbers checked, nothing wasted!'],['Because the bag looks the prettiest this way',0,'Pretty is nice, but BEST means the plan WORKS.'],['Because the book is the heaviest thing',0,'The book is the LIGHTEST thing! Best is about musts and limits.']]},
+ whatif:{q:'What if the bag held 8 stars instead of 6?',opts:[['Then the umbrella could ride in the bag too (2 + 2 + 3 = 7), with a star to spare',1,'Flexible thinking! A bigger limit makes a bigger plan possible.'],['Nothing would change at all',0,'A changed limit always changes the packing plan.'],['Then even 10 stars of things would fit',0,'Eight is the new limit — 10 would still snap the strap!']]}},
+
+/* ---------------- STAGE 4 CASE 6 ---------------- */
+{id:'s4c6',stage:4,no:6,title:'The Knight’s Walk',sticker:'♞',powersUsed:'Plan & Solve + See Carefully + Remember & Focus',powers:['plan','see','memory'],
+ story:[{sc:'♞ 🐴 🪨',sp:'Meet Sir Hops, the toy knight! He stands on the HOME stone of the stepping-stone garden, and a flower blooms far across the stones.'},{sc:'♞ ↪️ 📏',sp:'Sir Hops moves like a chess knight, in a friendly L: TWO stones one way, then ONE stone to the side. No straight hops, no diagonal hops!'},{sc:'🌸 ✨ 🎯',sp:'Plan his walk to the FLOWER stone, Detective — every hop must be a proper L!'}],
+ clues:[
+  {power:'see',label:'Clue 1 • One L-Hop',scene:'🐴🏠 ➡️ 🍓 🍄 🍃',q:'From the HOME stone, Sir Hops makes ONE L-hop (2 stones one way, 1 to the side). Which stones can he reach in exactly one hop?',hard:false,
+   opts:[['The Strawberry stone and the Mushroom stone',1,'L-spotted perfectly! Both sit exactly one L away from Home.'],['The Flower stone — it is where we want to go',0,'The flower is the GOAL, but it is too far for one hop. L-hops are short!'],['The Leaf stone right beside Home',0,'Beside is only 1 stone away — that is a step, not an L-hop. An L is 2 + 1!']],
+   hints:['An L-hop travels 2 stones, then turns for 1 stone.','Trace an L with your finger from Home — where does it land?','Mini-example: from a corner, an L can land on the two stones that sit "2 along, 1 up" and "1 along, 2 up".'],
+   prove:{ex:'Worked example: a frog hops in an L on lily pads. From its pad, it can reach the two pads placed 2-along-1-up and 1-along-2-up — not the pad right next to it.',q:'Now you try: can an L-hopper reach a stone that is 1 stone straight ahead?',opts:[['No — an L is 2 stones one way, then 1 to the side',1,'L-rule remembered — superb!'],['Yes — 1 stone is an easy hop',0,'Easy, yes — but not an L. The rule is 2 + 1!'],['Yes — any hop counts',0,'Not in Sir Hops’ game! Only true L-hops count.']]}},
+  {power:'plan',label:'Clue 2 • Two Hops to the Flower',scene:'🐴 ➡️❓ ➡️ 🌸',q:'Plan ahead! Which full plan reaches the FLOWER in exactly TWO L-hops?',hard:true,
+   opts:[['Home → Strawberry → Flower',1,'A two-hop plan! Strawberry sits one L from Home, and the Flower sits one L from Strawberry.'],['Home → Leaf → Flower',0,'The Leaf stone cannot be reached in one L-hop at all — the plan breaks at hop one!'],['Home → Mushroom → Star',0,'That plan IS two hops — but it lands on the STAR, not the Flower. Read the goal!']],
+   hints:['Work BACKWARDS from the Flower: which stones are one L away from it?','The Strawberry and the Mushroom both reach the Flower — but check hop one too.','Mini-example: to plan 2 hops, find a middle stone that touches BOTH ends with an L.'],
+   prove:{ex:'Worked example: to cross a pond in 2 frog-hops, Ana picked the middle pad that was one L from the start AND one L from the far bank.',q:'Now you try: a plan needs a middle stone. What must be true about it?',opts:[['It must be one L-hop from the start AND one L-hop from the goal',1,'Two-ended planning — exactly right!'],['It must be the prettiest stone',0,'Pretty does not move a knight. Reach matters!'],['It must be next to the start',0,'Next-to is a step, not an L. The middle stone needs two true L links.']]}},
+  {power:'plan',label:'Clue 3 • The Mushroom Route',scene:'🍄 ➡️1 ⬆️2 🌸',q:'Our new plan goes through the MUSHROOM stone. From Mushroom, Sir Hops hops 1 stone to the right and 2 stones up. Where does he land?',hard:true,
+   opts:[['The Flower stone 🌸',1,'Landed! 1 right + 2 up from Mushroom is exactly the Flower.'],['The Star stone 🌟',0,'The Star sits 2 LEFT and 1 up from Mushroom — a different L. We went right and up!'],['The Strawberry stone 🍓',0,'Strawberry is 1 left and 1 up from Mushroom — that is not even an L!']],
+   hints:['Move your finger: 1 stone RIGHT first.','Then 2 stones UP from there. What picture waits?','Mini-example: 1 right + 2 up is one of the two L shapes — trace it slowly.'],
+   prove:{ex:'Worked example: from the middle stone, 2 left + 1 up lands on the bell stone — count the moves on the grid: left, left, up.',q:'Now you try: from Mushroom, what does 2 LEFT + 1 UP land on?',opts:[['The Star stone 🌟',1,'Grid traced perfectly!'],['The Flower stone 🌸',0,'The Flower is 1 RIGHT + 2 up. Left and right matter!'],['The Home stone 🐴',0,'Home is 1 down + 2 left from Mushroom. Count again!']]}},
+  {power:'memory',label:'Clue 4 • Count the New Plan',scene:'🐴 ➡️ 🍄 ➡️ 🌸 🔢',q:'Count the hops in our NEW plan: Home → Mushroom → Flower. How many hops — and how does it compare with the old strawberry plan?',hard:false,
+   opts:[['2 hops — the same number, on safer stones!',1,'Remembered and counted! A new route, the same short length.'],['3 hops — the new plan is longer',0,'Count the arrows: Home→Mushroom is one, Mushroom→Flower is two. Done!'],['1 hop — knights are fast',0,'No single L reaches the Flower from Home. It takes two!']],
+   hints:['Count the arrows in the plan, not the stones.','Old plan: 2 hops. New plan: count its arrows.','Mini-example: A → B → C is 2 hops (two arrows), though it visits 3 stones.'],
+   prove:{ex:'Worked example: a walk gate → pond → tree → house has 3 arrows, so it is 3 hops, visiting 4 places.',q:'Now you try: den → rock → den… how many hops in "den → rock"?',opts:[['1 hop — one arrow',1,'Arrow counting — perfect!'],['2 hops — two places',0,'Places are not hops. Count the arrows BETWEEN them!'],['0 hops',0,'One arrow means one hop was made.']]}}
+ ],
+ twist:{text:'WAIT — a twist! A stone-cracker bird has pecked the STRAWBERRY stone — it is CRACKED and wobbly now! Landing on it is not safe at all!',q:'Our two-hop plan used the Strawberry stone. What must the plan do now?',opts:[['Plan a NEW route through a safe stone — the Mushroom stone',1,'Plans bend, detectives do not break! The Mushroom route still reaches the Flower.'],['Hop on the cracked stone very, very quickly',0,'Quick does not fix cracked. Safe stones only!'],['Give up — Sir Hops can swim home instead',0,'Knights do not swim, and detectives do not give up. New route!']]},
+ deduction:{q:'Detective, the big moment! What is Sir Hops’ SAFE path to the Flower?',opts:[['Home → Mushroom → Flower',1,'CASE CRACKED! A cracked stone dodged, a new L-route planned — Puzzle Master footwork!'],['Home → Strawberry → Flower',0,'The Strawberry stone is CRACKED — remember the twist! It is not safe to land on.'],['Home → Leaf → Mushroom → Flower',0,'The Leaf stone cannot be reached by an L-hop from Home. The plan breaks at hop one!']]},
+ explain:{q:'Why did the FIRST plan have to change?',opts:[['The Strawberry stone cracked, so the route needed a different safe stone',1,'That is proper planning — check your stones, then adapt the route!'],['Because the Flower moved to a new stone',0,'Flowers do not move. The STONE changed, not the flower.'],['Because knights are not allowed to turn',0,'Knights MUST turn — the L is half turn! The crack is the reason.']]},
+ whatif:{q:'What if BOTH the Strawberry and Mushroom stones were cracked?',opts:[['Then Sir Hops would need a longer plan with more hops — or wait until the stones are fixed',1,'Flexible thinking! Good planners always have a Plan B.'],['Then he could simply fly to the Flower',0,'Toy knights cannot fly, Detective!'],['Then he could hop in a straight line',0,'Straight hops break the L-rule of his game.']]}},
+
+/* ---------------- STAGE 4 CASE 7 ---------------- */
+{id:'s4c7',stage:4,no:7,title:'The Water Jar Puzzle',sticker:'🫗',powersUsed:'Plan & Solve + See Carefully + Remember & Focus',powers:['plan','see','memory'],
+ story:[{sc:'🌻 🪴 💧',sp:'Ollie’s sunflower is thirsty! It needs EXACTLY 4 cups of water — no more, no less, or its roots will swim!'},{sc:'🫗 🥤 🚰',sp:'At the well stand two jugs: a BIG jug that holds 5 cups, and a SMALL jug that holds 3 cups. Neither jug has any measuring marks!'},{sc:'🤔 🦉 ✨',sp:'How can a 5-jug and a 3-jug measure exactly 4? Plan every pour, Detective!'}],
+ clues:[
+  {power:'plan',label:'Clue 1 • The First Pour',scene:'🫗5 ➡️ 🥤3 … 🫗?',q:'First pour: fill the BIG jug (5 cups) and pour into the SMALL jug until the small jug is full (3 cups). How much water is LEFT in the big jug?',hard:false,
+   opts:[['2 cups',1,'Exactly! 5 − 3 = 2. Those 2 cups are precious — the plan needs them!'],['3 cups',0,'Three is what MOVED into the small jug. What STAYS in the big jug is 5 − 3.'],['5 cups',0,'The big jug is not full anymore — some water poured away into the small jug.']],
+   hints:['The big jug started with 5. The small jug took 3.','Left = 5 − 3. Say it slowly.','Mini-example: 4 cups in a pot, pour 1 into a cup — 3 stay in the pot.'],
+   prove:{ex:'Worked example: a bucket holds 6 cups. Pouring 4 into a bowl leaves 6 − 4 = 2 cups in the bucket.',q:'Now you try: a pot holds 7 cups. You pour 3 into a jug. How many cups stay in the pot?',opts:[['4 cups',1,'Pour maths — perfect!'],['3 cups',0,'Three is what MOVED. Staying is 7 − 3!'],['7 cups',0,'The pot is not full anymore — some water left it.']]}},
+  {power:'plan',label:'Clue 2 • The Clever Emptying',scene:'🥤3 🔄 🚰 🫗2 ➡️ 🥤',q:'Now: the small jug is full (3) and the big jug holds 2. What is the NEXT smart move in the plan?',hard:true,
+   opts:[['Tip the small jug back into the well, then pour the big jug’s 2 cups into the small jug',1,'The clever move! The 2 cups now sit in the small jug — with room for exactly 1 more. Remember that!'],['Fill the big jug again right away, on top of its 2 cups',0,'Then the big jug is just full again and nothing has been measured. The 2 cups must be parked first!'],['Pour the small jug onto the sunflower now',0,'The sunflower needs EXACTLY 4 — 3 cups is not its drink, and our measuring would be lost!']],
+   hints:['The 2 cups in the big jug are gold — park them somewhere safe.','The small jug must be EMPTY before it can hold the 2.','Mini-example: to save a measured amount, tip the rest away and keep the measured part by itself.'],
+   prove:{ex:'Worked example: cooks measure oil by filling a small cup and tipping the EXTRA back into the bottle — the measured part stays separate.',q:'Now you try: why do we tip the small jug back into the WELL and not onto the floor?',opts:[['The well keeps the water safe to use again — nothing is wasted',1,'Careful and clever — planners waste nothing!'],['Because the floor is thirsty too',0,'Floor water is lost water! The well keeps it.'],['Because jugs like spinning',0,'Spinning is fun, but the PLAN is the reason.']]}},
+  {power:'plan',label:'Clue 3 • The Magic One Cup',scene:'🫗5 ➡️ 🥤(2+1) … 🫗?',q:'Nearly there! The small jug holds 2 cups (room for 1 more). Fill the BIG jug (5) and pour into the small jug until it is FULL. How much water is LEFT in the big jug?',hard:true,
+   opts:[['4 cups — EXACTLY what the sunflower needs!',1,'THE MAGIC NUMBER! The small jug drank just 1 cup, so 5 − 1 = 4 stay behind. Plan complete!'],['3 cups',0,'Watch the small jug: it only had room for ONE more cup, not two!'],['5 cups — nothing poured out',0,'Some water DID pour — exactly 1 cup of it. 5 − 1!']],
+   hints:['How much room was left in the small jug? Only that much can pour out.','The small jug held 2 of its 3 — room for 1.','Mini-example: a full-5 bottle topping up a glass that needs 1 cup keeps 5 − 1 = 4.'],
+   prove:{ex:'Worked example: a 4-cup bottle tops up a jug that has room for 1 cup. The bottle keeps 4 − 1 = 3 cups.',q:'Now you try: a 6-cup bottle tops up a jug with room for 2. How much stays in the bottle?',opts:[['4 cups — 6 − 2',1,'Top-up maths — cracked it!'],['2 cups',0,'Two is what POURED OUT. Staying is 6 − 2!'],['6 cups',0,'The bottle poured some away — it cannot still be full.']]}},
+  {power:'memory',label:'Clue 4 • Count the Moves',scene:'🔢 🫗 🥤 ✨',q:'Count the moves of our winning plan: 1 fill big, 2 pour to small, 3 empty small, 4 pour the 2 in, 5 fill big, 6 top up small. How many moves did the whole plan take?',hard:false,
+   opts:[['6 careful moves',1,'Counted with the plan — every move mattered, none was wasted!'],['2 moves — fill and pour',0,'That is only the beginning! The plan had emptying and topping-up moves too.'],['10 moves — it felt very long',0,'Plans feel long, but count the list: it stops at 6.']],
+   hints:['Count the numbered moves in the question, one by one.','The list itself tells you — read to the last number.','Mini-example: "1 jump, 2 clap, 3 spin" is a list of 3 moves.'],
+   prove:{ex:'Worked example: a dance plan lists 1 twirl, 2 steps, 3 bows, 4 waves — that is 4 moves.',q:'Now you try: a plan lists moves 1, 2, 3, 4, 5. How many moves?',opts:[['5 moves',1,'List counting — perfect!'],['4 moves',0,'The list goes one further — count to the very end!'],['3 moves',0,'Keep counting: 1, 2, 3, 4, 5.']]}}
+ ],
+ twist:{text:'WAIT — a twist! Dev pipes up: "Easy! Just fill the SMALL jug twice and pour both into the pot — 3 + 3! Done!" Ollie shakes his head slowly…',q:'Why is Dev’s plan NOT the right one?',opts:[['3 + 3 = 6 cups — the sunflower would SWIM! We need exactly 4',1,'Number-checked! A plan must hit the EXACT number, not just a big one.'],['Because 3 + 3 = 5, and 5 is too little',0,'Check the adding: 3 + 3 = 6, not 5. The problem is it is TOO MUCH!'],['Because the small jug is too heavy to lift twice',0,'The small jug lifts just fine. The NUMBER is the problem — 6, not 4!']]},
+ deduction:{q:'Detective, the big moment! Tell the WHOLE winning plan in order:',opts:[['Fill 5 → pour into 3 → empty 3 → move the 2 into 3 → fill 5 → top up 3 → 4 cups remain!',1,'CASE CRACKED! The jugs measured each other — a legendary plan, Detective!'],['Fill the 3-jug twice and pour both into the pot — 6 cups',0,'Six cups drown the sunflower! That was Dev’s twist-plan, and it missed the exact number.'],['Fill 5 and guess-pour about 1 cup away',0,'There are no marks to guess by — guessing is not measuring. Our plan MEASURED it!']]},
+ explain:{q:'Why does this plan work when neither jug has measuring marks?',opts:[['The jugs measure EACH OTHER — the small jug’s size tells us exactly how much water moved',1,'That is proper planning — using what you HAVE to measure what you NEED!'],['Because 5 and 3 are lucky numbers',0,'Luck had nothing to do with it — careful steps did!'],['Because the well counted the cups for us',0,'Wells cannot count. The plan — and the detective — did the counting.']]},
+ whatif:{q:'What if the sunflower needed exactly 2 cups instead?',opts:[['Easy — fill the big jug and pour into the small jug once: 2 cups stay behind!',1,'Flexible thinking! The first pour of our plan already makes 2.'],['Impossible without measuring marks',0,'Our plan proves jugs can measure each other — 2 is right there in pour one!'],['We would need to buy a third jug',0,'No shopping needed, Detective — 5 and 3 can make 2 as well!']]}},
+
+/* ---------------- STAGE 4 CASE 8 ---------------- */
+{id:'s4c8',stage:4,no:8,title:'The Bridge of Stepping Stones',sticker:'🪨',powersUsed:'Plan & Solve + See Carefully + Use the Clues',powers:['plan','see','clue'],
+ story:[{sc:'🏞️ 🌊 🪨',sp:'A laughing stream blocks the path to the picnic meadow! The only way across is the stepping stones.'},{sc:'🪨 🍄 ⭐ 🐸',sp:'The stones are a mixed bunch: a FLAT stone, a MOSSY stone, a ROUND stone, a STAR stone, and a FROG stone with — yes — a frog on it.'},{sc:'🦉 📏 👣',sp:'Ollie warns: "Hop only to stones you can REACH — one gap at a time — and only onto stones that are safe." Plan the crossing!'}],
+ clues:[
+  {power:'see',label:'Clue 1 • The First Hop',scene:'🏦 ➡️ 🪨flat 🍄mossy',q:'From the start bank, two stones are one hop away: the FLAT stone and the MOSSY stone. Moss is wet and slippery. Which stone is the safe FIRST hop?',hard:false,
+   opts:[['The flat stone — dry and steady',1,'Safe first hop! Flat and dry beats mossy every time.'],['The mossy stone — it looks soft',0,'Soft moss is SLIPPERY moss. A planner checks the surface, not just the distance!'],['Jump straight to the far bank',0,'Far too far for one hop! Stones exist to be stepped on, one gap at a time.']],
+   hints:['Both stones are reachable — so choose by SAFETY.','What makes moss dangerous? It is wet and…','Mini-example: a dry step and an icy step — planners pick the dry one.'],
+   prove:{ex:'Worked example: crossing a garden, Ravi chose the dry stone path over the wet, shiny one — shiny and wet means slippery.',q:'Now you try: two steps, one dusty-dry, one wet and shiny. Which do you step on?',opts:[['The dusty-dry step',1,'Safety first — planner’s choice!'],['The wet, shiny step',0,'Wet and shiny is the slippery one. Check again!'],['Both at once, one foot each',0,'Splitting between steps is how detectives get wet socks!']]}},
+  {power:'plan',label:'Clue 2 • Reach Matters',scene:'🪨flat ➡️ 🐸(busy!) ⚪round ⭐(too far)',q:'From the flat stone: the FROG stone has a frog sitting on it, the ROUND stone is free, and the STAR stone is TWO gaps away. Which stone can we hop to next?',hard:true,
+   opts:[['The round stone — free and one gap away',1,'Reach + free = the right hop! The round stone it is.'],['The frog stone — land right beside the frog',0,'The frog is SITTING there — there is no room to land! Wait for a free stone.'],['The star stone — it is the prettiest',0,'Pretty, but TWO gaps away. One hop crosses ONE gap — it cannot be reached yet!']],
+   hints:['A hop must be ONE gap — and the stone must be FREE to land on.','Check each stone: how far? Is anyone sitting there?','Mini-example: in hopscotch you cannot land on a square a friend is standing in.'],
+   prove:{ex:'Worked example: from her stone, Ana could reach a near stone with a beetle on it and a near empty stone. She hopped to the EMPTY one — near AND free.',q:'Now you try: a near stone has a butterfly resting on it; a near stone beside it is empty. Which do you hop to?',opts:[['The empty stone',1,'Near and free — the planner’s rule!'],['The butterfly stone — butterflies are light',0,'Light or not, the stone is TAKEN. Land where there is room!'],['A stone three gaps away',0,'Three gaps is far beyond one hop. Reach first!']]}},
+  {power:'plan',label:'Clue 3 • The Shorter Way',scene:'🐸 ✅ ➡️ 🏦 🔢',q:'The frog has hopped away! New route: flat stone → frog stone → far bank. Count the hops from the START bank to the FAR bank on this new route.',hard:false,
+   opts:[['3 hops',1,'Counted! Start→flat (1), flat→frog (2), frog→far bank (3). A short, safe crossing!'],['2 hops',0,'You missed one! The start bank to the flat stone is a hop too.'],['5 hops',0,'Too many — count the arrows in the route: there are three.']],
+   hints:['Count EVERY hop, including the first one off the bank.','Walk it with your finger: bank, flat, frog, bank.','Mini-example: A → B → C is 2 hops; A → B → C → D is 3.'],
+   prove:{ex:'Worked example: a path stone → leaf → log → home has 3 arrows, so it is 3 hops.',q:'Now you try: how many hops in "bank → stone → bank"?',opts:[['2 hops',1,'Arrow counting — perfect!'],['1 hop',0,'There are TWO arrows: off the bank, and back onto a bank.'],['3 hops',0,'Only two arrows here — count them again!']]}},
+  {power:'memory',label:'Clue 4 • The Old Way',scene:'🔙 🪨 ⚪ ⭐ 🏦',q:'Think back to the OLD plan, before the frog moved: flat stone → round stone → star stone → far bank. How many hops was the old way?',hard:true,
+   opts:[['4 hops — the frog’s hop saved us a whole hop!',1,'Remembered and counted! The twist made the path SHORTER.'],['2 hops — it was shorter',0,'The old way visited THREE stones before the far bank. Count its arrows!'],['3 hops — same as the new way',0,'Old: flat, round, star, far = 4 hops. New: 3. The frog truly helped!']],
+   hints:['List the old route’s stops in order: flat, round, star, far bank.','Count the arrows BETWEEN the stops, starting from the start bank.','Mini-example: stops B, C, D after start A: A→B→C→D is 3 hops. Here there is one more stop.'],
+   prove:{ex:'Worked example: an old road went home → shop → school → park: that is 3 hops (3 arrows).',q:'Now you try: a road goes home → shop → school → park → zoo. How many hops?',opts:[['4 hops',1,'One more stop, one more hop — exactly!'],['3 hops',0,'Count the arrows again: there are four places after home!'],['5 hops',0,'Five PLACES, but hops are the arrows between them: 4.']]}}
+ ],
+ twist:{text:'WAIT — a twist! PLOP! The frog hops off its stone and into the water with a splash! The FROG stone is now FREE — and it is the stone CLOSEST to the far bank!',q:'How does our crossing plan change now?',opts:[['The frog stone now gives a SHORTER path to the far bank',1,'Plans update when the world changes! Frog stone: free, near, and close to the far side.'],['The plan can never change once it is made',0,'Plans MUST change when facts change — that is what the twist teaches!'],['We must go back and start a brand-new crossing',0,'No need to restart — we are already ON the flat stone. Just re-plan from here!']]},
+ deduction:{q:'Detective, the big moment! What is our FINAL safe path across the stream?',opts:[['Start bank → flat stone → frog stone → far bank',1,'CASE CRACKED! Safe stones, true reaches, and a twist turned into a shortcut!'],['Start bank → mossy stone → frog stone → far bank',0,'The mossy stone is slippery — that first hop cannot pass the safety check!'],['Start bank → flat stone → star stone → far bank',0,'The star stone is TWO gaps from the flat stone — it cannot be reached in one hop!']]},
+ explain:{q:'Why did we WAIT instead of hopping onto the frog stone at first?',opts:[['The frog was sitting on it — when it hopped away, the stone became free AND gave a shorter path',1,'That is proper planning — watch, wait, and use the change!'],['Because frogs are scary',0,'The frog is friendly! The stone was simply FULL.'],['Because the water was getting deeper',0,'The water never changed. The STONE became free — that is the reason.']]},
+ whatif:{q:'What if the frog had NEVER hopped away?',opts:[['Then we would take the longer round-stone path — 4 careful hops',1,'Flexible thinking! A planner always keeps the longer safe plan in her pocket.'],['Then nobody could ever cross the stream',0,'The round-stone path was always there — longer, but crossable!'],['Then we would hop onto the frog',0,'Landing on a frog is not a plan, Detective!']]}},
+
+/* ---------------- STAGE 4 SLOT 9: CREATOR ---------------- */
+{id:'s4c9',stage:4,no:9,title:'Build a Case – I',sticker:'✏️',type:'create',powersUsed:'Plan & Solve + Use the Clues + Your Own Ideas!',powers:['plan','clue']},
+
+/* ---------------- STAGE 4 CASE 10 (FINALE) ---------------- */
+{id:'s4c10',stage:4,no:10,title:'Ollie’s Revenge Case',sticker:'🦉',powersUsed:'Plan & Solve + Use the Clues + Remember & Focus + See Carefully',powers:['plan','clue','memory','see'],
+ story:[{sc:'🦉 😏 🔐',sp:'Ollie folds his wings and grins: "You solved ALL my cases, Detective. Now it is MY turn — welcome to Ollie’s Revenge!"'},{sc:'🚪 🔒🔒🔒🔒',sp:'Behind him stands the Puzzle Gate with FOUR locks. Beyond it glitters the Golden Key to the snack cupboard!'},{sc:'✨ 🧁 🗝️',sp:'"Decode, plan, remember — you will need EVERY power," hoots Ollie. "Begin, Puzzle Master!"'}],
+ clues:[
+  {power:'clue',label:'Clue 1 • The First Lock: Pictures',scene:'🔒1️⃣ 🐝 🍦 🌹 🐶',decode:true,q:'The first lock shows four pictures: 🐝 🍦 🌹 🐶. Turn your Decoder Wheel and read them. What word do they spell?',hard:true,
+   opts:[['BIRD',1,'Decoded at full speed! The paper bird on the gate rustles — something hides under its wing!'],['BRID',0,'Letters swapped in the middle! Read the pictures left to right, one by one.'],['DIRB',0,'That is the word backwards. Locks read forwards, Detective!']],
+   hints:['One picture at a time, from the LEFT, just like the Toy Box code.','The wheel pairs are the same as before: bee, ice-cream, rose, dog.','Mini-example: 🐝🍎 read B-A — order is everything.'],
+   prove:{ex:'Worked example: with 🐝=B, 🍎=A, 🐶=D, the strip 🐝 🍎 🐶 reads B-A-D, left to right.',q:'Now you try: the strip 🐶 🍎 🐝. What does it read?',opts:[['D-A-B',1,'Decoding like a Puzzle Master!'],['B-A-D',0,'Backwards again! Start from the LEFT picture.'],['A-B-D',0,'Each letter must follow ITS picture, in order.']]}},
+  {power:'pattern',label:'Clue 2 • The Second Lock: Bells',scene:'🔔 🔔 ⭐ 🔔 🔔 ⭐ 🔔 🔔 ❓',q:'Under the paper bird hides the bell pattern: BELL, BELL, STAR — repeating. The gate shows: 🔔 🔔 ⭐ 🔔 🔔 ⭐ 🔔 🔔 … Which sound comes NEXT?',hard:true,
+   opts:[['STAR — the bell-bell-star unit starts again',1,'Pattern cracked! After two bells, the unit demands its star.'],['BELL — a third bell in a row',0,'Three bells in a row would BREAK the unit. The pattern is bell, bell, STAR.'],['SILENCE — the song is over',0,'Patterns do not stop mid-unit! The star is still owed.']],
+   hints:['Find the repeating unit first: three sounds that repeat.','The shown bells are two full units plus two bells. What completes a unit?','Mini-example: clap, clap, stomp, clap, clap, … next is stomp — the unit’s third sound.'],
+   prove:{ex:'Worked example: the pattern drum, drum, bell repeats. After drum, drum, bell, drum, drum — the next sound is BELL, the unit’s third.',q:'Now you try: pattern tap, tap, tap, ring. After tap, tap, tap, ring, tap, tap — what comes next?',opts:[['Another tap — the third tap of the unit',1,'Unit counting — perfect pattern work!'],['Ring — it is ring time',0,'The ring comes after THREE taps. Only two taps have sounded!'],['Silence',0,'Units repeat fully before anything stops.']]}},
+  {power:'plan',label:'Clue 3 • The Third Lock: Backwards Number',scene:'🔢 🔚 10 ◀️ ➖3 ◀️ ➕4',q:'The number lock shows the END number: 10. Ollie’s card says: "I started with a number, ADDED 4, then TOOK AWAY 3, and landed on 10." Work backwards! What number did Ollie start with?',hard:true,
+   opts:[['9 — backwards: 10 + 3 = 13, then 13 − 4 = 9',1,'Backwards mastery! Undo the take-away (+3), then undo the adding (−4): 9. Check forwards: 9 + 4 − 3 = 10 ✔'],['11 — it feels bigger',0,'Check 11 forwards: 11 + 4 − 3 = 12, not 10. Backwards steps must be UNDONE, not guessed!'],['7 — smaller feels safer',0,'Check 7 forwards: 7 + 4 − 3 = 8, not 10. Undo in reverse order!']],
+   hints:['Undo the LAST thing first: "took away 3" — undo it by ADDING 3 to 10.','Then undo "added 4" by TAKING 4 away from your new number.','Mini-example: start ?, add 2, land on 5. Backwards: 5 − 2 = 3. Undo means the opposite job!'],
+   prove:{ex:'Worked example: a number had 5 ADDED and landed on 12. Backwards: 12 − 5 = 7 — the start was 7. Check: 7 + 5 = 12 ✔.',q:'Now you try: a number had 3 TAKEN AWAY and landed on 6. What was the start?',opts:[['9 — undo taking away by adding: 6 + 3',1,'Undoing like a master! 9 − 3 = 6 ✔'],['3 — 6 − 3',0,'That REPEATS the take-away instead of undoing it. Backwards means opposite!'],['6 — it never changed',0,'It DID change — by 3. Undo it!']]}},
+  {power:'memory',label:'Clue 4 • The Fourth Lock: The Whole Story',scene:'🧩 🐦 ⭐ 🔢',q:'The last lock asks for the WHOLE story at once: the decoded word, the bell pattern’s next sound, and Ollie’s starting number. Which trio is right?',hard:true,
+   opts:[['BIRD • STAR • 9',1,'Every lock agrees! The gate is thinking about opening…'],['BIRD • BELL • 9',0,'The word and number are right — but the bells owed a STAR, not a third bell!'],['BRID • STAR • 11',0,'The sound is right, but the word was BIRD and the number was 9. Check locks 1 and 3!']],
+   hints:['One lock at a time: word? sound? number?','Say each answer out loud before choosing the trio.','Mini-example: a trio answer must win THREE checks, not just one.'],
+   prove:{ex:'Worked example: a gate asked for colour + shape + number. The trio "red • star • 4" only opened when ALL THREE matched the earlier clues.',q:'Now you try: earlier clues gave word=SKY, sound=DRUM, number=5. Which trio opens the gate?',opts:[['SKY • DRUM • 5',1,'All three matched — gate thinking!'],['SKY • DRUM • 6',0,'Two match, but the number was 5. Trios must match EVERY part!'],['SKY • BELL • 5',0,'The sound was DRUM, not bell. Check each part!']]}}
+ ],
+ twist:{text:'WAIT — a twist from Ollie! "Detective, one of my four locks is a DECOY — a pretend lock that opens nothing! Its key is painted gold… but it is made of PAPER!" He lifts the shiny decoy clean off the gate with one claw!',q:'What does the decoy lock teach us?',opts:[['Check every lock — the decoy needs no key at all, it simply lifts open!',1,'Ollie cackles with pride: "You CHECK before you struggle — true Puzzle Master!" One lock fewer to fear.'],['All four locks must be pretend too',0,'Only ONE lock is the decoy — the other three are real and already solved by our clues!'],['Push the whole gate down at once',0,'Gates are not for pushing down. Check, solve, open — in order!']]},
+ deduction:{q:'Detective, the FINAL moment! The gate swings wide. Which plan solved Ollie’s Revenge?',opts:[['Decode BIRD → ring bell-bell-STAR → lift the paper decoy → turn the number lock to 9',1,'CASE CRACKED — STAGE COMPLETE! Every power, every lock, one perfect plan. Ollie bows to the Puzzle Master! 🏆'],['Push every lock at the same time and hope',0,'Hope is not a plan! Each lock fell to its OWN clue.'],['Decode BRID → ring three bells → force the decoy lock',0,'BRID is not the word, three bells break the pattern, and the decoy never needed force.']]},
+ explain:{q:'Why was Ollie’s Revenge the hardest case of all?',opts:[['Every lock needed a DIFFERENT thinking power, and each answer unlocked the next step',1,'That is the Puzzle Master way — many powers, one chain of thinking!'],['Because the gate was the heaviest gate in the garden',0,'Heavy gates are for gardeners. The THINKING was the heavy part here!'],['Because there were the most pictures to look at',0,'Pictures alone do not make a case hard — the CHAIN of steps does!']]},
+ whatif:{q:'What if the Decoder Wheel had been lost on Revenge day?',opts:[['Then we would work out the picture letters from the other clues — slower, but detectives find a way',1,'Flexible thinking! Tools help, but the detective is the real tool.'],['Then the case could never be solved at all',0,'Detectives solved codes long before wheels! It would just take longer.'],['Then the pictures would read themselves aloud',0,'Pictures are silent, Detective — WE give them voices!']]}}
 ];
 </script>
 
@@ -1080,7 +1326,8 @@ const LS_KEY='brainlab_v1';
 const MAGTEXT={'c2_2':'🌿 A tiny NEEM LEAF is stuck inside this footprint!','c3_1':'🏷️ The tiny writing says: RAVI','c4_2':'✨ Tiny RED pencil shavings are sprinkled on the drawing book’s cover!','c5_3':'🧦 A tiny PINK thread is caught on the towel’s fold — the thread matches the lonely pink sock!','c6_3':'✨ A sparkly STAR sticker — the twin of the bookmark’s star — is stuck on the sofa cushion!','c7_3':'🐌 The trail is visible again here — and tiny fresh nibbles shine on the lettuce leaf right beside it!','c9_2':'🧩 A grey ZIGZAG pattern covers this piece’s back — the peacock puzzle’s own family pattern!','c10_2':'🔍 Three sizes of floury fingerprints ring the lid — BIG, medium and small!'};
 const NOTEBOOKTEXT={'s2c3_2':'📓 Your notebook says: the step pattern was 👣 👣 🔄 — step, step, TWIRL — repeating!','s2c7_2':'📓 Your notebook says: the TOP row pattern is 🍎 🍌 — apple, banana, taking turns!'};
 const TORCHTEXT={'s3c3_2':'🔦 In the torch beam under the shelf: a green DINOSAUR bookmark glitters inside the book left in the corner — and the card tucked inside it is signed with the letter R!','s3c7_2':'🔦 In the torch beam under the chest lid: a flat stone painted with a BLUE X — and a tiny arrow chiselled beside it points straight towards the BIG TREE roots!'};
-function freshState(){return {v:1,cap:null,baseline:null,solved:[],stars:0,stickers:[],kit:{glass:false,notebook:false,torch:false},nextReward:'A special family surprise!',powerUse:{see:0,pattern:0,clue:0,plan:0,memory:0},tricky:[],history:{},prog:null,baseProg:null,updatedAt:0};}
+const DECODERTEXT={'s4c3_1':'🎡 Click, whirr! The Decoder Wheel turns each picture into its letter: 🐝 = B, 🍦 = I, 🌹 = R — the strip begins B… I… R…','s4c10_0':'🎡 Click, whirr! The Decoder Wheel reads the gate strip: 🐝 = B, 🍦 = I, 🌹 = R, 🐶 = D — the pictures spell B-I-R-D!'};
+function freshState(){return {v:1,cap:null,baseline:null,solved:[],stars:0,stickers:[],kit:{glass:false,notebook:false,torch:false,decoder:false},nextReward:'A special family surprise!',powerUse:{see:0,pattern:0,clue:0,plan:0,memory:0},tricky:[],history:{},prog:null,baseProg:null,ownCases:[],ownProg:null,updatedAt:0};}
 let S=freshState();
 try{const raw=localStorage.getItem(LS_KEY); if(raw){const p=JSON.parse(raw); if(p&&p.v===1){const f=freshState(); Object.assign(f,p); f.powerUse=Object.assign(freshState().powerUse,p.powerUse||{}); f.kit=Object.assign(freshState().kit,p.kit||{}); S=f;}}}catch(e){}
 function persistLocal(){try{localStorage.setItem(LS_KEY,JSON.stringify(S));}catch(e){}}
@@ -1126,6 +1373,8 @@ function adoptCloudState(cs){
  merged.powerUse=Object.assign(freshState().powerUse,(cs&&cs.powerUse)||{});
  merged.kit=Object.assign(freshState().kit,(cs&&cs.kit)||{});
  if(!Array.isArray(merged.solved)) merged.solved=[];
+ if(!Array.isArray(merged.ownCases)) merged.ownCases=[];
+ if(merged.ownProg===undefined) merged.ownProg=null;
  Object.keys(merged).forEach(function(k){ S[k]=merged[k]; });
  persistLocal();
  const dEl=document.getElementById('scr-dash'), hEl=document.getElementById('scr-home');
@@ -1209,19 +1458,19 @@ function renderHome(){
  $('#statStars').textContent='⭐ '+S.stars; $('#statCases').textContent=S.solved.length; $('#statTricky').textContent=S.tricky.length;
  $('#nextRewardHome').textContent=S.nextReward;
  $('#powersRow').innerHTML=POWERS.map(p=>'<div class="pw"><div class="ic">'+p.ic+'</div><div class="nm">'+p.nm+'</div><div class="bar"><i style="width:'+powerFill(p.id)+'%"></i></div></div>').join('');
- const slots=[['🔍','Magnifying Glass',S.kit.glass,'Case 1'],['📓','Clue Notebook',!!S.kit.notebook,'Stage 2'],['🔦','Torch',!!S.kit.torch,'Stage 3'],['🧭','Decoder Wheel',false,'Stage 4'],['⭐','Thinker Badge',false,'Stage 5']];
- $('#statRank').textContent=S.solved.length>=20?'Clue Detective':S.solved.length>=10?'Pattern Hunter':'Rookie Detective';
+ const slots=[['🔍','Magnifying Glass',S.kit.glass,'Case 1'],['📓','Clue Notebook',!!S.kit.notebook,'Stage 2'],['🔦','Torch',!!S.kit.torch,'Stage 3'],['🧭','Decoder Wheel',!!S.kit.decoder,'Stage 4'],['⭐','Thinker Badge',false,'Stage 5']];
+ $('#statRank').textContent=S.solved.length>=30?'Puzzle Master':S.solved.length>=20?'Clue Detective':S.solved.length>=10?'Pattern Hunter':'Rookie Detective';
  $('#kitShelf').innerHTML=slots.map(s=>'<div class="slot'+(s[2]?' got':'')+'"><span class="ic">'+(s[2]?s[0]:'🔒')+'</span>'+s[1]+'<br><small>'+(s[2]?'Earned!':s[3])+'</small></div>').join('');
  const bb=$('#baseBtn');
  if(!S.baseline){ bb.textContent=S.baseProg?"🦉 Continue Ollie's Adventure!":"🦉 Start with Ollie's Adventure!"; bb.disabled=false; }
  else { bb.textContent='✔ Ollie\u2019s Adventure — Done!'; }
  let t='The Missing Cupcakes', sub='A brand-new mystery is waiting!', btn='Start Case →';
  if(!S.baseline){ t="Ollie's Adventure"; if(S.baseProg){ sub='Your adventure is saved right where you left it!'; btn='Continue Adventure →'; } else { sub='A short adventure before your first case!'; btn='Start Adventure →'; } }
- else if(S.prog&&S.prog.phase!=='done'){ const c=CASES.find(x=>x.id===S.prog.cid); t='Continue: '+c.title; sub='Your case is saved right where you left it!'; btn='Continue Case →'; }
- else { const nx=CASES.find(c=>!S.solved.includes(c.id)); if(nx){ t=nx.title; sub='Case '+nx.no+' of Stage '+(nx.stage||1)+' — '+PLACES[(nx.stage||1)-1].nm; } else { t='Stage 3 Complete — Library of Clues Cleared! 🎉'; sub='You solved EVERY case in the Village, the Garden AND the Library, Detective! The River & Mountain Puzzle Trail adventure (Stage 4) comes next in a future Brain Lab — replay any favourite from the Journey Map meanwhile!'; btn='Open Map →'; } }
+ else if(S.prog&&S.prog.phase!=='done'){ const c=findCaseById(S.prog.cid); t='Continue: '+(c?c.title:'Your Case'); sub='Your case is saved right where you left it!'; btn='Continue Case →'; }
+ else { const nx=CASES.find(c=>!S.solved.includes(c.id)); if(nx){ t=nx.title; sub='Case '+nx.no+' of Stage '+(nx.stage||1)+' — '+PLACES[(nx.stage||1)-1].nm; } else { t='Stage 4 Complete — Puzzle Trail Cleared! 🎉'; sub='You solved EVERY case in the Village, the Garden, the Library AND the Puzzle Trail, Detective! The Festival City adventure (Stage 5) comes next in a future Brain Lab — replay any favourite from the Journey Map meanwhile!'; btn='Open Map →'; } }
  $('#todayTitle').textContent=t; $('#todaySub').textContent=sub; $('#todayBtn').textContent=btn;
 }
-function todayAction(){ if(!S.baseline){startBaseline(); return;} if(S.prog&&S.prog.phase!=='done'){startCase(CASES.findIndex(c=>c.id===S.prog.cid)); return;} const nx=CASES.findIndex(c=>!S.solved.includes(c.id)); if(nx>=0) startCase(nx); else openMap(); }
+function todayAction(){ if(!S.baseline){startBaseline(); return;} if(S.prog&&S.prog.phase!=='done'){ const oc=(S.ownCases||[]).find(c=>c.id===S.prog.cid); if(oc){ startOwnCase(oc.id); return; } startCase(CASES.findIndex(c=>c.id===S.prog.cid)); return; } const nx=CASES.findIndex(c=>!S.solved.includes(c.id)); if(nx>=0) startCase(nx); else openMap(); }
 window.todayAction=todayAction;
 
 /* ============ MAP & ALBUM ============ */
@@ -1231,6 +1480,10 @@ function openMap(){
  $('#caseList').innerHTML=CASES.map((c,i)=>({c,i})).filter(x=>(x.c.stage||1)===1).map(x=>caseRow(x.c,x.i)).join('');
  $('#caseList2').innerHTML=CASES.map((c,i)=>({c,i})).filter(x=>(x.c.stage||1)===2).map(x=>caseRow(x.c,x.i)).join('');
  $('#caseList3').innerHTML=CASES.map((c,i)=>({c,i})).filter(x=>(x.c.stage||1)===3).map(x=>caseRow(x.c,x.i)).join('');
+ $('#caseList4').innerHTML=CASES.map((c,i)=>({c,i})).filter(x=>(x.c.stage||1)===4).map(x=>caseRow(x.c,x.i)).join('');
+ const own=S.ownCases||[];
+ $('#ownSecttl').style.display=own.length?'':'none';
+ $('#caseListOwn').innerHTML=own.map(oc=>'<button class="caseRow done" onclick="startOwnCase(\''+oc.id+'\')"><span class="no">✏️</span><span class="tt">'+esc(oc.title)+'</span><span class="st">Made by Sreshta ✏️</span></button>').join('');
 
  show('scr-map');
 }
@@ -1285,13 +1538,18 @@ window.baseAnswer=baseAnswer;
 /* ============ CASE ENGINE ============ */
 function caseUnlocked(i){ return !!S.baseline && (i===0 || S.solved.includes(CASES[i-1].id)); }
 window.caseUnlocked=caseUnlocked;
-function curCase(){ return CASES.find(c=>c.id===S.prog.cid); }
+function findCaseById(id){ return CASES.find(c=>c.id===id)||(S.ownCases||[]).find(c=>c.id===id)||null; }
+function curCase(){ return findCaseById(S.prog.cid); }
+function freshProg(cid){ return {cid:cid,phase:'story',clue:0,nb:[],hints:{},counted:{},magShown:{},nbShown:{},torchShown:{},decodeShown:{},thought:-1,proveFor:-1,twistDone:false,twistTried:false,twistOk:false,dedTried:false,expTried:false,expOk:false,tellVal:null,awardedStars:0}; }
 function startCase(i){
  const c=CASES[i]; if(!caseUnlocked(i)) return false;
- if(!(S.prog&&S.prog.cid===c.id)){ S.prog={cid:c.id,phase:'story',clue:0,nb:[],hints:{},counted:{},magShown:{},nbShown:{},torchShown:{},thought:-1,proveFor:-1,twistDone:false,twistTried:false,twistOk:false,dedTried:false,expTried:false,expOk:false,tellVal:null,awardedStars:0}; save(); }
+ if(c.type==='create'){ openCreator(); return true; }
+ if(!(S.prog&&S.prog.cid===c.id)){ S.prog=freshProg(c.id); save(); }
  show('scr-case'); renderCase(); return true;
 }
 window.startCase=startCase;
+function startOwnCase(id){ const c=(S.ownCases||[]).find(x=>x.id===id); if(!c) return false; if(!(S.prog&&S.prog.cid===c.id)){ S.prog=freshProg(c.id); save(); } show('scr-case'); renderCase(); return true; }
+window.startOwnCase=startOwnCase;
 function leaveCase(){ openMap(); }
 window.leaveCase=leaveCase;
 function caseBegin(){ S.prog.phase='clue'; save(); renderCase(); }
@@ -1320,11 +1578,17 @@ function renderCase(){
  } else if(p.phase==='tell'){
    h='<div class="card" style="text-align:center"><div style="font-size:42px">🗣️🦉</div><div class="baloo" style="font-size:20px">Tell Ollie Why!</div><p style="font-weight:700">Say it aloud, Detective: <i>"I think it is… because…"</i><br>Then a grown-up taps the button that matches how you did:</p><button class="btn" onclick="tellTap(\'well\')">⭐ Explained Well</button><button class="btn yellow" onclick="tellTap(\'help\')">🤝 Needed Help</button></div>';
  } else if(p.phase==='done'){
-   h='<div class="stampBox"><div class="stamp">CASE SOLVED ✓</div></div>'
+   if(c.own){ h='<div class="stampBox"><div class="stamp">CASE SOLVED ✓</div></div>'
+    +'<div class="ollieRow"><div class="ollieWrap">'+ollieSVG()+'</div><div class="bubble">You played a case that Detective Sreshta MADE herself! Creators make the very best detectives!</div></div>'
+    +'<div class="card" style="text-align:center"><div class="baloo" style="font-size:19px">✏️ Made by Detective Sreshta</div><div style="font-weight:700">This case was built by Sreshta in Build a Case — playing it earns applause, not stars!</div></div>'
+    +'<div class="qbox"><div class="qq">🤔 What If? '+esc(c.whatif.q)+'</div>'+optsHTML('whatifAnswer',c.whatif.opts)+fbHTML()+'</div>'
+    +'<button class="btn" onclick="openMap()">🗺️ Back to the Map</button><button class="btn ghost" onclick="goHome()">🏠 Headquarters</button>'; }
+   else h='<div class="stampBox"><div class="stamp">CASE SOLVED ✓</div></div>'
     +'<div class="ollieRow"><div class="ollieWrap">'+ollieSVG()+'</div><div class="bubble">You did it, Detective Sreshta! You used '+esc(c.powersUsed)+' today!</div></div>'
     +'<div class="card" style="text-align:center"><div class="baloo" style="font-size:19px">⭐ +'+p.awardedStars+' Detective Stars</div><div style="font-weight:700">Sticker earned for your Album: '+c.sticker+' '+esc(c.title)+'</div>'
     +(c.id==='c1'?'<div style="font-weight:800;color:var(--teal);margin-top:6px">🔍 You earned the MAGNIFYING GLASS for your Detective Kit!</div>':'')
     +(c.id==='s3c1'?'<div style="font-weight:800;color:var(--teal);margin-top:6px">🔦 You earned the TORCH for your Detective Kit!</div>':'')
+    +(c.id==='s4c1'?'<div style="font-weight:800;color:var(--teal);margin-top:6px">🎡 You earned the DECODER WHEEL for your Detective Kit!</div>':'')
     +'</div>'
     +'<div class="qbox"><div class="qq">🤔 What If? '+esc(c.whatif.q)+'</div>'+optsHTML('whatifAnswer',c.whatif.opts)+fbHTML()+'</div>'
     +'<button class="btn" onclick="openMap()">🗺️ Back to the Map</button><button class="btn ghost" onclick="goHome()">🏠 Headquarters</button>';
@@ -1356,6 +1620,11 @@ function renderClue(c,p){
    h+='<div class="magZone"><div class="tiny'+(seen?' seen':'')+'">'+(seen?TORCHTEXT[key]:'• • • it is too dark to see in here — something is hiding in the shadows • • •')+'</div>'
      +(seen?'':'<button class="btn yellow" style="margin-top:8px" onclick="useTorch()">🔦 Shine Your Torch</button>')+'</div>';
  }
+ if(cl.decode){
+   const key=c.id+'_'+ix, seen=!!(p.decodeShown&&p.decodeShown[ix]);
+   h+='<div class="magZone"><div class="tiny'+(seen?' seen':'')+'">'+(seen?DECODERTEXT[key]:'• • • a secret code is written here — only your Decoder Wheel can read it • • •')+'</div>'
+     +(seen?'':'<button class="btn yellow" style="margin-top:8px" onclick="useDecoder()">🎡 Turn Your Decoder Wheel</button>')+'</div>';
+ }
  if(cl.hard&&p.thought!==ix){
    h+='<div class="think">🤔 Think First, Detective…<div class="dots">• • •</div><div style="font-size:14px">Let your brain work before the answers appear!</div></div>';
  } else {
@@ -1374,12 +1643,14 @@ function useNotebook(){ const p=S.prog; if(!p.nbShown) p.nbShown={}; p.nbShown[p
 window.useNotebook=useNotebook;
 function useTorch(){ const p=S.prog; if(!p.torchShown) p.torchShown={}; p.torchShown[p.clue]=true; save(); renderCase(); }
 window.useTorch=useTorch;
-function useHint(){ const p=S.prog,c=curCase(),ix=p.clue; const cur=p.hints[ix]||0; if(cur>=3) return; p.hints[ix]=cur+1; if(p.hints[ix]===3) addTricky(c,c.clues[ix]); save(); renderCase(); }
+function useDecoder(){ const p=S.prog; if(!p.decodeShown) p.decodeShown={}; p.decodeShown[p.clue]=true; save(); renderCase(); }
+window.useDecoder=useDecoder;
+function useHint(){ const p=S.prog,c=curCase(),ix=p.clue; const cur=p.hints[ix]||0; if(cur>=3) return; p.hints[ix]=cur+1; if(p.hints[ix]===3&&!c.own) addTricky(c,c.clues[ix]); save(); renderCase(); }
 window.useHint=useHint;
 function addTricky(c,cl){ if(!S.tricky.some(t=>t.cid===c.id&&t.clue===cl.label)){ S.tricky.push({cid:c.id,case:c.title,clue:cl.label,power:cl.power,when:'First try: needed full hints'}); } }
 function solveClue(){
  const p=S.prog,c=curCase(),ix=p.clue,cl=c.clues[ix];
- if(!p.counted[ix]){ p.counted[ix]=1; S.powerUse[cl.power]=(S.powerUse[cl.power]||0)+1; }
+ if(!p.counted[ix]){ p.counted[ix]=1; if(!c.own) S.powerUse[cl.power]=(S.powerUse[cl.power]||0)+1; }
  if(!p.nb.includes(cl.label)) p.nb.push(cl.label);
  p.proveFor=-1; p.clue++;
  if(p.clue===2&&!p.twistDone) p.phase='twist'; else if(p.clue>=4) p.phase='ded'; else p.phase='clue';
@@ -1390,6 +1661,7 @@ function clueAnswer(i){
  if(cl.mag&&!p.magShown[ix]){ setFb(false,'Something tiny is hiding in this clue! Use your Magnifying Glass first, Detective.'); return; }
  if(cl.nb&&!(p.nbShown&&p.nbShown[ix])){ setFb(false,'This clue needs a pattern from earlier in the case! Open your Clue Notebook first, Detective.'); return; }
  if(cl.torch&&!(p.torchShown&&p.torchShown[ix])){ setFb(false,'It is too dark to see this clue properly! Shine your Torch first, Detective.'); return; }
+ if(cl.decode&&!(p.decodeShown&&p.decodeShown[ix])){ setFb(false,'This clue is written in secret code! Turn your Decoder Wheel first, Detective.'); return; }
  const o=cl.opts[i];
  if(o[1]===1){ solveClue(); }
  else {
@@ -1421,6 +1693,7 @@ function expAnswer(i){
 window.expAnswer=expAnswer;
 function tellTap(v){
  const p=S.prog,c=curCase(); p.tellVal=v;
+ if(c.own){ p.awardedStars=0; p.phase='done'; save(); renderCase(); return; }
  if(!S.solved.includes(c.id)){
    const totalHints=Object.values(p.hints).reduce((a,b)=>a+b,0);
    const proveUsed=Object.keys(p.counted).length>0 && S.tricky.some(t=>t.cid===c.id);
@@ -1429,6 +1702,7 @@ function tellTap(v){
    if(c.id==='c1') S.kit.glass=true;
    if(c.id==='s2c1') S.kit.notebook=true;
    if(c.id==='s3c1') S.kit.torch=true;
+   if(c.id==='s4c1') S.kit.decoder=true;
    S.history[c.id]={hints:totalHints,twist:p.twistOk,explain:p.expOk,tell:v,stars:stars};
  } else { p.awardedStars=0; }
  p.phase='done'; save(); renderCase();
@@ -1440,13 +1714,153 @@ function whatifAnswer(i){
 }
 window.whatifAnswer=whatifAnswer;
 
+/* ============ BUILD A CASE (CREATOR) ============ */
+const CREATE_BANKS={
+ items:[
+  {name:'Golden Mango',icon:'🥭',home:'the fruit bowl on the table',homeScene:'🍽️ 🥭 ✨'},
+  {name:'Blue Kite',icon:'🪁',home:'its hook by the door',homeScene:'🚪 🪁 ✨'},
+  {name:'Story Book',icon:'📖',home:'the little bookshelf',homeScene:'📚 📖 ✨'},
+  {name:'Teddy',icon:'🧸',home:'the cosy bed',homeScene:'🛏️ 🧸 ✨'}
+ ],
+ takers:[
+  {name:'Coco the puppy',icon:'🐶',trail:'muddy paw prints',sound:'happy barking and a jingling collar',dropped:'a trail of biscuit crumbs',trailScene:'🐾 🐾 🐾',soundScene:'🔔 🐶 🔊',dropScene:'🍪 🍪 🍪'},
+  {name:'A cheeky monkey',icon:'🐵',trail:'banana-skin slips and hand prints',sound:'chattering and giggling in the branches',dropped:'banana peels',trailScene:'🍌 ✋ 🍌',soundScene:'🌳 🐵 🔊',dropScene:'🍌 🍌 🍌'},
+  {name:'The wind',icon:'🌬️',trail:'a swirl of dry leaves',sound:'a whooshing whistle round the corner',dropped:'a swirl of dust and petals',trailScene:'🍂 🌀 🍂',soundScene:'🌬️ 🎵 🌬️',dropScene:'🌸 🌀 🌸'},
+  {name:'Dev, the little brother',icon:'🧒',trail:'tiny shoe prints',sound:'a giggle behind the door',dropped:'a trail of colourful marbles',trailScene:'👟 👟 👟',soundScene:'🚪 🧒 🔊',dropScene:'🔴 🔵 🟢'}
+ ],
+ wheres:[
+  {name:'under the mango tree',icon:'🌳',scene:'🌳 🌤️',peek:'a corner peeks out from between the mango leaves'},
+  {name:'inside the toy box',icon:'🧺',scene:'🧺 🧸',peek:'a corner peeks out from under the toy box lid'},
+  {name:'behind the sofa cushions',icon:'🛋️',scene:'🛋️ 🛋️',peek:'a corner peeks out from between the sofa cushions'}
+ ],
+ twists:[
+  {key:'cat',label:'The garden cat looked suspicious',text:'On the way, the garden cat sits VERY close to the scene, washing her paws and trying to look innocent…',q:'But the cat was sound asleep the whole morning — Amma watched her snoozing! Could the sleeping cat be the playful taker?',right:'No — she slept all morning; the taker left busy, wide-awake clues!',d1:'Yes — cats are sneaky, so it must be her',d2:'She carried it away in her sleep'},
+  {key:'drawing',label:'A second one appeared… a drawing!',text:'Someone cries: "Look — a SECOND one, sitting on the chair!" But it is flat… and made of crayon lines…',q:'The "second one" is only a drawing in a colouring book. Is there a second REAL missing thing out there?',right:'No — a drawing is flat paper; the real one is still missing',d1:'Yes — a drawing counts as the real thing',d2:'The drawing proves two real ones are missing'},
+  {key:'oldprints',label:'Old dusty prints by the step',text:'By the step there are prints — but they are DRY and DUSTY, and covered with a tiny cobweb…',q:'Do these dry, dusty prints belong to TODAY’s case?',right:'No — dry, dusty prints are OLD; today’s clues are fresh',d1:'Yes — all prints belong to today’s case',d2:'The taker dusted them on purpose this morning'}
+ ]
+};
+const CREATE_HINTS={
+ who:['What did the clue actually SHOW you? Follow only that.','Cross out every taker the evidence cannot match.','Mini-example: muddy paw prints can only be left by paws!'],
+ what:['What is the clue about — an empty place, a watcher, or a picture?','Which missing thing does the clue point at?','Mini-example: an empty hook means the thing that HUNG there is gone.'],
+ where:['Read the clue’s words slowly — which place do they name?','Only ONE place matches the clue’s picture and words.','Mini-example: rustling inside a box means look INSIDE the box first.'],
+ check:['Count the clues in order: 1, 2, 3 — what job did each one do?','WHO, WHAT, WHERE — match the number to the job.','Mini-example: if Clue 2 told the WHAT, its number is 2.']
+};
+const CREATE_PROVE={
+ who:{ex:'Worked example: a trail of banana peels points to whoever carries bananas around.',q:'Quick check: you find banana peels by the door. Who was most likely here?',opts:[['A cheeky monkey',1,'Evidence matched — creator thinking!'],['The wind',0,'Wind swirls leaves and petals — not banana peels.'],['Coco the puppy',0,'Coco drops biscuit crumbs, not peels.']]},
+ what:{ex:'Worked example: the fruit bowl is missing its big shining orange — so the ORANGE is the missing thing.',q:'Quick check: your cap hook is empty and your cap is nowhere to be seen. What is missing?',opts:[['My cap',1,'The empty home names the missing thing!'],['The hook',0,'The hook is still there — what HUNG on it is missing.'],['A banana',0,'Nothing banana-y here — the empty hook talks about the cap.']]},
+ where:{ex:'Worked example: muddy prints stop right at the toy box — so detectives look INSIDE the toy box first.',q:'Quick check: a crumb trail ends at the sofa. Where do you look first?',opts:[['Behind the sofa cushions',1,'Trails end where the treasure hides!'],['In the fruit bowl',0,'The trail never went there — follow where it ENDS.'],['Under the mango tree',0,'No crumbs lead there. Trails are maps!']]},
+ check:{ex:'Worked example: in our cases, Clue 1 tells WHO, Clue 2 tells WHAT, Clue 3 tells WHERE.',q:'Quick check: in that order, which clue number tells us WHAT?',opts:[['Clue 2',1,'Number matched to job — perfect!'],['Clue 1',0,'Clue 1 is the WHO clue. Count again!'],['Clue 3',0,'Clue 3 is the WHERE clue. WHAT sits in the middle!']]}
+};
+function rotC(arr,i,k){ return arr[(i+k)%arr.length]; }
+function mkWhoClue(taker,ix,style){
+ const o1=rotC(CREATE_BANKS.takers,ix,1), o2=rotC(CREATE_BANKS.takers,ix,2);
+ let scene,q;
+ if(style==='trail'){ scene=taker.trailScene; q='On the floor is a trail: '+taker.trail+'. Whose trail is this?'; }
+ else if(style==='sound'){ scene=taker.soundScene; q='From the garden comes a sound: '+taker.sound+'. Who is making that sound?'; }
+ else { scene=taker.dropScene; q='The taker dropped something on the way: '+taker.dropped+'. Who dropped it?'; }
+ return {power:'clue',label:'Clue 1 • Who Took It?',scene:scene,q:q,hard:false,
+ opts:[[taker.name,1,'That is who the evidence names — every sign matches!'],[o1.name,0,o1.name+' leaves different signs — this evidence does not match.'],[o2.name,0,o2.name+' leaves different signs — this evidence does not match.']],
+ hints:CREATE_HINTS.who,prove:CREATE_PROVE.who};
+}
+function mkWhatClue(item,ix,style){
+ const o1=rotC(CREATE_BANKS.items,ix,1), o2=rotC(CREATE_BANKS.items,ix,2);
+ let scene,q;
+ if(style==='empty'){ scene='🏠 ❓'; q='Back at home, one place is EMPTY: '+item.home+' — nothing is there! What is missing?'; }
+ else if(style==='witness'){ scene='🐦 👀'; q='A little bird chirps: "I saw it carried away — the '+item.name+'!" What is missing?'; }
+ else { scene='📸 🏠'; q='In this morning’s photo, the '+item.name+' sits at '+item.home+' — but now it is gone. What is missing?'; }
+ return {power:'clue',label:'Clue 2 • What Is Missing?',scene:scene,q:q,hard:false,
+ opts:[[item.name,1,'Clue 2 solved — now we know WHAT to hunt for!'],[o1.name,0,'The '+o1.name+' is safe at home. This clue is about a different thing.'],[o2.name,0,'The '+o2.name+' is safe at home. Follow THIS clue only!']],
+ hints:CREATE_HINTS.what,prove:CREATE_PROVE.what};
+}
+function mkWhereClue(where,ix,style){
+ const o1=rotC(CREATE_BANKS.wheres,ix,1), o2=rotC(CREATE_BANKS.wheres,ix,2);
+ let q;
+ if(style==='peek'){ q='Look carefully: '+where.peek+'. Where is it hidden?'; }
+ else if(style==='rustle'){ q='Shhh… listen! A soft rustling comes from the place in the picture. Where is it hidden?'; }
+ else { q='The trail of clues ENDS at the place in the picture. Where does the trail lead?'; }
+ return {power:'clue',label:'Clue 3 • Where Is It Hidden?',scene:where.scene+' '+where.icon,q:q,hard:false,
+ opts:[[where.name,1,'Clue 3 solved — the family knows where to search!'],[o1.name,0,'The clue does not point there. Look at its picture and words again!'],[o2.name,0,'That place is not in this clue at all. Follow the picture!']],
+ hints:CREATE_HINTS.where,prove:CREATE_PROVE.where};
+}
+function assembleOwnCase(pk){
+ const B=CREATE_BANKS, item=B.items[pk.item], taker=B.takers[pk.taker], where=B.wheres[pk.where], tw=B.twists[pk.twist];
+ const oTaker=rotC(B.takers,pk.taker,1), oWhere=rotC(B.wheres,pk.where,1);
+ const clue4={power:'memory',label:'Clue 4 • The Detective Check',scene:'🔢 🦉 ✅',q:'Let us check our detective work! Which clue told us WHERE the '+item.name+' is hidden?',hard:false,
+ opts:[['Clue 3 — the hiding-place clue',1,'Checked and correct! WHO, WHAT, WHERE — in that order.'],['Clue 1 — the taker clue',0,'Clue 1 told us WHO. WHERE has its own clue — count on!'],['Clue 2 — the missing-thing clue',0,'Clue 2 told us WHAT is missing. WHERE is a different clue!']],
+ hints:CREATE_HINTS.check,prove:CREATE_PROVE.check};
+ return { id:'own1',own:true,no:'✏️',title:'The Missing '+item.name,sticker:'✏️',stage:4,
+  powersUsed:'Use the Clues + Plan & Solve + Remember & Focus',powers:['clue','plan','memory'],
+  story:[
+   {sc:item.homeScene,sp:'This morning, the '+item.name+' '+item.icon+' sat happily at '+item.home+'.'},
+   {sc:'😲 ❓ '+item.icon,sp:'But after breakfast — GONE! The '+item.name+' has vanished, and a trail of clues is waiting…'},
+   {sc:'✏️ 🦉 ✨',sp:'And here is the best part: this case was built by Detective Sreshta herself! Ollie is SO proud. Family — can you solve it?'}
+  ],
+  clues:[mkWhoClue(taker,pk.taker,pk.whoStyle),mkWhatClue(item,pk.item,pk.whatStyle),mkWhereClue(where,pk.where,pk.whereStyle),clue4],
+  twist:{text:'WAIT — a twist in Sreshta’s case! '+tw.text,q:tw.q,opts:[[tw.right,1,'Twist handled like a true creator-detective!'],[tw.d1,0,'Look at the twist facts once more — slow and careful!'],[tw.d2,0,'The facts say otherwise. Trust the facts!']]},
+  deduction:{q:'Family, the big moment! Who took the '+item.name+', and where is it hidden?',opts:[[taker.name+' — it is '+where.name,1,'CASE CRACKED! The creator outsmarted everyone — all three clues agree!'],[oTaker.name+' — it is '+where.name,0,'The hiding place is right, but the clues named a different taker. Match Clue 1!'],[taker.name+' — it is '+oWhere.name,0,'The taker is right, but that hiding place belongs to a different story. Check Clue 3!']]},
+  explain:{q:'Why are we so sure it was '+taker.name+'?',opts:[['Because ALL the clues point the same way — the signs match the taker',1,'Exactly — one clue is a hint; three agreeing clues are proof!'],['Because '+taker.name+' looks the guiltiest',0,'Looking is not evidence! The CLUES did the pointing.'],['Because Ollie whispered the answer',0,'Ollie never whispers answers — detectives earn them!']]},
+  whatif:{q:'What if Clue 3 had pointed to a DIFFERENT hiding place?',opts:[['Then the family would search THAT place first — clues lead, we follow',1,'Flexible creator thinking! Change the clue, change the search.'],['Then the case would have two answers at once',0,'A good case has ONE answer — the clues decide it!'],['Then nobody should search anywhere',0,'Detectives always search — they just follow the clues they have!']]} };
+}
+const CREATE_STEPS=[
+ {key:'item',title:'✏️ Build a Case — Step 1 of 7',q:'WHAT has gone missing in your case?',cards:()=>CREATE_BANKS.items.map((it,i)=>({ix:i,icon:it.icon,label:it.name,sub:'Lives at '+it.home}))},
+ {key:'taker',title:'✏️ Build a Case — Step 2 of 7',q:'WHO is the playful taker? (Not naughty at all — just playful!)',cards:()=>CREATE_BANKS.takers.map((t,i)=>({ix:i,icon:t.icon,label:t.name,sub:'Leaves '+t.trail}))},
+ {key:'where',title:'✏️ Build a Case — Step 3 of 7',q:'WHERE did the taker hide it?',cards:()=>CREATE_BANKS.wheres.map((w,i)=>({ix:i,icon:w.icon,label:w.name,sub:'A sneaky hiding place'}))},
+ {key:'whoStyle',title:'✏️ Build a Case — Step 4 of 7',q:'CLUE 1 will tell WHO. How does Clue 1 give it away?',cards:()=>[{ix:'trail',icon:'👣',label:'A trail on the floor',sub:'Prints and marks the taker left behind'},{ix:'sound',icon:'🔊',label:'A sound from the garden',sub:'A noise only that taker makes'},{ix:'dropped',icon:'🍪',label:'Something the taker dropped',sub:'A trail of dropped things'}]},
+ {key:'whatStyle',title:'✏️ Build a Case — Step 5 of 7',q:'CLUE 2 will tell WHAT is missing. How?',cards:()=>[{ix:'empty',icon:'🏠',label:'The empty home',sub:'Its own special place sits empty'},{ix:'witness',icon:'🐦',label:'A little bird saw it',sub:'A watcher tells what was carried away'},{ix:'photo',icon:'📸',label:'A morning photo',sub:'The photo shows it there this morning'}]},
+ {key:'whereStyle',title:'✏️ Build a Case — Step 6 of 7',q:'CLUE 3 will tell WHERE. How?',cards:()=>[{ix:'peek',icon:'👀',label:'A corner peeks out',sub:'A tiny corner gives it away'},{ix:'rustle',icon:'👂',label:'A rustling sound',sub:'Something is moving in there'},{ix:'trailend',icon:'🧭',label:'The trail ends there',sub:'All the clues stop at that place'}]},
+ {key:'twist',title:'✏️ Build a Case — Step 7 of 7',q:'Every great case has a TWIST! Pick yours:',cards:()=>CREATE_BANKS.twists.map((t,i)=>({ix:i,icon:'🔀',label:t.label,sub:'A surprise waiting in the middle'}))}
+];
+function openCreator(){ if(!S.ownProg) S.ownProg={step:0,picks:{}}; save(); show('scr-create'); renderCreator(); }
+function leaveCreator(){ save(); openMap(); }
+window.leaveCreator=leaveCreator;
+function renderCreator(){
+ const op=S.ownProg, el=$('#createBody'); if(!op||!el){ return; }
+ let h='<div class="ollieRow"><div class="ollieWrap">'+ollieSVG()+'</div><div class="bubble">A case built by YOU, Detective! Choose one card at each step — Ollie will stitch your case together.</div></div>';
+ if(S.solved.includes('s4c9')) h+='<div class="hintBox show">✏️ You have built a case before — building again makes a NEW version of it. Your builder star stays yours!</div>';
+ if(op.step<CREATE_STEPS.length){
+  const st=CREATE_STEPS[op.step];
+  h+='<div class="baloo" style="font-size:20px;margin:8px 0 2px">'+st.title+'</div><div class="qq">'+esc(st.q)+'</div>';
+  h+=st.cards().map(cd=>'<button class="opt" style="text-align:left" onclick=\'creatorPick('+JSON.stringify(cd.ix)+')\'><span style="font-size:22px">'+cd.icon+'</span> <b>'+esc(cd.label)+'</b><br><small>'+esc(cd.sub)+'</small></button>').join('');
+  if(op.step>0) h+='<button class="btn ghost" onclick="creatorBack()">← Step Back</button>';
+ } else {
+  const oc=assembleOwnCase(op.picks);
+  h+='<div class="stampBox"><div class="stamp">🎉 YOUR CASE IS READY!</div></div>'
+   +'<div class="card" style="text-align:center"><div style="font-size:44px">'+oc.sticker+'</div><div class="baloo" style="font-size:21px">'+esc(oc.title)+'</div><div style="font-weight:700">Built by Detective Sreshta — it now lives on your Journey Map, in "Cases by Detective Sreshta"!</div></div>'
+   +'<button class="btn" onclick="creatorPlay()">▶️ Play My Case!</button><button class="btn yellow" onclick="creatorAgain()">✏️ Make Another</button><button class="btn ghost" onclick="openMap()">🗺️ Back to the Map</button>';
+ }
+ el.innerHTML=h;
+}
+function finishCreatorBuild(){
+ const oc=assembleOwnCase(S.ownProg.picks);
+ if(!Array.isArray(S.ownCases)) S.ownCases=[];
+ S.ownCases=[oc];
+ if(!S.solved.includes('s4c9')){
+   S.stars+=3; S.solved.push('s4c9'); S.stickers.push('s4c9');
+   S.history['s4c9']={hints:0,twist:true,explain:true,tell:'well',stars:3,note:'Created her own case'};
+ }
+ S.ownProg.step=CREATE_STEPS.length;
+}
+function creatorPick(v){
+ const op=S.ownProg; if(!op) return; const st=CREATE_STEPS[op.step]; if(!st) return;
+ op.picks[st.key]=v; op.step++;
+ if(op.step>=CREATE_STEPS.length) finishCreatorBuild();
+ save(); renderCreator();
+}
+window.creatorPick=creatorPick;
+function creatorBack(){ const op=S.ownProg; if(op&&op.step>0&&op.step<CREATE_STEPS.length){ op.step--; save(); renderCreator(); } }
+window.creatorBack=creatorBack;
+function creatorPlay(){ save(); startOwnCase('own1'); }
+window.creatorPlay=creatorPlay;
+function creatorAgain(){ S.ownProg={step:0,picks:{}}; save(); renderCreator(); }
+window.creatorAgain=creatorAgain;
+
 /* ============ PARENT DASHBOARD ============ */
 function lvlFor(pw){ const u=S.powerUse[pw]||0; return u>=3?'Strong':u>=1?'Growing':'Just Started'; }
 function renderDash(){
- const rank=S.solved.length>=20?'Clue Detective (Stage 3)':S.solved.length>=10?'Pattern Hunter (Stage 2)':S.solved.length>=3?'Rookie Detective (Stage 1)':'Rookie Detective';
+ const rank=S.solved.length>=30?'Puzzle Master (Stage 4)':S.solved.length>=20?'Clue Detective (Stage 3)':S.solved.length>=10?'Pattern Hunter (Stage 2)':S.solved.length>=3?'Rookie Detective (Stage 1)':'Rookie Detective';
  const stN=n=>S.solved.filter(id=>{const cc=CASES.find(x=>x.id===id);return cc&&(cc.stage||1)===n;}).length;
  $('#dash-ov').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Overview</h3><table>'
-  +'<tr><th>Cases solved</th><td>'+S.solved.length+' of '+CASES.length+' — Stage 1: '+stN(1)+'/10 • Stage 2: '+stN(2)+'/10 • Stage 3: '+stN(3)+'/10</td></tr>'
+  +'<tr><th>Cases solved</th><td>'+S.solved.length+' of '+CASES.length+' — Stage 1: '+stN(1)+'/10 • Stage 2: '+stN(2)+'/10 • Stage 3: '+stN(3)+'/10 • Stage 4: '+stN(4)+'/10</td></tr>'
   +'<tr><th>Rank</th><td>'+rank+'</td></tr>'
   +'<tr><th>Detective Stars</th><td>⭐ '+S.stars+'</td></tr>'
   +'<tr><th>Cap colour</th><td>'+(S.cap||'not chosen yet')+'</td></tr>'
@@ -1456,12 +1870,13 @@ function renderDash(){
  $('#dash-prof').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Thinking Profile</h3><table><tr><th>Power</th><th>Adventure start</th><th>Now</th></tr>'
   +POWERS.map(p=>{const b=S.baseline?(S.baseline[p.id]?'Solved alone':'Needed story help'):'—'; return '<tr><td>'+p.ic+' '+p.nm+'</td><td>'+b+'</td><td>'+(S.baseline?lvlFor(p.id):'—')+'</td></tr>';}).join('')+'</table><p style="font-weight:700;font-size:12.5px">Levels grow as she uses each power inside cases. The Adventure start is her Day-1 baseline and is never reset.</p></div>';
  const hs=Object.keys(S.history);
- $('#dash-hist').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Case History</h3>'+(hs.length?'<table><tr><th>Case</th><th>Hints</th><th>Twist 1st try</th><th>Explain Why</th><th>Tell Ollie Why</th><th>Stars</th></tr>'+hs.map(id=>{const c=CASES.find(x=>x.id===id),hh=S.history[id]; return '<tr><td>'+esc(c.title)+'</td><td>'+hh.hints+'</td><td>'+(hh.twist?'Yes':'With help')+'</td><td>'+(hh.explain?'Correct 1st try':'With tries')+'</td><td>'+(hh.tell==='well'?'Explained Well':'Needed Help')+'</td><td>⭐ '+hh.stars+'</td></tr>';}).join('')+'</table>':'<p style="font-weight:700">No cases completed yet.</p>')+'</div>';
+ $('#dash-hist').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Case History</h3>'+(hs.length?'<table><tr><th>Case</th><th>Hints</th><th>Twist 1st try</th><th>Explain Why</th><th>Tell Ollie Why</th><th>Stars</th></tr>'+hs.map(id=>{const c=CASES.find(x=>x.id===id),hh=S.history[id]; return '<tr><td>'+esc(c.title)+(hh.note?'<br><small>'+esc(hh.note)+'</small>':'')+'</td><td>'+hh.hints+'</td><td>'+(hh.twist?'Yes':'With help')+'</td><td>'+(hh.explain?'Correct 1st try':'With tries')+'</td><td>'+(hh.tell==='well'?'Explained Well':'Needed Help')+'</td><td>⭐ '+hh.stars+'</td></tr>';}).join('')+'</table>':'<p style="font-weight:700">No cases completed yet.</p>')+'</div>';
  $('#dash-tricky').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Tricky Bank</h3>'+(S.tricky.length?'<table><tr><th>Case</th><th>Clue</th><th>Power</th><th>Note</th></tr>'+S.tricky.map(t=>'<tr><td>'+esc(t.case)+'</td><td>'+esc(t.clue)+'</td><td>'+t.power+'</td><td>'+esc(t.when)+' → revisit in 3 and 7 days</td></tr>').join('')+'</table>':'<p style="font-weight:700">Nothing in the Tricky Bank yet. Clues that need all 3 hints land here.</p>')+'</div>';
  $('#dash-ctrl').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Controls</h3><label style="font-weight:800">Next Reward (shown on her home)</label><input type="text" id="rewardInput" value="'+esc(S.nextReward)+'"><button class="btn" onclick="saveReward()">Save Reward</button><hr style="border:none;border-top:1px solid #e3f2f4;margin:14px 0"><div style="font-weight:800;margin-bottom:6px">Reset progress</div><p style="font-weight:700;font-size:13px">Clears cases, stars, stickers, kit and tricky bank — on this device and in the synced family record, so the reset clears the record on all devices too. Her Baseline Adventure result and cap choice are kept, always.</p><button class="btn coral" id="resetBtn" onclick="resetTap()">Reset Progress</button></div>';
 }
 function dashGo(name){ ['ov','prof','hist','tricky','ctrl'].forEach(n=>$('#dash-'+n).classList.toggle('on',n===name)); renderDash(); ['ov','prof','hist','tricky','ctrl'].forEach(n=>$('#dash-'+n).classList.toggle('on',n===name)); pullCloud('dash'); }
 window.dashGo=dashGo; window.renderDash=renderDash;
+window.openCreator=openCreator; window.renderCreator=renderCreator; window.assembleOwnCase=assembleOwnCase; window.findCaseById=findCaseById; window.CREATE_BANKS=CREATE_BANKS; window.CREATE_STEPS=CREATE_STEPS;
 function saveReward(){ const v=$('#rewardInput').value.trim(); if(v){ S.nextReward=v; save(); } renderDash(); dashGo('ctrl'); }
 window.saveReward=saveReward;
 let resetArm=false;
