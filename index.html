@@ -12,6 +12,7 @@ body{margin:0;font-family:'Nunito',sans-serif;color:var(--navy);background:linea
 h1,h2,h3,.baloo{font-family:'Baloo 2',cursive}
 .scr{display:none;max-width:480px;margin:0 auto;padding:12px 14px 30px;min-height:100dvh}
 .scr.on{display:block}
+#scr-cert{overflow:hidden}
 .topbar{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .topbar .tb{background:#fff;border:2px solid var(--teal2);color:var(--teal);border-radius:999px;padding:5px 13px;font-weight:800;font-size:14px;cursor:pointer}
 .topbar .crumb{font-size:13px;font-weight:800;color:var(--teal);opacity:.85}
@@ -214,6 +215,8 @@ input[type=text]{width:100%;padding:11px;border:2px solid var(--teal2);border-ra
   <div id="caseList3"></div>
   <div class="secttl">Stage 4 — River &amp; Mountain Puzzle Trail Cases</div>
   <div id="caseList4"></div>
+  <div class="secttl">Stage 5 — Festival City Cases</div>
+  <div id="caseList5"></div>
   <div class="secttl" id="ownSecttl" style="display:none">Cases by Detective Sreshta ✏️</div>
   <div id="caseListOwn"></div>
 </section>
@@ -236,11 +239,18 @@ input[type=text]{width:100%;padding:11px;border:2px solid var(--teal2);border-ra
   <div id="createBody"></div>
 </section>
 
+<!-- SUPER THINKER CERTIFICATE -->
+<section class="scr" id="scr-cert">
+  <div class="topbar"><button class="tb" onclick="goHome()">← Back</button><button class="tb" onclick="goHome()">🏠 Home</button><span class="crumb">Super Thinker Certificate</span></div>
+  <div id="certBody"></div>
+</section>
+
 <!-- ALBUM -->
 <section class="scr" id="scr-album">
   <div class="topbar"><button class="tb" onclick="goHome()">← Back</button><button class="tb" onclick="goHome()">🏠 Home</button><span class="crumb">Detective Album</span></div>
   <h2 class="baloo" style="margin:4px 0">My Solved Cases 📖</h2>
   <p style="font-weight:700">Every case you solve earns a sticker here. Show Amma and Nanna!</p>
+  <div id="certCard"></div>
   <div class="stickers" id="albumGrid"></div>
 </section>
 
@@ -1315,7 +1325,243 @@ const CASES=[
  twist:{text:'WAIT — a twist from Ollie! "Detective, one of my four locks is a DECOY — a pretend lock that opens nothing! Its key is painted gold… but it is made of PAPER!" He lifts the shiny decoy clean off the gate with one claw!',q:'What does the decoy lock teach us?',opts:[['Check every lock — the decoy needs no key at all, it simply lifts open!',1,'Ollie cackles with pride: "You CHECK before you struggle — true Puzzle Master!" One lock fewer to fear.'],['All four locks must be pretend too',0,'Only ONE lock is the decoy — the other three are real and already solved by our clues!'],['Push the whole gate down at once',0,'Gates are not for pushing down. Check, solve, open — in order!']]},
  deduction:{q:'Detective, the FINAL moment! The gate swings wide. Which plan solved Ollie’s Revenge?',opts:[['Decode BIRD → ring bell-bell-STAR → lift the paper decoy → turn the number lock to 9',1,'CASE CRACKED — STAGE COMPLETE! Every power, every lock, one perfect plan. Ollie bows to the Puzzle Master! 🏆'],['Push every lock at the same time and hope',0,'Hope is not a plan! Each lock fell to its OWN clue.'],['Decode BRID → ring three bells → force the decoy lock',0,'BRID is not the word, three bells break the pattern, and the decoy never needed force.']]},
  explain:{q:'Why was Ollie’s Revenge the hardest case of all?',opts:[['Every lock needed a DIFFERENT thinking power, and each answer unlocked the next step',1,'That is the Puzzle Master way — many powers, one chain of thinking!'],['Because the gate was the heaviest gate in the garden',0,'Heavy gates are for gardeners. The THINKING was the heavy part here!'],['Because there were the most pictures to look at',0,'Pictures alone do not make a case hard — the CHAIN of steps does!']]},
- whatif:{q:'What if the Decoder Wheel had been lost on Revenge day?',opts:[['Then we would work out the picture letters from the other clues — slower, but detectives find a way',1,'Flexible thinking! Tools help, but the detective is the real tool.'],['Then the case could never be solved at all',0,'Detectives solved codes long before wheels! It would just take longer.'],['Then the pictures would read themselves aloud',0,'Pictures are silent, Detective — WE give them voices!']]}}
+ whatif:{q:'What if the Decoder Wheel had been lost on Revenge day?',opts:[['Then we would work out the picture letters from the other clues — slower, but detectives find a way',1,'Flexible thinking! Tools help, but the detective is the real tool.'],['Then the case could never be solved at all',0,'Detectives solved codes long before wheels! It would just take longer.'],['Then the pictures would read themselves aloud',0,'Pictures are silent, Detective — WE give them voices!']]}},/* ---------------- STAGE 5 CASE 1 ---------------- */
+{id:'s5c1',stage:5,no:1,title:'The Festival Lights Mystery',sticker:'🎆',powersUsed:'See Carefully + Find Patterns + Use the Clues + Plan & Solve + Remember & Focus',powers:['see','pattern','clue','plan','memory'],
+ story:[{sc:'🎆 🏮 ✨',sp:'Festival City is glowing! Strings of paper lanterns hang over the main street for tonight’s Festival of Lights.'},{sc:'🏮 🏮 🏮 🏮 🏮',sp:'Five big lanterns hang on the Golden String above the sweet stall — red, blue, green, gold and pink.'},{sc:'😲 🌑 ❓',sp:'But tonight, one string hangs dark — a lantern is missing, and the festival begins at sunset!'}],
+ clues:[
+  {power:'see',label:'Clue 1 • The Dark Lantern',scene:'🏮 🏮 🌑 🏮 🏮',q:'Look at the Golden String: 🏮 🏮 🌑 🏮 🏮. Which lantern, counting from the LEFT, has gone dark?',hard:true,
+   opts:[['The third lantern — right in the middle',1,'Exactly! Two shining, one dark, two shining — the middle lantern is the missing light.'],['The first lantern, at the very start',0,'Start counting from the left edge: one, two… the dark one is not first.'],['The fifth lantern, at the very end',0,'The last lantern shines bright pink! Count once more, slowly.']],
+   hints:['Point at each lantern and count out loud: one, two, three…','The dark one sits between two shining pairs.','Mini-example: in ⭐ ⭐ 🌑 ⭐ ⭐ the dark star is the THIRD one.'],
+   prove:{ex:'Worked example: in the row 🌟 🌟 🌟 🌑 🌟, the dark light is the FOURTH one — count from the left.',q:'Now you try: 🔴 🔴 🌑 🔴. Counting from the left, the dark circle is…',opts:[['The third one',1,'Counted like a Super Thinker!'],['The first one',0,'The first circle shines red. Keep counting!'],['The fourth one',0,'The fourth circle shines too — the dark one is one place earlier.']]}},
+  {power:'pattern',label:'Clue 2 • The Float Toppers',scene:'🎏 ⭐ 🌙 ⭐ 🌙 ❓',q:'Each festival float wears a topper, and the toppers take turns: STAR, MOON, STAR, MOON… The fifth float is being decorated now. Which topper does it get?',hard:true,
+   opts:[['A STAR — the turns go star, moon, star, moon, STAR',1,'Pattern cracked! Odd places — 1st, 3rd, 5th — all wear stars.'],['A MOON — moons come twice in a row',0,'Moons never come twice in a row here — the toppers take turns!'],['A FLOWER — a new topper joins in',0,'No flowers in this pattern — only stars and moons take turns.']],
+   hints:['Say the toppers out loud in order: star, moon, star, moon…','Odd places (1st, 3rd, 5th) all wear the same topper.','Mini-example: clap, wave, clap, wave — the 5th move is a CLAP, like the 1st and 3rd.'],
+   prove:{ex:'Worked example: flags go TRIANGLE, SQUARE, TRIANGLE, SQUARE — the 5th flag is a TRIANGLE, like the 1st and 3rd.',q:'Now you try: beads go 🌺 🌿 🌺 🌿. What is the 5th bead?',opts:[['🌺 Flower — like the 1st and 3rd',1,'Turns matched perfectly!'],['🌿 Leaf — leaves come twice',0,'Leaves take their turns — they never come twice in a row!'],['🍓 Berry — a brand-new bead',0,'Patterns repeat their OWN beads — no new ones jump in!']]}},
+  {power:'clue',label:'Clue 3 • The Snapped String',scene:'✂️ 🧵 ✨',q:'Under the dark space, Ollie finds the string SNAPPED clean through, and a trail of golden glitter leading under the big festival float. What most likely happened to the lantern?',hard:false,
+   opts:[['It snapped off, fell, and rolled under the float',1,'Two clues joined! A snapped string drops things — and dropped things roll.'],['Someone untied it and carried it home',0,'An untied lantern leaves a whole, unbroken string — this string is SNAPPED!'],['It melted in the sunshine',0,'Paper lanterns do not melt — and melting leaves no glitter trail!']],
+   hints:['Two clues: a snapped string AND a glitter trail. Join them!','Things that fall often roll — where does the trail end?','Mini-example: a dropped marble rolls under the sofa; following its clicks leads your eyes there.'],
+   prove:{ex:'Worked example: a kite string is snapped, and the kite lies in the bush below the tree. The string broke, and the kite fell into the bush.',q:'Now you try: a plant pot’s hanging string is snapped, and petals trail to under the bench. Where is the pot most likely?',opts:[['Under the bench, where it fell and rolled',1,'Trails and snaps — joined like a champion!'],['Tied up neatly on the roof',0,'A snapped string cannot tie anything neatly!'],['It never existed at all',0,'Snapped strings and petal trails belong to a real pot!']]}},
+  {power:'plan',label:'Clue 4 • The Sunset Plan',scene:'🔍 🪜 💡',q:'The lantern must be back before sunset! What is the smart ORDER of jobs?',hard:true,
+   opts:[['Find it under the float → hang it back on the string → test that it lights',1,'Perfect order! Find first, hang second, test last — every job in its place.'],['Test that it lights → find it → hang it',0,'We cannot test a lantern we have not found yet!'],['Hang the empty space → look for the lantern later',0,'Hanging nothing fixes nothing. Finding comes first!']],
+   hints:['Think: which job MUST be done before the others can start?','You cannot hang what you have not found, and you test a lantern once it hangs.','Mini-example: sock first, then shoe, then walk — order matters!'],
+   prove:{ex:'Worked example: to drink juice — open the box, pour the juice, then drink. Pouring must come before drinking.',q:'Now you try: to post a letter — write it, put it in the envelope, then post it. What comes FIRST?',opts:[['Write the letter',1,'First things first — planner thinking!'],['Post the envelope',0,'An empty envelope helps nobody. The letter comes first!'],['Seal the envelope',0,'Sealing comes after the letter is written and tucked in!']]}}
+ ],
+ twist:{text:'WAIT — a twist! Meera the dancer hurries over, glitter all over her shoes: “That glitter is MINE — from my dance steps! I never went near the top of the float — I only danced on the steps!” Ollie checks: her glitter trail stops at the STEPS.',q:'So whose glitter trail leads UNDER the float?',opts:[['A different trail — the fallen lantern’s own golden glitter, leaking as it rolled',1,'Sharp checking! Two glitter trails, two different stories — hers ends at the steps.'],['Meera’s — she carried the lantern under the float',0,'Her trail stops at the steps. She never reached the top or the underside!'],['Nobody’s — glitter grows under floats',0,'Glitter does not grow! It leaked from something golden that rolled there.']]},
+ deduction:{q:'Detective, the big moment! Where is the missing lantern?',opts:[['Rolled under the big festival float',1,'CASE CRACKED! Snapped string, leaking glitter, and a dark middle space — Festival City will shine tonight! 🎆'],['On the dance steps with Meera',0,'Meera’s glitter stops at the steps, and no lantern sits there.'],['Still hanging, just switched off',0,'The string is snapped and the space is empty — the lantern truly fell.']]},
+ explain:{q:'Why are we SURE the lantern is under the float?',opts:[['The snapped string says it fell, and the golden glitter trail leads right under the float',1,'Two clues agreeing — that is how Super Thinkers prove things!'],['Floats always hide lanterns underneath',0,'Always is not evidence. The snap and the trail are!'],['The middle lantern is always the one to fall',0,'Position is not proof — the snapped string and the trail are!']]},
+ whatif:{q:'What if the string had been found UNTIED instead of snapped?',opts:[['Then we would look for someone who untied it and carried it away',1,'Flexible thinking! One changed clue changes the whole search.'],['Then the lantern would still be under the float',0,'An untied lantern goes where it is CARRIED, not where it falls.'],['Nothing would change at all',0,'Snapped or untied changes the whole story of the fall!']]}},
+
+/* ---------------- STAGE 5 CASE 2 ---------------- */
+{id:'s5c2',stage:5,no:2,title:'The Case With No Footprints',sticker:'👣',powersUsed:'See Carefully + Find Patterns + Use the Clues + Plan & Solve + Remember & Focus',powers:['see','pattern','clue','plan','memory'],
+ story:[{sc:'🎪 🌸 🌙',sp:'For tonight’s show, a great garland of marigolds hangs over the Festival City stage, ready for the winning dancer.'},{sc:'⛈️ 🌧️ 🌙',sp:'But last night, a storm rolled over Festival City — wind, rain, and thunder till morning!'},{sc:'😲 🎪 ❓',sp:'This morning the garland is GONE from the stage — yet the stage floor, dusty and smooth, shows NOT ONE footprint!'}],
+ clues:[
+  {power:'clue',label:'Clue 1 • The Smooth Dust',scene:'🎪 ✨ 🚶 ❌',q:'The stage floor is covered in smooth, unmarked dust. What does the perfectly smooth dust tell us?',hard:true,
+   opts:[['The garland’s taker never WALKED across the stage floor',1,'Brilliant reading! Dust is a diary — and this diary has no footsteps in it at all.'],['The taker tiptoed very quietly',0,'Even the softest tiptoe presses dust. This dust is perfectly smooth — no feet touched it at all!'],['The dust fell after the garland was taken',0,'Dust this smooth and even settled long ago — it records the whole night, and it shows nothing.']],
+   hints:['Dust is like a diary — every step writes on it.','No marks at all means… what never happened?','Mini-example: fresh snow with no prints means nobody walked there since it fell.'],
+   prove:{ex:'Worked example: wet sand by the pond shows no paw prints at all. No animal walked there after the sand got wet.',q:'Now you try: a flour-dusted shelf has no finger marks at all. What does it tell us?',opts:[['Nobody touched the shelf since the flour settled',1,'Absence is evidence — superb!'],['Someone wiped it very secretly',0,'Wiping leaves swipe marks — smooth flour shows NO touch at all!'],['The flour is hiding the marks',0,'Flour SHOWS marks — that is its detective magic!']]}},
+  {power:'plan',label:'Clue 2 • The Hooked Pole',scene:'🎋 🪝 🪜',q:'At the side steps leans a long bamboo pole with a hook at its end — long enough to reach the garland from the steps. How could the garland come down WITHOUT anyone walking on stage?',hard:false,
+   opts:[['Someone stood on the side steps and hooked it down with the long pole',1,'The pole is a reach-extender! Steps, hook, garland — down it comes, dust untouched.'],['Someone flew over the stage',0,'People cannot fly — but a long pole can REACH!'],['The garland untied itself and floated down',0,'Garlands do not untie themselves. A tool and a person do the job.']],
+   hints:['Look for a tool that makes arms longer.','Stand at the steps in your mind — what can the hooked pole touch?','Mini-example: a long rake pulls leaves without stepping into the flower bed.'],
+   prove:{ex:'Worked example: a high mango is picked with a long stick and a net — nobody climbed the tree.',q:'Now you try: a ball lies in the middle of a muddy puddle and your shoes must stay clean. What is the smart move?',opts:[['Fish it out with a long stick from the dry edge',1,'Reach instead of walking — smart planning!'],['Walk in and get muddy',0,'The job was to keep shoes clean — reach instead!'],['Wait for the ball to roll out by itself',0,'Balls do not roll uphill out of puddles!']]}},
+  {power:'see',label:'Clue 3 • The Dark Store Tent',torch:true,scene:'⛺ 🌑 🌼',q:'The store tent beside the stage is dark inside. Shine your Torch around the tent — what do the marigold petals on the floor lead to?',hard:true,
+   opts:[['The great garland, folded safe and dry on a crate',1,'There it is! Petals led the way, and the garland rests dry and folded — cared for, not stolen.'],['A second stage hidden in the tent',0,'No stage hides in a store tent — follow the petals to the crate!'],['A pile of storm leaves and nothing else',0,'Storm leaves do not scatter MARIGOLD petals. The petals point at the crate!']],
+   hints:['Petals fall from marigolds. What drops marigold petals?','Shine the beam slowly — corners and crates first.','Mini-example: crumbs in a dark pantry lead your torch beam to the biscuit tin.'],
+   prove:{ex:'Worked example: in a dark store room, a torch beam finds glitter on the floor, leading all the way to the craft box.',q:'Now you try: your torch shows wet paw prints crossing a dark hall. What do you do?',opts:[['Follow the prints with the beam, step by step',1,'Beam and patience — torch mastery!'],['Switch the torch off and guess',0,'Guessing in the dark helps nobody!'],['Shout until the prints answer',0,'Prints are silent — your eyes and torch must do the work!']]}},
+  {power:'memory',label:'Clue 4 • Think Back to the Sky',scene:'🤔 📸 ⛈️',q:'Think back to the FIRST picture of our story. What was gathering in the sky above Festival City?',hard:true,
+   opts:[['Storm clouds — a storm was on its way',1,'Wonderful memory! The opening sky explains a KIND act done in the night.'],['A rainbow and sunshine',0,'No rainbow opened our story. Picture the sky again — dark and heavy!'],['A flock of festival kites',0,'Kites belong to the fair, later. The first sky was heavy with something wet…']],
+   hints:['Close your eyes — the stage, the garland, and ABOVE it… what?','The thing in the first sky explains a kind act done in the night.','Mini-example: if a story opens with dark clouds, good detectives expect rain plans!'],
+   prove:{ex:'Worked example: at the start of Asha’s story, a big umbrella stood by the door. When rain came, everyone knew exactly where to run.',q:'Now you try: at the start of a story, a warm blanket lies on the sofa. Later the night turns cold. What will the family reach for?',opts:[['The warm blanket from the sofa',1,'Opening details are promises — remembered perfectly!'],['A swimming costume',0,'Cold nights call for warmth, not swimming!'],['Nothing — the story never showed anything',0,'It DID — the blanket, in the very first picture!']]}}
+ ],
+ twist:{text:'WAIT — a twist! The kite-seller is brought in, looking hurt: “Everyone stares at ME because my kite string also has a hook!” But his daughter shows a photo from last night — the garland still hanging at her bedtime, AFTER the kite-seller had already gone home to his village!',q:'Can the kite-seller be the one who hooked the garland down?',opts:[['No — he was already home while the garland still hung in its place',1,'Cleared by a photograph! Owning a hook was never proof.'],['Yes — he owns a hook too',0,'Owning a hook is not proof. The photo places him far away while the garland still hung!'],['Yes — kite-sellers are always the suspects',0,'A job is not evidence, Detective! Facts first.']]},
+ deduction:{q:'Detective, the big moment! WHO took the garland down — and WHY?',opts:[['The night guard hooked it down and stored it in the tent, to save it from the storm',1,'CASE CRACKED! No footprints, a hooked pole, a dry safe garland — the guard was protecting it all along! 👣'],['The kite-seller, for his kite show',0,'The bedtime photo clears him completely.'],['The storm wind blew it into the tent',0,'Wind scatters — it does not FOLD a garland neatly on a crate!']]},
+ explain:{q:'Why does the guard story fit EVERY clue?',opts:[['He reached from the steps with the pole (no footprints), and folded it dry in the tent before the storm',1,'Every clue in its place — that is a Super Thinker solution!'],['Guards always take garlands down',0,'Always is not evidence — reach, pole, tent and storm are!'],['The garland looks happiest in the tent',0,'Feelings are sweet, but clues are stronger!']]},
+ whatif:{q:'What if the stage dust HAD shown footprints?',opts:[['Then we would know the taker walked on stage, and we would match the prints',1,'Exactly — one changed clue rewrites the HOW of the case.'],['Then the pole clue would disappear',0,'The pole would still be there — we would just have TWO trails to check!'],['Then the guard could not have stored it',0,'He could — he would simply have walked in. The dust changes the HOW, not the kindness!']]}},
+
+/* ---------------- STAGE 5 CASE 3 ---------------- */
+{id:'s5c3',stage:5,no:3,title:'The Two-Twists Case',sticker:'🌀',powersUsed:'See Carefully + Find Patterns + Use the Clues + Plan & Solve + Remember & Focus',powers:['see','pattern','clue','plan','memory'],
+ story:[{sc:'🎪 🖼️ 🎉',sp:'Festival City’s Great Banner — painted by all the children — hung over the fair gate this morning, bright and proud… but CROOKED, with one corner torn.'},{sc:'📌 📌 📌',sp:'It hung from three big hooks, tied with ribbons at each corner.'},{sc:'😲 🖼️ ❓',sp:'By lunch, the banner is GONE — hooks empty, ribbons gone, and a trail of tiny GOLD STARS sparkles on the path below!'}],
+ clues:[
+  {power:'see',label:'Clue 1 • The Knotted Ribbon',scene:'🪝 🪝 🪝 🎀',q:'On hook 3, a scrap of ribbon is still tied — and it is still KNOTTED tight, not cut. What does the whole, still-knotted ribbon tell us?',hard:false,
+   opts:[['The banner was LIFTED off its hooks, not cut down',1,'Careful eyes! Cut ribbons fall in pieces — a whole knot means gentle lifting.'],['The ribbons were cut with scissors',0,'A cut ribbon shows a sliced end and drops. This one is knotted whole — lifted, not cut!'],['The banner was never tied at all',0,'The knotted scrap proves it WAS tied — carefully and completely.']],
+   hints:['Knots and cuts leave different evidence.','If ribbons were cut, where would the scraps be?','Mini-example: an unpicked knot on a parcel means it was opened kindly — or lifted whole.'],
+   prove:{ex:'Worked example: a swing’s rope is found still knotted to the branch, and the swing seat is gone. The seat was lifted off its knot, not cut free.',q:'Now you try: a balloon string hangs from a chair, still knotted, and the balloon is gone. What happened?',opts:[['The balloon was lifted and carried away whole',1,'Knot-reading like a master!'],['The string was chopped in two',0,'A chopped string cannot stay knotted in one piece!'],['The balloon turned into the string',0,'Balloons stay balloons, Detective!']]}},
+  {power:'clue',label:'Clue 2 • The Gold Star Trail',scene:'⭐ ⭐ ⭐ ➡️',q:'The tiny GOLD STARS trail away from the gate. Which way does the star trail lead?',hard:true,
+   opts:[['Towards the kitchen and the art tables',1,'Trail followed! The stars march to the art side of the fair.'],['Towards the lake and the boats',0,'No stars sparkle that way — the trail marches to the art side!'],['Round the gate in a circle',0,'The stars travel in a line with a destination, not a circle.']],
+   hints:['Follow the stars one by one, like stepping stones.','Stars thin out as the walker gets further — the line has a direction.','Mini-example: a trail of rice grains from a torn sack leads to where the sack was carried.'],
+   prove:{ex:'Worked example: glitter dots lead from the stage door to the craft room, getting fewer on the way. The glitter was carried to the craft room.',q:'Now you try: paint dots lead from the easel to the wash basin. Where was the painting carried?',opts:[['To the wash basin',1,'Dots followed to their destination!'],['To the easel',0,'That is where the trail STARTS. It ends at the basin!'],['Nowhere — dots walk by themselves',0,'Dots are dropped by walkers. Follow the walker!']]}},
+  {power:'plan',label:'Clue 3 • The Tools Under the Table',scene:'🪡 🧵 🩹',q:'Under the art table: a needle, thread in the banner’s own blue, and a patch of matching cloth, all laid out ready. What PLAN do these tools tell?',hard:true,
+   opts:[['Someone planned to MEND the banner’s torn corner',1,'Tools tell plans! Needle, thread, patch — a mending job was prepared.'],['Someone planned to paint a brand-new banner',0,'Painting needs paints and brushes — these are SEWING tools!'],['Someone planned a picnic under the table',0,'Needles and thread are nobody’s lunch!']],
+   hints:['Name each tool’s job. Needle? Thread? Patch?','Tools laid out READY mean a job was planned before it began.','Mini-example: a bucket, soap and sponge laid ready mean a washing job is planned.'],
+   prove:{ex:'Worked example: a hammer, nails and a plank lie ready by a wobbly chair. The plan is to mend the chair.',q:'Now you try: flour, a bowl and a rolling pin lie ready in the kitchen. What is the plan?',opts:[['To bake something',1,'Tool-reading — perfect planning!'],['To wash the floor',0,'No mop or bucket here — these are BAKING tools!'],['To build a kite',0,'Kites need sticks and paper, not rolling pins!']]}},
+  {power:'memory',label:'Clue 4 • The Crooked Banner',scene:'🤔 📸 🖼️',q:'Think back to the FIRST picture of our story. The banner hung crooked — WHY?',hard:true,
+   opts:[['One of its corners was already TORN',1,'Memory strikes! The torn corner is the seed of this whole case.'],['It was hung by sleepy helpers',0,'The picture showed a real tear in the corner — not sleepy helpers!'],['It was too heavy for the hooks',0,'The hooks held fine. The problem was the torn CORNER.']],
+   hints:['Picture the banner as the story opened: bright, proud… and not perfect.','One corner had a problem that sewing tools could fix.','Mini-example: a story that opens with a wobbly wheel is telling you the wheel matters!'],
+   prove:{ex:'Worked example: at the start of Leela’s story, her umbrella had a bent spoke. When rain came, everyone remembered the bent spoke.',q:'Now you try: at the start of a story, a bicycle bell hangs loose and wobbly. Later the bicycle is found in the repair corner. Why is it there, most likely?',opts:[['To fix the loose, wobbly bell',1,'Opening details remembered — Super Thinker memory!'],['To paint it a new colour',0,'Nothing in the story mentioned paint — the OPENING detail was the bell!'],['Bicycles park themselves there',0,'Bicycles do not park themselves, Detective!']]}}
+ ],
+ twist:{text:'WAIT — a twist! Everyone whispers: “The dance troupe passed the gate at lunch — THEIR shoes drop stars!” But Ollie lifts a troupe shoe: its stars are SILVER, every one. The trail on the path is GOLD!',q:'So does the gold star trail belong to the dance troupe?',opts:[['No — their stars are silver; the gold trail belongs to the art-table side',1,'Colour is evidence! Silver stars cannot leave a gold trail.'],['Yes — all stars look the same',0,'Gold and silver are different clues! Colour is evidence.'],['Yes — the troupe changed its stars at lunch',0,'A whole troupe changing shoe-stars at lunch? The facts say the trail is GOLD.']]},
+ twist2:{text:'WAIT — a SECOND twist! Here comes Amma along the garden path, carrying something long and bright… it is the BANNER itself! “Mended and washed,” she laughs, “and hung on the GARDEN LINE to dry its glue in the sun!”',q:'So where is the banner right now — and is it safe?',opts:[['Safe with Amma — mended, and drying on the garden line',1,'The second twist lands! The banner was being CARED for all along.'],['Still missing — Amma is carrying something else',0,'Bright, long, painted by the children — it IS the banner, in safe hands!'],['Ruined forever by the mending',0,'Mending FIXED the torn corner. The banner is better than before!']]},
+ deduction:{q:'Detective, the big moment! What is the WHOLE story of the banner?',opts:[['It was lifted down gently, mended at the art table, and hung on the garden line to dry',1,'CASE CRACKED — TWICE-TWISTED! Lifted, mended, dried: every clue and BOTH twists agree! 🌀'],['The dance troupe carried it away on gold stars',0,'Silver stars, Detective! The troupe is cleared by colour.'],['It was cut down and thrown away',0,'Still-knotted ribbons say LIFTED — and Amma carried it in, mended!']]},
+ explain:{q:'Which single check cleared the dance troupe?',opts:[['The star COLOUR check — their stars are silver, the trail is gold',1,'One detail, checked carefully, cleared a whole troupe!'],['Asking the troupe if they did it',0,'Asking is not checking! The COLOUR of the stars is the check.'],['Counting the troupe’s dancers',0,'Counting dancers tells us nothing about a star trail!']]},
+ whatif:{q:'What if the troupe’s stars had ALSO been gold?',opts:[['Then the troupe would stay on our list, and we would check their path and timing too',1,'Honest thinking! A matching clue keeps a suspect ON the list — it never ends the case alone.'],['Then the case would be impossible forever',0,'More suspects just means more checking — detectives love checking!'],['Then Amma could not have mended the banner',0,'Amma’s mending is its own fact — the stars would not change it!']]}},
+
+/* ---------------- STAGE 5 CASE 4 ---------------- */
+{id:'s5c4',stage:5,no:4,title:'The Museum of Patterns',sticker:'🏛️',powersUsed:'See Carefully + Find Patterns + Use the Clues + Plan & Solve + Remember & Focus',powers:['see','pattern','clue','plan','memory'],
+ story:[{sc:'🏛️ 🔷 🔴',sp:'Festival City’s Museum of Patterns keeps a famous floor: coloured tiles in a pattern the whole city loves.'},{sc:'🔶 🥚 🥚 🔶 🥚 🥚',sp:'In the Great Hall, the floor repeats DIAMOND, OVAL, OVAL — diamond, oval, oval — all the way across.'},{sc:'😲 🔴 ❓',sp:'This morning, news flies round: “A tile is MISSING from the Great Hall floor — and everyone says it is the famous RED DIAMOND!”'}],
+ clues:[
+  {power:'pattern',label:'Clue 1 • The Gap in the Floor',scene:'🔶 🥚 🥚 🔶 🥚 ⬜',q:'Look at the hall floor: DIAMOND, OVAL, OVAL, DIAMOND, OVAL, then a GAP. Which shape is the missing tile?',hard:true,
+   opts:[['An OVAL — the gap is on an oval’s turn',1,'Pattern power! Diamonds stand at positions 1 and 4 — this gap, at position 6, is an oval’s turn.'],['The famous RED DIAMOND',0,'Diamonds stand at positions 1 and 4 in the pattern. This gap is at position 6 — an OVAL turn!'],['A SQUARE tile',0,'Squares never appear in this floor’s pattern at all!']],
+   hints:['Count the pattern positions out loud: 1 diamond, 2 oval, 3 oval, 4 diamond, 5 oval, 6 …?','The unit is THREE tiles long. Which turn is the 6th tile?','Mini-example: pattern A B B A B _. The gap is on a B turn — the 3rd beat of the unit.'],
+   prove:{ex:'Worked example: the pattern goes STAR, DOT, DOT, STAR, DOT, _. The gap is a DOT — the unit’s third beat.',q:'Now you try: pattern MOON, MOON, STAR, MOON, MOON, _. The gap is…',opts:[['A STAR — the unit’s third beat',1,'Beat-counting like a master!'],['A MOON — moons are everywhere',0,'Moons fill beats 1 and 2 — this gap is beat 3!'],['A SUN — a new shape',0,'This floor never uses suns. Patterns repeat their own shapes!']]}},
+  {power:'clue',label:'Clue 2 • The Guard’s Coded Note',decode:true,scene:'📜 🦁 🍦 🐸 🌳',q:'The old guard left a coded note by the hall door — picture letters! Turn your Decoder Wheel. What word does the note spell?',hard:true,
+   opts:[['LIFT — the note says to lift something',1,'Decoded! L-I-F-T — the guard is telling us to LIFT something in the hall.'],['LEFT — the note points left',0,'Check each picture letter slowly: lion, ice-cream, frog, tree. The third letter is F, not E!'],['LIFE — the note says life',0,'Close! But the LAST picture is a TREE — T, not E. Read all four!']],
+   hints:['One picture, one letter — left to right.','You have met some of these letters before: ice-cream is I.','Mini-example: 🐝 🍦 reads B-I. Four pictures, four letters.'],
+   prove:{ex:'Worked example: with 🦁 = L, 🍎 = A, 🐸 = F, the strip 🦁 🍎 🐸 reads L-A-F, left to right.',q:'Now you try: with the same wheel, the strip 🐸 🍎 🦁 reads…',opts:[['F-A-L',1,'Decoding in order — superb!'],['L-A-F',0,'That reads the strip backwards — notes read left to right!'],['A-F-L',0,'Each letter must follow ITS picture, in order!']]}},
+  {power:'see',label:'Clue 3 • Under the Rug',scene:'🧶 🥚 👣',q:'Following the note, Ollie lifts the loose rug by the door. Under it: an OVAL-shaped clean patch in the dust, and scuff marks trailing to the DOOR MAT. What story do they tell?',hard:false,
+   opts:[['An oval tile was slid across the floor and hidden under the door mat',1,'Patch plus scuffs — the tile’s journey is written on the floor!'],['A diamond tile melted under the rug',0,'Tiles do not melt — and the dust patch is OVAL, not diamond!'],['The rug ate the tile',0,'Rugs are hungry for crumbs, not tiles! The scuffs show SLIDING.']],
+   hints:['Two traces: a clean OVAL patch, and scuffs with a direction.','Scuffs are the floor’s arrows — where do they point?','Mini-example: drag marks from a chair to a cupboard show the chair was slid to the cupboard.'],
+   prove:{ex:'Worked example: a square clean patch and drag marks lead to the curtain. A square stool was slid behind the curtain.',q:'Now you try: a round clean patch, and drag marks leading to the garden door. What most likely happened?',opts:[['A round pot was slid out of the garden door',1,'Shape plus direction — read perfectly!'],['A square pot flew out',0,'The patch is ROUND — shapes are evidence!'],['Nothing moved at all',0,'Clean patches and drag marks mean MOVEMENT happened!']]}},
+  {power:'plan',label:'Clue 4 • Two Tiles, One Plan',scene:'🔍 🔶 🥚',q:'Two tiles are being talked about: OUR missing oval, and the famous red diamond from another room. What is the smart detective plan?',hard:true,
+   opts:[['Find OUR oval tile first — the diamond belongs to another room’s business',1,'Case discipline! Our floor, our pattern, our tile — first.'],['Hunt the whole museum for the diamond first',0,'Our case is the Great Hall’s oval. The diamond is the Ruby Room’s affair — stay on OUR case!'],['Close the museum until both appear',0,'Closing everything solves nothing. Solve OUR floor first!']],
+   hints:['Detectives finish the case in front of them.','Which tile do OUR floor, OUR pattern and OUR dust patch describe?','Mini-example: if your red pen is lost, you do not search for your friend’s blue pen first.'],
+   prove:{ex:'Worked example: two socks are missing in a house — yours, plain white; your cousin’s, striped. Your drawer shows a plain-white gap. You hunt YOUR white sock first.',q:'Now you try: your plain cup is missing; a fancy glass is missing in the kitchen too. Which do you hunt first?',opts:[['My plain cup — the case in front of me',1,'Own case first — planner’s wisdom!'],['The fancy glass — it is fancier',0,'Fancy is not first! Your own case comes first.'],['Neither — wait for them to return',0,'Missing things rarely walk home alone!']]}}
+ ],
+ twist:{text:'WAIT — a twist! The museum keeper arrives, smiling: “Detectives, the famous RED DIAMOND you keep hearing about? It belongs to the RUBY ROOM upstairs — and it was found safe an hour ago, behind its own door!”',q:'So was the Great Hall’s missing tile EVER the red diamond?',opts:[['No — the hall lost an OVAL; the diamond was always a different room’s story',1,'Two rooms, two tiles, two stories — and our pattern knew it from the start!'],['Yes — the hall floor misses its diamond',0,'Our pattern counts say the gap is on an oval’s turn. The diamond story belongs upstairs!'],['Yes — the keeper is hiding it',0,'The keeper REPORTED it found and safe. Trust the pattern AND the keeper!']]},
+ deduction:{q:'Detective, the big moment! Where is the Great Hall’s missing tile?',opts:[['The oval tile, slid under the door mat',1,'CASE CRACKED! Pattern, code, dust and scuffs — the museum floor is whole again! 🏛️'],['The red diamond, hidden under the rug',0,'Under the rug there was only an OVAL dust patch — and the diamond was found upstairs!'],['It was never missing at all',0,'An empty gap in the floor says otherwise, Detective!']]},
+ explain:{q:'Which clue FIRST proved the missing tile was not the red diamond?',opts:[['The pattern count — the gap sits on an OVAL’s turn in DIAMOND, OVAL, OVAL',1,'The very first clue settled the tile’s shape!'],['The keeper’s smile',0,'Smiles are friendly, not proof. The PATTERN is the proof!'],['The coded note',0,'The note helped us search — but the tile’s SHAPE was settled by the pattern first!']]},
+ whatif:{q:'What if the gap had been at position 4 in the floor?',opts:[['Then the missing tile WOULD be a diamond — position 4 is a diamond’s turn',1,'Position decides shape in a pattern — flexible pattern thinking!'],['Then it would still be an oval',0,'Position decides the shape in a pattern — 4 starts a fresh unit!'],['Then the floor would have no pattern',0,'The pattern stays — only the gap’s turn changes!']] }},
+
+/* ---------------- STAGE 5 CASE 5 ---------------- */
+{id:'s5c5',stage:5,no:5,title:'The Memory Palace Case',sticker:'🏰',powersUsed:'See Carefully + Find Patterns + Use the Clues + Plan & Solve + Remember & Focus',powers:['see','pattern','clue','plan','memory'],
+ story:[{sc:'🏰 🪶 🔔 🔔 🔔 🎀',sp:'The Memory Palace keeps Festival City’s treasures. On the guard’s chair this morning: a peacock FEATHER, THREE brass bells, and a BLUE ribbon — the palace’s good-morning picture.'},{sc:'🗝️ ✨ 🏆',sp:'On the shelf sits the golden Ceremony Key, ready for tonight’s Festival Parade.'},{sc:'😲 🌆 ❓',sp:'By evening — the Ceremony Key is GONE from its shelf! The parade begins in one hour!'}],
+ clues:[
+  {power:'memory',label:'Clue 1 • The Morning Bells',scene:'🤔 🔔 🔔',q:'Think back to this morning’s picture on the guard’s chair. How many brass bells sat there?',hard:true,
+   opts:[['THREE bells',1,'Memory like a palace wall — three bells, exactly as the morning showed.'],['Two bells',0,'Count the morning picture again in your mind: bell, bell, bell — three!'],['Four bells',0,'One too many! The chair held exactly three.']],
+   hints:['Picture the guard’s chair as the story opened.','Count the bells in the picture slowly, one by one.','Mini-example: detectives photograph rooms with their MEMORY first — then compare!'],
+   prove:{ex:'Worked example: this morning, four candles stood on a table. By evening, three stand there. One candle is missing.',q:'Now you try: this morning, five flags flew over a gate. Now four fly there. How many are missing?',opts:[['One flag',1,'Then minus now — memory maths!'],['Five flags',0,'Five is how many there WERE. Missing means then minus now!'],['Nine flags',0,'Adding then and now is not the job — compare them!']]}},
+  {power:'clue',label:'Clue 2 • The Notebook Check',nb:true,scene:'📓 🔔 🔔',q:'Open your Clue Notebook to the palace page. With THREE bells confirmed there this morning — and only TWO on the chair now — what ELSE is missing besides the key?',hard:true,
+   opts:[['One brass bell is missing too',1,'Notebook plus counting! The key is not the only traveller tonight.'],['Nothing else — only the key',0,'Three this morning, two now — a bell has gone somewhere as well!'],['The whole chair is missing',0,'The chair stands right there, Detective! Count its bells.']],
+   hints:['Your notebook never forgets. Open it!','Morning number minus evening number tells the missing number.','Mini-example: 4 ribbons in the morning, 3 at night — 1 ribbon is missing.'],
+   prove:{ex:'Worked example: a notebook says 6 cups were on the tray. Now 5 stand there. One cup is missing — the notebook proves it.',q:'Now you try: your notebook says 3 kites hung in the hall. Now 2 hang there. How many kites are missing?',opts:[['One kite',1,'Notebook-proven — excellent!'],['Three kites',0,'Three is the morning number. Missing = morning minus now!'],['None — kites fly away by themselves',0,'Hall kites hang still. One is truly missing!']]}},
+  {power:'clue',label:'Clue 3 • The Thank-You Card',scene:'🎀 🧺 💌',q:'The BLUE ribbon from the chair now ties a flower basket, and a card on the basket reads “Thank you!” What does this tell us?',hard:false,
+   opts:[['Palace helpers are borrowing things for the ceremony — a thank-you card is a borrower’s manners',1,'Kind hands leave kind signs! This smells of borrowing, not thieving.'],['A thief left the card to be polite',0,'Thieves do not tie ribbons neatly and leave thank-you cards on display!'],['The ribbon walked to the basket by itself',0,'Ribbons do not walk. Hands carried it — KIND hands, by the look of the card!']],
+   hints:['A thank-you card is a signature of kindness.','Borrowers tidy up and say thank you. Thieves hide.','Mini-example: your book comes back with a bookmark and a thank-you note — a friend borrowed it kindly.'],
+   prove:{ex:'Worked example: a watering can is missing from a shed, but a note says “Borrowed for the roses — back by lunch!” It was borrowed, kindly.',q:'Now you try: your umbrella is gone from its stand, and a note in your friend’s handwriting says “Borrowed — back tonight!” What happened?',opts:[['My friend borrowed it, kindly and openly',1,'Notes are evidence — read kindly and correctly!'],['It was stolen in secret',0,'Secret thieves do not leave signed notes!'],['The umbrella dissolved in the rain',0,'Umbrellas LOVE rain. They do not dissolve!']]}},
+  {power:'see',label:'Clue 4 • The Music Room Doorway',scene:'🎵 🚪 🔔 🗝️',q:'At the music room doorway, you spot a brass bell sitting on the practice cushion — and on the music shelf, a KEY-SHAPED clean patch in the dust. What story do these two traces tell together?',hard:true,
+   opts:[['Both the key and the bell were brought here — to the music room',1,'Two traces, one room! The bell rests here, and the key rested here too.'],['The bell rolled here by itself, and the patch means nothing',0,'A key-shaped clean patch is a key’s SIGNATURE — it rested here!'],['A different key and bell live here always',0,'The palace’s own are missing, and these match them exactly!']],
+   hints:['A clean patch shaped like a thing is that thing’s signature.','Bell here + key patch here = both visited the same room.','Mini-example: a round clean patch on a dusty shelf says a round pot sat there.'],
+   prove:{ex:'Worked example: a star-shaped clean patch shines on a dusty table — a star box rested there before it was moved.',q:'Now you try: a heart-shaped clean patch shines on a dusty windowsill. What rested there?',opts:[['A heart-shaped box or card',1,'Shape-matching — see-carefully mastery!'],['A round ball',0,'Shapes must match — round things leave round patches!'],['Nothing — patches appear by magic',0,'Patches are left by THINGS, Detective!']]}}
+ ],
+ twist:{text:'WAIT — a twist! “The peacock FEATHER is gone from the step too!” cries the guard. But Ollie shakes his head: “The feather lay loose on that windy step all day. I watched the evening wind lift it, feather-light, and carry it over the wall an hour ago.”',q:'So was the feather taken by the key-and-bell borrower?',opts:[['No — the wind took the feather; nobody carried it away',1,'One mystery, two different stories — and Ollie SAW this one happen!'],['Yes — the borrower took everything',0,'Ollie SAW the wind take it. The borrower’s story is a kinder, smaller one.'],['Yes — feathers and keys are always taken together',0,'Always is a trap word, Detective! The wind did this one.']]},
+ deduction:{q:'Detective, the big moment! Where are the Ceremony Key and the missing bell?',opts:[['In the music room — the ceremony helper borrowed them to practise the opening chime',1,'CASE CRACKED! Memory, notebook, ribbon and the music room — the parade is saved! 🏰'],['Taken far away by a thief',0,'Thank-you cards and practice cushions tell a KINDER story!'],['Under the guard’s chair all along',0,'The chair holds only two bells now — the third sits in the music room!']]},
+ explain:{q:'Which memory started this whole solution?',opts:[['Remembering THREE bells on the chair this morning — that is how we knew a bell was missing too',1,'The very first memory unlocked the whole palace!'],['Remembering the parade songs',0,'Lovely songs — but the BELLS count cracked the case!'],['Remembering where the palace is',0,'Finding the palace was never the mystery!']]},
+ whatif:{q:'What if there had been NO thank-you card on the basket?',opts:[['Then borrowing would be harder to prove, and we would check much more carefully before deciding',1,'Wise! Fewer clues means slower, more careful deciding.'],['Then it would surely be a theft',0,'No card makes it a PUZZLE, not surely a theft — clues decide!'],['Then the ribbon could not be on the basket',0,'Ribbons travel with or without cards, Detective!']] }},
+
+/* ---------------- STAGE 5 CASE 6 ---------------- */
+{id:'s5c6',stage:5,no:6,title:'The Great Garden Fair',sticker:'🎡',powersUsed:'See Carefully + Find Patterns + Use the Clues + Plan & Solve + Remember & Focus',powers:['see','pattern','clue','plan','memory'],
+ story:[{sc:'🎡 🌻 🌷',sp:'The Great Garden Fair is today! Eight flower pots stand in a row by the judging table, waiting for the Best Pot prize.'},{sc:'🌧️ 🪣 🌿',sp:'Early this morning, the gardener watered everything from his barrow, splashing mud along the path to the back gate.'},{sc:'😲 🌻 ❓',sp:'Judging time! But the row has a GAP — the 8th pot, the big SUNFLOWER pot, is missing from its place!'}],
+ clues:[
+  {power:'pattern',label:'Clue 1 • The Empty Eighth Place',scene:'🔴 🟡 🟡 🔴 🟡 🟡 🔴 ⬜',q:'The bench pots follow a pattern: RED, YELLOW, YELLOW — repeating. The empty 8th place sits in the row. Which colour pot belongs in the 8th place?',hard:true,
+   opts:[['A YELLOW pot — the 8th place is a yellow’s turn',1,'Pattern power! Reds stand at 1, 4, 7 — place 8 is the second beat of its unit: yellow.'],['A RED pot — red starts each unit',0,'Reds stand at places 1, 4 and 7. Place 8 is the SECOND beat of its unit — yellow!'],['A BLUE pot joins the row',0,'This row has only ever used red and yellow!']],
+   hints:['Write the beats: 1 red, 2 yellow, 3 yellow, 4 red… keep going to 8.','Units of three: places 2, 3, 5, 6, 8 all share a colour.','Mini-example: pattern A B B — the 5th place is B, like the 2nd.'],
+   prove:{ex:'Worked example: the pattern CUP, PLATE, PLATE repeats. Place 8, like places 2 and 5, is a PLATE.',q:'Now you try: the pattern STAR, DOT, DOT repeats. What sits at place 7?',opts:[['A STAR — place 7 starts a new unit, like places 1 and 4',1,'Unit-starting — counted perfectly!'],['A DOT — dots are the most',0,'Most is not the rule — position is!'],['A MOON',0,'Moons are not in this pattern at all!']]}},
+  {power:'clue',label:'Clue 2 • The Drip Trail',scene:'💧 💧 💧 🚰',q:'From the empty place, a trail of wet-soil drips leads across the grass. Where does the drip trail end?',hard:false,
+   opts:[['At the WATER TAP',1,'Trail finished! Fresh drips, honestly followed, end at the tap.'],['At the judging table',0,'The drips pass the table by and keep travelling!'],['At the back gate',0,'The back-gate path is muddy, but these are fresh DRIPS — they stop earlier, somewhere wet!']],
+   hints:['Drips fall from something watered and carried.','Follow the drips to their very end — detectives finish trails.','Mini-example: a leaking bucket’s drips lead to wherever the bucket was carried.'],
+   prove:{ex:'Worked example: drips of paint lead from the art table to the sink. The painting was carried to the sink.',q:'Now you try: crumbs lead from the kitchen to the garden bench. Where was the snack carried?',opts:[['To the garden bench',1,'Trails end where carriers stop — followed!'],['To the kitchen',0,'That is the START of the trail!'],['Trails have no ends',0,'Every trail ends where the carrier stopped!']]}},
+  {power:'plan',label:'Clue 3 • The Fair Must Go On',scene:'🧑 ⚖️ 🌻 🚰',q:'The judges are busy, the fair is buzzing, and the drip trail is fresh. What is the smart plan?',hard:true,
+   opts:[['Keep the judging going, and send a helper to follow the trail to the tap',1,'Two jobs, shared smartly — the fair runs AND the trail is followed!'],['Stop the whole fair until the pot returns',0,'Stopping everything helps nobody — smart plans keep things moving AND follow clues!'],['Water all the other pots again',0,'The others are watered already! Follow THIS trail!']],
+   hints:['Two jobs at once: the fair must run, and the trail must be followed.','Who can do which job? Judges judge; a helper can walk.','Mini-example: while Amma cooks, you set the table — jobs shared, nothing stops.'],
+   prove:{ex:'Worked example: during a match, a ball rolls away. Play continues while the ball-fetcher runs after it — two jobs, no stopping.',q:'Now you try: the class play is starting, and a costume hat is missing backstage. What is the smart plan?',opts:[['The play begins, and a helper searches backstage for the hat',1,'Jobs shared, show saved — planning gold!'],['Cancel the play',0,'Cancelling is the LAST resort, not the plan!'],['Everyone stops to search',0,'Then there is no play at all! Share the jobs!']]}},
+  {power:'see',label:'Clue 4 • The Pot by the Tap',scene:'🚰 🌻 🎀 💌',q:'By the water tap stands the sunflower pot — freshly watered, with the JUDGE’S RIBBON tied on its stalk and a card tucked in its soil. What does the ribbon tell us?',hard:true,
+   opts:[['This pot was CHOSEN — the ribbon is the judge’s prize ribbon',1,'Ribbon plus card at a fair means a PRIZE. The pot was being honoured!'],['Someone tied rubbish to the pot',0,'A shining ribbon and a card are not rubbish — they are a PRIZE!'],['The pot grew its own ribbon',0,'Pots grow flowers, Detective — ribbons are tied by HANDS!']],
+   hints:['Ribbons at a fair mean prizes. Whose ribbon is it?','Cards tucked with ribbons announce winners.','Mini-example: a medal on a runner’s chest means the runner WON something!'],
+   prove:{ex:'Worked example: a cake at a fair wears a blue rosette card: “First Prize”. The cake won first prize.',q:'Now you try: a painting hangs with a gold star card: “Best Painting”. What does the card mean?',opts:[['The painting won Best Painting',1,'Prize-reading — see-carefully gold!'],['The painting is for sale',0,'No price anywhere — the card names a PRIZE!'],['The star fell on it by chance',0,'Cards are placed by judges, not by chance!']]}}
+ ],
+ twist:{text:'WAIT — a twist! “TWO muddy trails!” cries a judge. “One to the tap — and one to the BACK GATE! Someone carried the pot OUT!” But Ollie points at the story’s second picture: this morning, the gardener’s barrow splashed mud all along the back-gate path — hours before the judging!',q:'So does the back-gate mud trail belong to our missing-pot case?',opts:[['No — that mud is the gardener’s morning barrow trail, older than our case',1,'Timeline checking! Old mud and fresh drips are two different stories.'],['Yes — the pot was carried out of the gate',0,'The mud was there since morning watering — and our pot stands by the TAP, ribbon and all!'],['Yes — two trails means two carriers',0,'Two trails, two DIFFERENT stories: morning barrow, and fresh drips!']]},
+ deduction:{q:'Detective, the big moment! Where is the sunflower pot — and what happened to it?',opts:[['By the water tap — the judge chose it as Best Pot at sunrise, and it was watered there in celebration',1,'CASE CRACKED! Pattern, drips, ribbon, card — the Best Pot was being HONOURED, not stolen! 🎡'],['Carried out of the back gate',0,'The gate trail is morning barrow mud. The pot never left the fair!'],['Still missing somewhere in the fair',0,'It stands by the tap in plain sight, wearing its prize!']]},
+ explain:{q:'Why did everyone THINK the pot was stolen, when it was really a prize-winner?',opts:[['The judge awarded it at sunrise, but the happy news never reached the judging table',1,'A missing MESSAGE, not a missing pot! Communication is a clue too.'],['Because pots hide when they win',0,'Pots do not hide! A message simply went missing.'],['Because the ribbon was invisible',0,'The ribbon shone in plain sight by the tap!']]},
+ whatif:{q:'What if the drip trail had led OUT of the back gate instead?',opts:[['Then the pot truly would have left the fair, and we would follow the trail outside',1,'Trails lead, detectives follow — wherever they go!'],['Then the ribbon would not matter',0,'The ribbon would still be a clue — every clue matters!'],['Then the gardener’s barrow would be guilty',0,'Barrows cannot be guilty, Detective!']] }},
+
+/* ---------------- STAGE 5 CASE 7 ---------------- */
+{id:'s5c7',stage:5,no:7,title:'The Case Ollie Missed',sticker:'🦉',powersUsed:'See Carefully + Find Patterns + Use the Clues + Plan & Solve + Remember & Focus',powers:['see','pattern','clue','plan','memory'],
+ story:[{sc:'🏆 ✨ 🎪',sp:'Festival City’s STAR TROPHY stands on the hall shelf, shining for tonight’s show. But by NOON, the shelf is empty — and Ollie swoops in, proud as can be…'},{sc:'🦉 📣 🧣',sp:'“CASE CLOSED!” hoots Ollie. “I know who took it! TARA did — her scarf lay by the shelf, and she was in the hall at noon!”'},{sc:'🤔 🕵️ 🔍',sp:'“Hold on, Ollie,” you say. “A real detective CHECKS. Let us test your case, clue by clue…”'}],
+ clues:[
+  {power:'see',label:'Clue 1 • The Scarf Check',scene:'🧣 🟢 🔍',q:'First check: the scarf by the shelf is PLAIN GREEN, all over. Tara’s own scarf — the one she wears in every photo — is RED WITH WHITE DOTS. What does this check do to Ollie’s case?',hard:true,
+   opts:[['It BREAKS it — the scarf by the shelf is NOT Tara’s scarf',1,'The very first check cracks it! Plain green is not red-with-white-dots.'],['It proves Ollie right',0,'Red-with-dots and plain green are DIFFERENT scarves. Ollie never checked the colour!'],['Nothing — scarves change colour at noon',0,'Scarves keep their colours, Detective!']],
+   hints:['Compare the two scarves word by word: plain green… red with white dots.','A detective checks the detail BEFORE deciding.','Mini-example: a blue cap by a door does not belong to the boy whose cap is yellow!'],
+   prove:{ex:'Worked example: a black umbrella is found by a gate. Meera’s umbrella is flowery pink. The found umbrella is NOT Meera’s.',q:'Now you try: a stripy sock is found by the bed. Dev’s socks are all plain white. Whose sock is the stripy one?',opts:[['Not Dev’s — his are plain white',1,'Detail-checking — Super Thinker standard!'],['Surely Dev’s',0,'Stripy and plain white do not match, Detective!'],['Socks change patterns at night',0,'Socks keep their patterns, like scarves keep their colours!']]}},
+  {power:'clue',label:'Clue 2 • The Dusty Outline',scene:'🕸️ ✨ 🏆',q:'On the shelf, the trophy’s outline in the dust is SETTLED and dusty, with a tiny cobweb across one corner. What does that tell us about WHEN the trophy was lifted?',hard:false,
+   opts:[['It was lifted LONG before noon — early in the morning',1,'Settled dust and a cobweb need HOURS. The shelf emptied early!'],['It was lifted at noon, minutes ago',0,'Fresh lifting leaves clean, bright dust edges — settled dust and cobwebs need HOURS!'],['It was never on this shelf',0,'The outline is trophy-shaped and trophy-sized — it stood here!']],
+   hints:['Cobwebs are not built in minutes.','Settled dust on an outline means the space has been empty a long while.','Mini-example: a dusty ring where a pot sat all winter tells you the pot moved long ago.'],
+   prove:{ex:'Worked example: a picture frame is taken down, and its clean rectangle on the wall is already dusty round the edges. It has been down for days, not minutes.',q:'Now you try: a toy shelf outline is covered in fresh, clean dust with NO cobweb at all. What does it suggest?',opts:[['The toy was moved recently',1,'Fresh marks, recent move — read correctly!'],['The toy moved years ago',0,'Old moves grow cobwebs and settled dust — fresh marks mean RECENT!'],['The toy was never there',0,'An outline proves it WAS there!']]}},
+  {power:'memory',label:'Clue 3 • The Gate List',scene:'📋 🕛 ✍️',q:'The hall gate list shows: “Tara — signed in at NOON”. The trophy was lifted EARLY in the morning. What does Tara’s sign-in time do to Ollie’s case?',hard:true,
+   opts:[['It clears her — she arrived at noon, HOURS after the trophy was lifted',1,'Times are strong clues! She was not even here when it happened.'],['It proves she took it at noon',0,'The lifting happened in the early morning — she was not even here!'],['Sign-in lists mean nothing',0,'Lists are records, Detective — times are strong clues!']],
+   hints:['Put the two times side by side: lifted early morning; Tara arrived noon.','Can someone take a thing hours before she arrives?','Mini-example: a shop event at 10 cannot belong to a visitor who signed in at 12.'],
+   prove:{ex:'Worked example: a vase broke at 8 in the morning. Ravi signed in at 11. Ravi cannot have broken the 8 o’clock vase.',q:'Now you try: the library book vanished at 9. Sana signed in at 10. Could Sana have taken it?',opts:[['No — she arrived an hour after it vanished',1,'Timeline checking — memory and maths together!'],['Yes — she was in the library that day',0,'Being there LATER is not being there AT the time!'],['Yes — sign-in times do not matter',0,'Times matter enormously in detective work!']]}},
+  {power:'plan',label:'Clue 4 • The New Question',scene:'❌ 🧾 🕵️',q:'Two of Ollie’s “proofs” have crumbled, and Tara is cleared. What is the smart detective plan now?',hard:true,
+   opts:[['Cross Tara OUT, and ask: who was in the hall EARLY in the morning?',1,'Cleared suspects open new questions — and the timeline is the treasure map!'],['Keep blaming Tara — Ollie said so',0,'Detectives follow CLUES, not loud voices — even beloved owls must be checked!'],['Close the case with no answer',0,'The trophy is still missing! A cleared suspect means a NEW question, not the end!']],
+   hints:['When a suspect is cleared, the timeline becomes the treasure map.','Who was here at the RIGHT time — the early morning?','Mini-example: if the baker is cleared, ask who else was in the kitchen at dawn!'],
+   prove:{ex:'Worked example: the night watchman is cleared by the gate list. The detective asks: who signed in at DAWN? — and the real story begins.',q:'Now you try: a cake vanished at 6 in the morning; the cook is cleared. What is your first question?',opts:[['Who was here at 6 in the morning?',1,'New question, right time — planner thinking!'],['Why did the cook do it?',0,'The cook is CLEARED — that question is finished!'],['Shall we stop looking?',0,'Detectives do not stop while a cake is missing!']]}}
+ ],
+ twist:{text:'WAIT — a twist! The hall cleaner arrives with his duster and a sheepish smile: “Trophy? I moved it myself at DAWN, friends — today is POLISHING DAY! It stands in the SAFE CUPBOARD, shining. I left a note… oh — the note slipped UNDER the shelf!” And Ollie hangs his head: “I rushed. I am sorry, Tara.”',q:'So where is the Star Trophy?',opts:[['Safe in the cupboard, moved at dawn for polishing day',1,'The dawn mover steps forward — the timeline was telling the truth all along!'],['Taken by Tara at noon',0,'Tara is cleared twice over — the cleaner moved it at dawn!'],['Lost forever',0,'It shines in the safe cupboard, Detective!']]},
+ deduction:{q:'Detective, the big moment! Was Ollie’s “CASE CLOSED” deduction right?',opts:[['No — the clues clear Tara completely; the cleaner moved the trophy at dawn for polishing',1,'CASE CRACKED! You checked a hero’s work and found the truth — the bravest detective move of all! 🦉'],['Yes — Ollie is always right',0,'Even Ollie can rush! The scarf, the dust and the gate list all say otherwise.'],['Yes — Tara took it and returned it',0,'Nothing places the trophy in Tara’s hands at any time!']]},
+ explain:{q:'Which check broke Ollie’s case FIRST?',opts:[['The scarf-colour check — plain green is not Tara’s red-with-white-dots',1,'The smallest detail, checked first, broke the loudest claim!'],['Asking Tara if she did it',0,'We never needed to ask — the SCARF did the talking first!'],['Counting the people in the hall',0,'Counting people cannot clear or blame anyone by itself!']]},
+ whatif:{q:'What if the scarf by the shelf HAD been red with white dots?',opts:[['Then Ollie’s first clue would stand, and we would check Tara’s TIMING next',1,'One clue standing means the NEXT check begins — never a rush to blame!'],['Then Tara would surely be guilty',0,'One matching clue is a start, never the whole proof!'],['Then the dust and the gate list would stop mattering',0,'Every clue always matters, Detective!']] }},
+
+/* ---------------- STAGE 5 CASE 8 ---------------- */
+{id:'s5c8',stage:5,no:8,title:'The Evening Library Mystery',sticker:'🌙',powersUsed:'See Carefully + Find Patterns + Use the Clues + Plan & Solve + Remember & Focus',powers:['see','pattern','clue','plan','memory'],
+ story:[{sc:'🌙 📚 ✨',sp:'The Evening Library glows warm and quiet. This morning, the storyteller tucked her GOLDEN BOOKMARK inside the BIG ATLAS “for safekeeping”, and shelved the atlas away.'},{sc:'🗺️ 📖 🪑',sp:'The great atlas — full of maps of everywhere — normally stands on the tall shelf with the other big books.'},{sc:'😲 📖 ❓',sp:'By evening, the atlas stands OPEN on the reading desk… and the golden bookmark is GONE from its pages!'}],
+ clues:[
+  {power:'clue',label:'Clue 1 • The Green Table',scene:'💡 🪑 📗',q:'At the GREEN table: the lamp is still warm, the chair is pushed back, the cushion is dented — and a small storybook waits there, with something golden peeking from its pages. What most likely happened at the green table?',hard:false,
+   opts:[['A reader sat there recently, reading',1,'Warm lamp, pushed chair, dented cushion — three fresh signs of a recent reader!'],['Nobody has sat there for weeks',0,'Warm lamps and dented cushions are FRESH signs!'],['The table reads books by itself',0,'Tables hold books bravely, but they cannot read them!']],
+   hints:['Warm, pushed back, dented — three signs of a recent visitor.','Fresh signs mean recent, just like fresh footprints.','Mini-example: a warm cup and a moved chair say someone just had tea there.'],
+   prove:{ex:'Worked example: a bench is warm, and a book lies open face-down beside it. A reader sat there just now.',q:'Now you try: a swing is still swaying gently, and a cap lies under it. What most likely happened?',opts:[['A child was swinging there a moment ago',1,'Fresh signs, recent child — read perfectly!'],['Nobody has used the swing for a year',0,'A year of stillness stops swaying! Fresh movement means recent.'],['The wind wears caps',0,'The wind may sway swings — the cap still says a CHILD was there!']]}},
+  {power:'see',label:'Clue 2 • The Golden Trail',mag:true,scene:'🔍 ✨ 📗',q:'Your Magnifying Glass finds tiny gold flakes dusting the blotter, trailing in a dotted line. Which way does the golden trail lead?',hard:true,
+   opts:[['Towards the GREEN table',1,'Flake by flake to the green table — where a storybook waits with something golden inside!'],['Towards the library door and out',0,'The flakes stop inside — they march to a table, not out of the door!'],['In a circle round the desk',0,'Trails have destinations, Detective — this one marches straight!']],
+   hints:['Tiny gold flakes fell from something GOLDEN that was carried.','Follow the dotted line with your glass, flake by flake.','Mini-example: a dotted line of crumbs leads from a plate to whoever munched — follow the dots!'],
+   prove:{ex:'Worked example: silver glitter dots trail from a card to the craft shelf. The card was carried to the craft shelf.',q:'Now you try: chalk dots trail from the board to the window desk. Where was the chalk carried?',opts:[['To the window desk',1,'Dots followed home — magnifier mastery!'],['To the board',0,'That is the START of the trail!'],['Chalk walks in circles by itself',0,'Chalk does not walk — hands carry it!']]}},
+  {power:'pattern',label:'Clue 3 • The Tall Shelf Pattern',scene:'📚 📕 📗 📕 ⬜',q:'On the tall shelf, the books lean in a pattern: TALL, short, TALL, short, TALL… The gap in the row is on a TALL turn. What kind of book stood in the gap?',hard:true,
+   opts:[['A TALL book — like the big atlas',1,'Turn-counting! Odd turns are tall — and the atlas is the tallest of all.'],['A short book',0,'Short books sit at the even turns. This gap is on a TALL turn!'],['A round book',0,'Books are not round, Detective — and this shelf pattern is tall-short!']],
+   hints:['Number the turns: 1 tall, 2 short, 3 tall, 4 short, 5 …?','The atlas is the TALLEST book in the library.','Mini-example: cups go BIG, small, BIG, small — a gap at turn 3 is a BIG cup’s place.'],
+   prove:{ex:'Worked example: boxes go BIG, small, BIG, small. The gap at the third place is a BIG box’s place.',q:'Now you try: flags go LONG, short, LONG, short, and then a gap. The gap is…',opts:[['A LONG flag’s place',1,'Turn 5 is a LONG turn — counted!'],['A short flag’s place',0,'Count the turns — the gap is on turn 5, a LONG turn!'],['No flag’s place at all',0,'A gap in a pattern always has an owner!']]}},
+  {power:'memory',label:'Clue 4 • Safekeeping',scene:'🤔 📖 ✨',q:'Think back to the very start of our story. WHERE did the storyteller tuck her golden bookmark “for safekeeping”?',hard:true,
+   opts:[['Inside the BIG ATLAS',1,'The opening words, remembered word-perfect! The atlas was its safe place.'],['Inside her handbag',0,'No handbag appeared in our story’s opening!'],['Under the green table',0,'The opening said inside a BOOK — the biggest one!']],
+   hints:['Shut your eyes and hear the storyteller’s words again: “for safekeeping”… inside what?','The biggest book in the library keeps the bookmark.','Mini-example: a story that opens with a key under the mat expects you to remember the mat!'],
+   prove:{ex:'Worked example: at the start of a story, a letter is tucked inside a blue diary for safekeeping. When the letter is hunted later, the diary is the place.',q:'Now you try: at the start of a story, a coin is tucked inside a red purse for safekeeping. Where do we hunt for the coin?',opts:[['Inside the red purse',1,'Safekeeping places remembered — memory gold!'],['Inside the blue diary',0,'That is a different story’s hiding place — OUR opening said the red purse!'],['Coins keep themselves safe',0,'Coins rest where they are TUCKED!']]}}
+ ],
+ twist:{text:'WAIT — a twist! “I saw a small reader hugging a BIG book!” whispers a library mouse. Everyone gasps — did the atlas LEAVE the library? But Ollie opens the signing-out book: the atlas’s name was never signed out. The atlas never left the library at all!',q:'So where must the golden bookmark be?',opts:[['Still INSIDE the library — somewhere in its rooms',1,'Records rule! The atlas never left, so its bookmark rests inside these walls.'],['Carried home by the small reader',0,'The signing-out book is the library’s diary — the atlas never left!'],['It vanished into the air',0,'Bookmarks are solid gold, Detective — they rest SOMEWHERE!']]},
+ deduction:{q:'Detective, the big moment! Where is the golden bookmark?',opts:[['Between the pages of the small storybook at the green table — the recent reader used it to mark her page',1,'CASE CRACKED! Warm lamp, golden trail, tall gap, and a morning memory — the Evening Library glows again! 🌙'],['Still inside the atlas on the desk',0,'The atlas stands open and EMPTY — someone borrowed the bookmark from its pages!'],['Signed out and carried home',0,'The signing-out book says the atlas — and its bookmark — never left!']]},
+ explain:{q:'Which clue told us the bookmark never left the library?',opts:[['The signing-out book — the atlas was never signed out',1,'A written record beats a whispered guess!'],['The warm lamp',0,'The lamp tells us a reader sat — not where the bookmark may be!'],['The atlas’s size',0,'Big books can travel too! The RECORD is the proof.']]},
+ whatif:{q:'What if the atlas HAD been signed out that morning?',opts:[['Then we would visit the reader who signed it out — kindly, with our clues ready',1,'A name in a record book is a beginning, not an end!'],['Then the case would be closed with no answer',0,'Signed-out books give us a NAME to visit — detectives visit!'],['Then the bookmark would be lost forever',0,'Signed-out books come back, Detective — with their bookmarks!']] }},
+
+/* ---------------- STAGE 5 CASE 9 ---------------- */
+{id:'s5c9',stage:5,no:9,title:'The Super Thinker Challenge',sticker:'🏆',powersUsed:'See Carefully + Find Patterns + Use the Clues + Plan & Solve + Remember & Focus',powers:['see','pattern','clue','plan','memory'],
+ story:[{sc:'🏆 👑 🎪',sp:'The Festival Crown is hidden somewhere in Festival City, and Ollie has set you the SUPER THINKER CHALLENGE: find it with nothing but a chain of clues!'},{sc:'🚩 🚩 🔵 🗺️',sp:'“Follow my flags,” hoots Ollie. “Over the hiding place flies a flag. The flags go TRIANGLE, TRIANGLE, CIRCLE — triangle, triangle, circle — all over the city!”'},{sc:'🃏 ✉️ ✨',sp:'In your hand is Ollie’s only card. It holds more than it seems… and only two visits are allowed before the festival parade. Choose wisely, Super Thinker!'}],
+ clues:[
+  {power:'pattern',label:'Clue 1 • The Flag Code',scene:'🚩 🚩 🔵 🚩 🚩 ❓',q:'The flag row over the city runs TRIANGLE, TRIANGLE, CIRCLE, TRIANGLE, TRIANGLE… The crown sleeps beneath the NEXT flag in the row. What flag is it?',hard:true,
+   opts:[['A CIRCLE flag — every third flag completes the unit',1,'The unit is triangle, triangle, CIRCLE — the sixth flag is the circle!'],['A TRIANGLE — triangles are the most',0,'Most is not the rule! The unit is triangle, triangle, CIRCLE.'],['A SQUARE flag joins in',0,'Squares never fly in Ollie’s pattern!']],
+   hints:['Find the unit: THREE flags that repeat.','Count: 1 triangle, 2 triangle, 3 circle, 4 triangle, 5 triangle, 6 …?','Mini-example: clap, clap, stomp repeats — after clap, clap comes STOMP.'],
+   prove:{ex:'Worked example: the drum pattern goes BOOM, BOOM, tap — repeating. After BOOM, BOOM, tap, BOOM, BOOM, the next sound is a TAP — the unit’s third beat.',q:'Now you try: the pattern RING, RING, ding repeats. After RING, RING, ding, RING, RING — what comes next?',opts:[['A ding — the unit’s third beat',1,'Third-beat thinking — Challenge accepted and passed!'],['A RING — a third ring in a row',0,'Three rings would BREAK the unit!'],['Silence',0,'Patterns do not stop mid-unit!']]}},
+  {power:'plan',label:'Clue 2 • Only Two Visits',scene:'⛲ 🎺 🕐',q:'Only TWO visits are allowed. Three places fly circle flags: the FOUNTAIN (workmen are mending it, busy there all day), the STAGE (the band is playing there right now, crowds everywhere), and the old CLOCK TOWER (quiet and empty). Where do you go FIRST?',hard:true,
+   opts:[['Straight to the CLOCK TOWER — the other two are ruled out by the facts',1,'Elimination planning! Busy fountain, crowded stage — the quiet tower stands alone.'],['The fountain — maybe the workmen saw something',0,'Maybe is not a plan! The workmen fill the fountain — a crown cannot sleep unseen there all day!'],['The stage — crowds are fun',0,'Fun is not evidence! A hidden crown cannot rest where a band and crowds stand!']],
+   hints:['Cross out the places the FACTS rule out: workmen all day; a band playing now.','A hiding place must be somewhere a crown could rest UNSEEN.','Mini-example: if two doors are locked and one is open, the open door is your first visit!'],
+   prove:{ex:'Worked example: a lost ball may be in the hall (a class is dancing there), the store room (locked), or the quiet balcony. First visit: the balcony — the others are ruled out.',q:'Now you try: a kite may be on the roof (workers are mending it all day), in the hall (a party fills it), or in the quiet attic. First visit?',opts:[['The quiet attic',1,'Ruled out, ruled out, VISIT — perfect elimination!'],['The roof — workers might help',0,'Workers fill the roof — a kite cannot rest unseen there!'],['The hall — parties are fun',0,'Fun is not a fact, Detective!']]}},
+  {power:'memory',label:'Clue 3 • The First Picture Flags',scene:'🤔 📸 🕐',q:'Think back to the FIRST picture of our story — the flags flying over the city. Over which place did the CIRCLE flag fly?',hard:true,
+   opts:[['Over the old CLOCK TOWER',1,'Pattern said CIRCLE; memory says WHERE — the tower, quiet and tall!'],['Over the fountain',0,'The fountain flew a different flag. Picture the tower — round and proud above it!'],['Over the stage',0,'The stage’s flag was a triangle. The CIRCLE flew over the quiet tower!']],
+   hints:['Close your eyes: the card, the flags, and the tower in the first picture.','Pattern said CIRCLE. Memory says WHERE the circle flew.','Mini-example: first pictures plant the seeds — endings harvest them!'],
+   prove:{ex:'Worked example: in a story’s first picture, a star balloon floats over the lighthouse. At the end, the lost balloon is found by remembering the lighthouse.',q:'Now you try: a story opens with a red kite stuck on the water tower. Later, someone hunts the kite. Where first?',opts:[['The water tower',1,'Openings plant truths — harvested!'],['The lighthouse',0,'That is a different story, Detective — OUR opening said the water tower!'],['Kites find themselves',0,'Kites rest where the wind left them — and stories open with the truth!']]}},
+  {power:'clue',label:'Clue 4 • The Three Boxes',scene:'📦 📦 📦 🔔',q:'At the top of the clock tower stand three boxes — one WINKING GOLD through its keyhole! But Ollie’s card warned: the crown is NOT inside any box at all. Above the boxes hangs the great bell. Where is the Festival Crown?',hard:true,
+   opts:[['Crowning the great BELL at the top of the tower',1,'You resisted the bait! Not in a box — ON the bell, in the open, exactly as the card promised.'],['Inside the box with the golden wink',0,'A golden wink is BAIT, Detective! The card warned us: not inside ANY box.'],['Inside the plain box',0,'The card said ANY box. Trust the twist!']],
+   hints:['Remember the card’s exact words from the twist.','A wink of gold through a keyhole is a trap for hurried hunters.','Mini-example: the shiniest door is not always the right door — read your clues!'],
+   prove:{ex:'Worked example: a card says “the prize is NOT in a bag”. Three bags glitter on a table. The wise hunter looks on the SHELF above the bags — and finds it.',q:'Now you try: a note says “your cap is NOT in any drawer”. Where do you look?',opts:[['On the hooks and shelves — anywhere that is not a drawer',1,'Notes obeyed, bait refused — Super Thinker!'],['Inside the biggest drawer',0,'The note said NOT in ANY drawer!'],['Give up searching',0,'Super Thinkers never give up — they READ!']]}}
+ ],
+ twist:{text:'WAIT — a twist inside Ollie’s card! The card’s second line is written UPSIDE-DOWN. You turn the card round and read: “Super Thinker, one more secret — the crown is NOT inside any box at all!”',q:'How does this change your search at the hiding place?',opts:[['Look in the OPEN — on top of things, not inside boxes',1,'The card just saved your visits! Open places, high places — search there.'],['Open every box twice as fast',0,'The card is CLEAR: not inside ANY box!'],['Give up — boxes were the only hope',0,'Boxes were never the only hope — open places hide things too!']]},
+ deduction:{q:'Detective, the FINAL moment! Recite the whole chain: where is the Festival Crown?',opts:[['Beneath the CIRCLE flag, at the quiet CLOCK TOWER, crowning the great BELL',1,'CASE CRACKED — SUPER THINKER SUPREME! Pattern, plan, memory and the upside-down twist — every power in one perfect chain! 🏆'],['Inside the golden-winking box at the fountain',0,'Fountain, box — two chain-links broken! Recite the chain slowly.'],['On the stage, inside a drum',0,'The stage was ruled out, and drums were cleared by the card!']]},
+ explain:{q:'Why is this the SUPER THINKER challenge?',opts:[['Every step needed a DIFFERENT power, and each answer became the next step’s key',1,'That is the whole of Brain Lab in one case — five powers, one chain!'],['Because the tower is the tallest',0,'Tall towers are for climbing — the CHAIN of thinking is the challenge!'],['Because the crown is the heaviest',0,'Crowns are light. Chains of clues are the heavy lifting!']]},
+ whatif:{q:'What if the card’s upside-down line had never been read?',opts:[['We might have wasted our visits opening boxes — one unread line can change a whole search',1,'Reading EVERYTHING, even upside-down — that is the Super Thinker way!'],['Nothing would change',0,'The line EXCLUDED every box — that changes everything!'],['The crown would move itself',0,'Crowns stay where they are hidden, Detective!']] }},
+
+/* ---------------- STAGE 5 SLOT 10: GRADUATION CREATOR ---------------- */
+{id:'s5c10',stage:5,no:10,title:'The Final Case: Sreshta’s Own Mystery',sticker:'🎓',type:'create',powersUsed:'All Five Powers + Your Own Ideas!',powers:['see','pattern','clue','plan','memory']}
 ];
 </script>
 
@@ -1323,11 +1569,11 @@ const CASES=[
 "use strict";
 /* ============ STATE ============ */
 const LS_KEY='brainlab_v1';
-const MAGTEXT={'c2_2':'🌿 A tiny NEEM LEAF is stuck inside this footprint!','c3_1':'🏷️ The tiny writing says: RAVI','c4_2':'✨ Tiny RED pencil shavings are sprinkled on the drawing book’s cover!','c5_3':'🧦 A tiny PINK thread is caught on the towel’s fold — the thread matches the lonely pink sock!','c6_3':'✨ A sparkly STAR sticker — the twin of the bookmark’s star — is stuck on the sofa cushion!','c7_3':'🐌 The trail is visible again here — and tiny fresh nibbles shine on the lettuce leaf right beside it!','c9_2':'🧩 A grey ZIGZAG pattern covers this piece’s back — the peacock puzzle’s own family pattern!','c10_2':'🔍 Three sizes of floury fingerprints ring the lid — BIG, medium and small!'};
-const NOTEBOOKTEXT={'s2c3_2':'📓 Your notebook says: the step pattern was 👣 👣 🔄 — step, step, TWIRL — repeating!','s2c7_2':'📓 Your notebook says: the TOP row pattern is 🍎 🍌 — apple, banana, taking turns!'};
-const TORCHTEXT={'s3c3_2':'🔦 In the torch beam under the shelf: a green DINOSAUR bookmark glitters inside the book left in the corner — and the card tucked inside it is signed with the letter R!','s3c7_2':'🔦 In the torch beam under the chest lid: a flat stone painted with a BLUE X — and a tiny arrow chiselled beside it points straight towards the BIG TREE roots!'};
-const DECODERTEXT={'s4c3_1':'🎡 Click, whirr! The Decoder Wheel turns each picture into its letter: 🐝 = B, 🍦 = I, 🌹 = R — the strip begins B… I… R…','s4c10_0':'🎡 Click, whirr! The Decoder Wheel reads the gate strip: 🐝 = B, 🍦 = I, 🌹 = R, 🐶 = D — the pictures spell B-I-R-D!'};
-function freshState(){return {v:1,cap:null,baseline:null,solved:[],stars:0,stickers:[],kit:{glass:false,notebook:false,torch:false,decoder:false},nextReward:'A special family surprise!',powerUse:{see:0,pattern:0,clue:0,plan:0,memory:0},tricky:[],history:{},prog:null,baseProg:null,ownCases:[],ownProg:null,updatedAt:0};}
+const MAGTEXT={'s5c8_1':'✨ Through your Magnifying Glass: tiny GOLD FLAKES dust the blotter, trailing in a dotted line all the way to the GREEN table!','c2_2':'🌿 A tiny NEEM LEAF is stuck inside this footprint!','c3_1':'🏷️ The tiny writing says: RAVI','c4_2':'✨ Tiny RED pencil shavings are sprinkled on the drawing book’s cover!','c5_3':'🧦 A tiny PINK thread is caught on the towel’s fold — the thread matches the lonely pink sock!','c6_3':'✨ A sparkly STAR sticker — the twin of the bookmark’s star — is stuck on the sofa cushion!','c7_3':'🐌 The trail is visible again here — and tiny fresh nibbles shine on the lettuce leaf right beside it!','c9_2':'🧩 A grey ZIGZAG pattern covers this piece’s back — the peacock puzzle’s own family pattern!','c10_2':'🔍 Three sizes of floury fingerprints ring the lid — BIG, medium and small!'};
+const NOTEBOOKTEXT={'s5c5_1':'📓 Your notebook’s palace page says: this morning — a peacock feather on the step, THREE brass bells on the chair, and a BLUE ribbon on the chair’s back!','s2c3_2':'📓 Your notebook says: the step pattern was 👣 👣 🔄 — step, step, TWIRL — repeating!','s2c7_2':'📓 Your notebook says: the TOP row pattern is 🍎 🍌 — apple, banana, taking turns!'};
+const TORCHTEXT={'s5c2_2':'🔦 In the torch beam inside the store tent: marigold petals scattered across the floor — leading to the great GARLAND itself, folded safe and dry on a crate!','s3c3_2':'🔦 In the torch beam under the shelf: a green DINOSAUR bookmark glitters inside the book left in the corner — and the card tucked inside it is signed with the letter R!','s3c7_2':'🔦 In the torch beam under the chest lid: a flat stone painted with a BLUE X — and a tiny arrow chiselled beside it points straight towards the BIG TREE roots!'};
+const DECODERTEXT={'s5c4_1':'🎡 Click, whirr! The Decoder Wheel turns each picture into its letter: 🦁 = L, 🍦 = I, 🐸 = F, 🌳 = T — the note spells L-I-F-T!','s4c3_1':'🎡 Click, whirr! The Decoder Wheel turns each picture into its letter: 🐝 = B, 🍦 = I, 🌹 = R — the strip begins B… I… R…','s4c10_0':'🎡 Click, whirr! The Decoder Wheel reads the gate strip: 🐝 = B, 🍦 = I, 🌹 = R, 🐶 = D — the pictures spell B-I-R-D!'};
+function freshState(){return {v:1,cap:null,baseline:null,solved:[],stars:0,stickers:[],kit:{glass:false,notebook:false,torch:false,decoder:false,badge:false},nextReward:'A special family surprise!',powerUse:{see:0,pattern:0,clue:0,plan:0,memory:0},tricky:[],history:{},prog:null,baseProg:null,ownCases:[],ownProg:null,certificate:null,updatedAt:0};}
 let S=freshState();
 try{const raw=localStorage.getItem(LS_KEY); if(raw){const p=JSON.parse(raw); if(p&&p.v===1){const f=freshState(); Object.assign(f,p); f.powerUse=Object.assign(freshState().powerUse,p.powerUse||{}); f.kit=Object.assign(freshState().kit,p.kit||{}); S=f;}}}catch(e){}
 function persistLocal(){try{localStorage.setItem(LS_KEY,JSON.stringify(S));}catch(e){}}
@@ -1375,6 +1621,7 @@ function adoptCloudState(cs){
  if(!Array.isArray(merged.solved)) merged.solved=[];
  if(!Array.isArray(merged.ownCases)) merged.ownCases=[];
  if(merged.ownProg===undefined) merged.ownProg=null;
+ if(merged.certificate===undefined) merged.certificate=null;
  Object.keys(merged).forEach(function(k){ S[k]=merged[k]; });
  persistLocal();
  const dEl=document.getElementById('scr-dash'), hEl=document.getElementById('scr-home');
@@ -1458,8 +1705,8 @@ function renderHome(){
  $('#statStars').textContent='⭐ '+S.stars; $('#statCases').textContent=S.solved.length; $('#statTricky').textContent=S.tricky.length;
  $('#nextRewardHome').textContent=S.nextReward;
  $('#powersRow').innerHTML=POWERS.map(p=>'<div class="pw"><div class="ic">'+p.ic+'</div><div class="nm">'+p.nm+'</div><div class="bar"><i style="width:'+powerFill(p.id)+'%"></i></div></div>').join('');
- const slots=[['🔍','Magnifying Glass',S.kit.glass,'Case 1'],['📓','Clue Notebook',!!S.kit.notebook,'Stage 2'],['🔦','Torch',!!S.kit.torch,'Stage 3'],['🧭','Decoder Wheel',!!S.kit.decoder,'Stage 4'],['⭐','Thinker Badge',false,'Stage 5']];
- $('#statRank').textContent=S.solved.length>=30?'Puzzle Master':S.solved.length>=20?'Clue Detective':S.solved.length>=10?'Pattern Hunter':'Rookie Detective';
+ const slots=[['🔍','Magnifying Glass',S.kit.glass,'Case 1'],['📓','Clue Notebook',!!S.kit.notebook,'Stage 2'],['🔦','Torch',!!S.kit.torch,'Stage 3'],['🧭','Decoder Wheel',!!S.kit.decoder,'Stage 4'],['⭐','Thinker Badge',!!S.kit.badge,'Stage 5']];
+ $('#statRank').textContent=S.solved.length>=40?'Super Thinker':S.solved.length>=30?'Puzzle Master':S.solved.length>=20?'Clue Detective':S.solved.length>=10?'Pattern Hunter':'Rookie Detective';
  $('#kitShelf').innerHTML=slots.map(s=>'<div class="slot'+(s[2]?' got':'')+'"><span class="ic">'+(s[2]?s[0]:'🔒')+'</span>'+s[1]+'<br><small>'+(s[2]?'Earned!':s[3])+'</small></div>').join('');
  const bb=$('#baseBtn');
  if(!S.baseline){ bb.textContent=S.baseProg?"🦉 Continue Ollie's Adventure!":"🦉 Start with Ollie's Adventure!"; bb.disabled=false; }
@@ -1467,7 +1714,7 @@ function renderHome(){
  let t='The Missing Cupcakes', sub='A brand-new mystery is waiting!', btn='Start Case →';
  if(!S.baseline){ t="Ollie's Adventure"; if(S.baseProg){ sub='Your adventure is saved right where you left it!'; btn='Continue Adventure →'; } else { sub='A short adventure before your first case!'; btn='Start Adventure →'; } }
  else if(S.prog&&S.prog.phase!=='done'){ const c=findCaseById(S.prog.cid); t='Continue: '+(c?c.title:'Your Case'); sub='Your case is saved right where you left it!'; btn='Continue Case →'; }
- else { const nx=CASES.find(c=>!S.solved.includes(c.id)); if(nx){ t=nx.title; sub='Case '+nx.no+' of Stage '+(nx.stage||1)+' — '+PLACES[(nx.stage||1)-1].nm; } else { t='Stage 4 Complete — Puzzle Trail Cleared! 🎉'; sub='You solved EVERY case in the Village, the Garden, the Library AND the Puzzle Trail, Detective! The Festival City adventure (Stage 5) comes next in a future Brain Lab — replay any favourite from the Journey Map meanwhile!'; btn='Open Map →'; } }
+ else { const nx=CASES.find(c=>!S.solved.includes(c.id)); if(nx){ t=nx.title; sub='Case '+nx.no+' of Stage '+(nx.stage||1)+' — '+PLACES[(nx.stage||1)-1].nm; } else { t='SUPER THINKER — All 50 Cases Complete! 🏆'; sub='You solved EVERY case in Brain Lab, Detective — the Village, the Garden, the Library, the Puzzle Trail AND Festival City! Replay any favourite from the Journey Map — and play the cases YOU built, in “Cases by Detective Sreshta”!'; btn='Open Map →'; } }
  $('#todayTitle').textContent=t; $('#todaySub').textContent=sub; $('#todayBtn').textContent=btn;
 }
 function todayAction(){ if(!S.baseline){startBaseline(); return;} if(S.prog&&S.prog.phase!=='done'){ const oc=(S.ownCases||[]).find(c=>c.id===S.prog.cid); if(oc){ startOwnCase(oc.id); return; } startCase(CASES.findIndex(c=>c.id===S.prog.cid)); return; } const nx=CASES.findIndex(c=>!S.solved.includes(c.id)); if(nx>=0) startCase(nx); else openMap(); }
@@ -1481,14 +1728,31 @@ function openMap(){
  $('#caseList2').innerHTML=CASES.map((c,i)=>({c,i})).filter(x=>(x.c.stage||1)===2).map(x=>caseRow(x.c,x.i)).join('');
  $('#caseList3').innerHTML=CASES.map((c,i)=>({c,i})).filter(x=>(x.c.stage||1)===3).map(x=>caseRow(x.c,x.i)).join('');
  $('#caseList4').innerHTML=CASES.map((c,i)=>({c,i})).filter(x=>(x.c.stage||1)===4).map(x=>caseRow(x.c,x.i)).join('');
+ $('#caseList5').innerHTML=CASES.map((c,i)=>({c,i})).filter(x=>(x.c.stage||1)===5).map(x=>caseRow(x.c,x.i)).join('');
  const own=S.ownCases||[];
  $('#ownSecttl').style.display=own.length?'':'none';
- $('#caseListOwn').innerHTML=own.map(oc=>'<button class="caseRow done" onclick="startOwnCase(\''+oc.id+'\')"><span class="no">✏️</span><span class="tt">'+esc(oc.title)+'</span><span class="st">Made by Sreshta ✏️</span></button>').join('');
+ $('#caseListOwn').innerHTML=own.map(oc=>'<button class="caseRow done" onclick="startOwnCase(\''+oc.id+'\')"><span class="no">✏️</span><span class="tt">'+esc(oc.title)+'</span><span class="st">'+(oc.graduation?'Graduation Case 🎓':'Made by Sreshta ✏️')+'</span></button>').join('');
 
  show('scr-map');
 }
 window.openMap=openMap;
+function fmtCertDate(iso){ try{ return new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}); }catch(e){ return ''; } }
+function certCardHTML(withBtn){
+ if(!S.certificate) return '';
+ return '<div class="card" style="text-align:center;border:3px solid #f2b134;background:#fffbe8"><div style="font-size:40px">🏆</div><div class="baloo" style="font-size:20px">Super Thinker Certificate</div><div style="font-weight:800">Detective Sreshta — Brain Lab, all 50 cases</div><div style="font-weight:700">Earned on '+esc(fmtCertDate(S.certificate.dateISO))+'</div>'+(withBtn?'<button class="btn yellow" onclick="showCertificate()">🏆 See My Certificate</button>':'')+'</div>';
+}
+window.fmtCertDate=fmtCertDate; window.certCardHTML=certCardHTML;
+function showCertificate(){
+ if(!S.certificate) return;
+ $('#certBody').innerHTML='<div class="stampBox"><div class="stamp">🎓 GRADUATION!</div></div>'
+  +'<div class="ollieRow"><div class="ollieWrap">'+ollieSVG()+'</div><div class="bubble">You did it ALL, Detective Sreshta! Every case in Brain Lab — solved by YOU. Ollie is the proudest owl in Festival City!</div></div>'
+  +certCardHTML(false)
+  +'<button class="btn" onclick="creatorPlay()">▶️ Play My Graduation Case</button><button class="btn yellow" onclick="openAlbum()">📖 My Detective Album</button><button class="btn ghost" onclick="openMap()">🗺️ Journey Map</button>';
+ show('scr-cert');
+}
+window.showCertificate=showCertificate;
 function openAlbum(){
+ $('#certCard').innerHTML=certCardHTML(true);
  const all=CASES.map(c=>({t:c.title,ic:c.sticker,id:c.id}));
  $('#albumGrid').innerHTML=all.map(a=>{const got=a.id&&S.stickers.includes(a.id); return '<div class="stk'+(got?'':' empty')+'"><div class="ic">'+(got?a.ic:'🔒')+'</div><div class="nm">'+esc(a.t)+'</div></div>';}).join('');
  show('scr-album');
@@ -1540,10 +1804,10 @@ function caseUnlocked(i){ return !!S.baseline && (i===0 || S.solved.includes(CAS
 window.caseUnlocked=caseUnlocked;
 function findCaseById(id){ return CASES.find(c=>c.id===id)||(S.ownCases||[]).find(c=>c.id===id)||null; }
 function curCase(){ return findCaseById(S.prog.cid); }
-function freshProg(cid){ return {cid:cid,phase:'story',clue:0,nb:[],hints:{},counted:{},magShown:{},nbShown:{},torchShown:{},decodeShown:{},thought:-1,proveFor:-1,twistDone:false,twistTried:false,twistOk:false,dedTried:false,expTried:false,expOk:false,tellVal:null,awardedStars:0}; }
+function freshProg(cid){ return {cid:cid,phase:'story',clue:0,nb:[],hints:{},counted:{},magShown:{},nbShown:{},torchShown:{},decodeShown:{},thought:-1,proveFor:-1,twistDone:false,twistTried:false,twistOk:false,twist2Done:false,twist2Tried:false,twist2Ok:false,dedTried:false,expTried:false,expOk:false,tellVal:null,awardedStars:0}; }
 function startCase(i){
  const c=CASES[i]; if(!caseUnlocked(i)) return false;
- if(c.type==='create'){ openCreator(); return true; }
+ if(c.type==='create'){ openCreator(c.id); return true; }
  if(!(S.prog&&S.prog.cid===c.id)){ S.prog=freshProg(c.id); save(); }
  show('scr-case'); renderCase(); return true;
 }
@@ -1571,6 +1835,8 @@ function renderCase(){
  } else if(p.phase==='clue'){ h=renderClue(c,p);
  } else if(p.phase==='twist'){
    h=nbHTML()+'<div class="qbox"><div class="sceneBig">😲🔀</div><div class="qq">'+esc(c.twist.text)+'</div><div class="qq" style="margin-top:10px">'+esc(c.twist.q)+'</div>'+optsHTML('twistAnswer',c.twist.opts)+fbHTML()+'</div>';
+ } else if(p.phase==='twist2'){
+   h=nbHTML()+'<div class="qbox"><div class="sceneBig">😲🌀</div><div class="qq">'+esc(c.twist2.text)+'</div><div class="qq" style="margin-top:10px">'+esc(c.twist2.q)+'</div>'+optsHTML('twist2Answer',c.twist2.opts)+fbHTML()+'</div>';
  } else if(p.phase==='ded'){
    h=nbHTML()+'<div class="qbox"><div class="sceneBig">🕵️⭐</div><div class="qq">'+esc(c.deduction.q)+'</div>'+optsHTML('dedAnswer',c.deduction.opts)+fbHTML()+'</div>';
  } else if(p.phase==='exp'){
@@ -1589,6 +1855,7 @@ function renderCase(){
     +(c.id==='c1'?'<div style="font-weight:800;color:var(--teal);margin-top:6px">🔍 You earned the MAGNIFYING GLASS for your Detective Kit!</div>':'')
     +(c.id==='s3c1'?'<div style="font-weight:800;color:var(--teal);margin-top:6px">🔦 You earned the TORCH for your Detective Kit!</div>':'')
     +(c.id==='s4c1'?'<div style="font-weight:800;color:var(--teal);margin-top:6px">🎡 You earned the DECODER WHEEL for your Detective Kit!</div>':'')
+    +(c.id==='s5c1'?'<div style="font-weight:800;color:var(--teal);margin-top:6px">⭐ You earned the SUPER THINKER BADGE for your Detective Kit!</div>':'')
     +'</div>'
     +'<div class="qbox"><div class="qq">🤔 What If? '+esc(c.whatif.q)+'</div>'+optsHTML('whatifAnswer',c.whatif.opts)+fbHTML()+'</div>'
     +'<button class="btn" onclick="openMap()">🗺️ Back to the Map</button><button class="btn ghost" onclick="goHome()">🏠 Headquarters</button>';
@@ -1653,7 +1920,7 @@ function solveClue(){
  if(!p.counted[ix]){ p.counted[ix]=1; if(!c.own) S.powerUse[cl.power]=(S.powerUse[cl.power]||0)+1; }
  if(!p.nb.includes(cl.label)) p.nb.push(cl.label);
  p.proveFor=-1; p.clue++;
- if(p.clue===2&&!p.twistDone) p.phase='twist'; else if(p.clue>=4) p.phase='ded'; else p.phase='clue';
+ if(p.clue===2&&!p.twistDone) p.phase='twist'; else if(p.clue>=4){ if(c.twist2&&!p.twist2Done) p.phase='twist2'; else p.phase='ded'; } else p.phase='clue';
  save(); renderCase();
 }
 function clueAnswer(i){
@@ -1681,6 +1948,12 @@ function twistAnswer(i){
  else { p.twistTried=true; save(); setFb(false,o[2]); }
 }
 window.twistAnswer=twistAnswer;
+function twist2Answer(i){
+ const p=S.prog,c=curCase(),o=c.twist2.opts[i];
+ if(o[1]===1){ p.twist2Ok=!p.twist2Tried; p.twist2Done=true; p.phase='ded'; save(); renderCase(); }
+ else { p.twist2Tried=true; save(); setFb(false,o[2]); }
+}
+window.twist2Answer=twist2Answer;
 function dedAnswer(i){
  const p=S.prog,c=curCase(),o=c.deduction.opts[i];
  if(o[1]===1){ p.phase='exp'; save(); renderCase(); } else { p.dedTried=true; save(); setFb(false,o[2]); }
@@ -1703,6 +1976,7 @@ function tellTap(v){
    if(c.id==='s2c1') S.kit.notebook=true;
    if(c.id==='s3c1') S.kit.torch=true;
    if(c.id==='s4c1') S.kit.decoder=true;
+   if(c.id==='s5c1') S.kit.badge=true;
    S.history[c.id]={hints:totalHints,twist:p.twistOk,explain:p.expOk,tell:v,stars:stars};
  } else { p.awardedStars=0; }
  p.phase='done'; save(); renderCase();
@@ -1782,13 +2056,14 @@ function mkWhereClue(where,ix,style){
  opts:[[where.name,1,'Clue 3 solved — the family knows where to search!'],[o1.name,0,'The clue does not point there. Look at its picture and words again!'],[o2.name,0,'That place is not in this clue at all. Follow the picture!']],
  hints:CREATE_HINTS.where,prove:CREATE_PROVE.where};
 }
-function assembleOwnCase(pk){
+function assembleOwnCase(pk, slot){
+ const grad=(slot||(S.ownProg&&S.ownProg.slot)||'s4c9')==='s5c10';
  const B=CREATE_BANKS, item=B.items[pk.item], taker=B.takers[pk.taker], where=B.wheres[pk.where], tw=B.twists[pk.twist];
  const oTaker=rotC(B.takers,pk.taker,1), oWhere=rotC(B.wheres,pk.where,1);
  const clue4={power:'memory',label:'Clue 4 • The Detective Check',scene:'🔢 🦉 ✅',q:'Let us check our detective work! Which clue told us WHERE the '+item.name+' is hidden?',hard:false,
  opts:[['Clue 3 — the hiding-place clue',1,'Checked and correct! WHO, WHAT, WHERE — in that order.'],['Clue 1 — the taker clue',0,'Clue 1 told us WHO. WHERE has its own clue — count on!'],['Clue 2 — the missing-thing clue',0,'Clue 2 told us WHAT is missing. WHERE is a different clue!']],
  hints:CREATE_HINTS.check,prove:CREATE_PROVE.check};
- return { id:'own1',own:true,no:'✏️',title:'The Missing '+item.name,sticker:'✏️',stage:4,
+ return { id:grad?'own2':'own1',own:true,graduation:grad,no:'✏️',title:'The Missing '+item.name,sticker:'✏️',stage:grad?5:4,
   powersUsed:'Use the Clues + Plan & Solve + Remember & Focus',powers:['clue','plan','memory'],
   story:[
    {sc:item.homeScene,sp:'This morning, the '+item.name+' '+item.icon+' sat happily at '+item.home+'.'},
@@ -1810,62 +2085,73 @@ const CREATE_STEPS=[
  {key:'whereStyle',title:'✏️ Build a Case — Step 6 of 7',q:'CLUE 3 will tell WHERE. How?',cards:()=>[{ix:'peek',icon:'👀',label:'A corner peeks out',sub:'A tiny corner gives it away'},{ix:'rustle',icon:'👂',label:'A rustling sound',sub:'Something is moving in there'},{ix:'trailend',icon:'🧭',label:'The trail ends there',sub:'All the clues stop at that place'}]},
  {key:'twist',title:'✏️ Build a Case — Step 7 of 7',q:'Every great case has a TWIST! Pick yours:',cards:()=>CREATE_BANKS.twists.map((t,i)=>({ix:i,icon:'🔀',label:t.label,sub:'A surprise waiting in the middle'}))}
 ];
-function openCreator(){ if(!S.ownProg) S.ownProg={step:0,picks:{}}; save(); show('scr-create'); renderCreator(); }
+function openCreator(slot){ const sl=slot||'s4c9'; if(!S.ownProg || (slot && S.ownProg.slot!==sl)) S.ownProg={step:0,picks:{},slot:sl}; if(!S.ownProg.slot) S.ownProg.slot=sl; save(); show('scr-create'); renderCreator(); }
 function leaveCreator(){ save(); openMap(); }
 window.leaveCreator=leaveCreator;
 function renderCreator(){
  const op=S.ownProg, el=$('#createBody'); if(!op||!el){ return; }
  let h='<div class="ollieRow"><div class="ollieWrap">'+ollieSVG()+'</div><div class="bubble">A case built by YOU, Detective! Choose one card at each step — Ollie will stitch your case together.</div></div>';
- if(S.solved.includes('s4c9')) h+='<div class="hintBox show">✏️ You have built a case before — building again makes a NEW version of it. Your builder star stays yours!</div>';
+ if(S.solved.includes(op.slot||'s4c9')) h+='<div class="hintBox show">✏️ You have built a case before — building again makes a NEW version of it. Your builder star stays yours!</div>';
  if(op.step<CREATE_STEPS.length){
   const st=CREATE_STEPS[op.step];
   h+='<div class="baloo" style="font-size:20px;margin:8px 0 2px">'+st.title+'</div><div class="qq">'+esc(st.q)+'</div>';
   h+=st.cards().map(cd=>'<button class="opt" style="text-align:left" onclick=\'creatorPick('+JSON.stringify(cd.ix)+')\'><span style="font-size:22px">'+cd.icon+'</span> <b>'+esc(cd.label)+'</b><br><small>'+esc(cd.sub)+'</small></button>').join('');
   if(op.step>0) h+='<button class="btn ghost" onclick="creatorBack()">← Step Back</button>';
  } else {
-  const oc=assembleOwnCase(op.picks);
+  const oc=assembleOwnCase(op.picks, op.slot);
   h+='<div class="stampBox"><div class="stamp">🎉 YOUR CASE IS READY!</div></div>'
-   +'<div class="card" style="text-align:center"><div style="font-size:44px">'+oc.sticker+'</div><div class="baloo" style="font-size:21px">'+esc(oc.title)+'</div><div style="font-weight:700">Built by Detective Sreshta — it now lives on your Journey Map, in "Cases by Detective Sreshta"!</div></div>'
+   +'<div class="card" style="text-align:center"><div style="font-size:44px">'+oc.sticker+'</div><div class="baloo" style="font-size:21px">'+esc(oc.title)+'</div><div style="font-weight:700">Built by Detective Sreshta — it now lives on your Journey Map, in "Cases by Detective Sreshta"!</div>'
+   +(oc.graduation?'<div style="font-weight:800;color:var(--teal);margin-top:6px">🎓 This is your GRADUATION CASE — the final case of Brain Lab!</div>':'')
+   +'</div>'
+   +(oc.graduation&&S.certificate?'<button class="btn yellow" onclick="showCertificate()">🏆 See My Certificate</button>':'')
    +'<button class="btn" onclick="creatorPlay()">▶️ Play My Case!</button><button class="btn yellow" onclick="creatorAgain()">✏️ Make Another</button><button class="btn ghost" onclick="openMap()">🗺️ Back to the Map</button>';
  }
  el.innerHTML=h;
 }
 function finishCreatorBuild(){
- const oc=assembleOwnCase(S.ownProg.picks);
+ const slot=(S.ownProg&&S.ownProg.slot)||'s4c9';
+ const oc=assembleOwnCase(S.ownProg.picks, slot);
  if(!Array.isArray(S.ownCases)) S.ownCases=[];
- S.ownCases=[oc];
- if(!S.solved.includes('s4c9')){
-   S.stars+=3; S.solved.push('s4c9'); S.stickers.push('s4c9');
-   S.history['s4c9']={hints:0,twist:true,explain:true,tell:'well',stars:3,note:'Created her own case'};
+ S.ownCases=S.ownCases.filter(x=>x.id!==oc.id); S.ownCases.push(oc);
+ let newCert=false;
+ if(!S.solved.includes(slot)){
+   S.stars+=3; S.solved.push(slot); S.stickers.push(slot);
+   S.history[slot]={hints:0,twist:true,explain:true,tell:'well',stars:3,note:slot==='s5c10'?'Created her graduation case':'Created her own case'};
  }
+ if(slot==='s5c10' && !S.certificate){ S.certificate={dateISO:new Date().toISOString()}; newCert=true; }
  S.ownProg.step=CREATE_STEPS.length;
+ return newCert;
 }
 function creatorPick(v){
  const op=S.ownProg; if(!op) return; const st=CREATE_STEPS[op.step]; if(!st) return;
  op.picks[st.key]=v; op.step++;
- if(op.step>=CREATE_STEPS.length) finishCreatorBuild();
- save(); renderCreator();
+ let newCert=false;
+ if(op.step>=CREATE_STEPS.length) newCert=finishCreatorBuild();
+ save();
+ if(newCert){ showCertificate(); return; }
+ renderCreator();
 }
 window.creatorPick=creatorPick;
 function creatorBack(){ const op=S.ownProg; if(op&&op.step>0&&op.step<CREATE_STEPS.length){ op.step--; save(); renderCreator(); } }
 window.creatorBack=creatorBack;
-function creatorPlay(){ save(); startOwnCase('own1'); }
+function creatorPlay(){ const op=S.ownProg; const id=op&&op.slot==='s5c10'?'own2':'own1'; save(); if(!startOwnCase(id)) startOwnCase('own1'); }
 window.creatorPlay=creatorPlay;
-function creatorAgain(){ S.ownProg={step:0,picks:{}}; save(); renderCreator(); }
+function creatorAgain(){ const slot=(S.ownProg&&S.ownProg.slot)||'s4c9'; S.ownProg={step:0,picks:{},slot:slot}; save(); renderCreator(); }
 window.creatorAgain=creatorAgain;
 
 /* ============ PARENT DASHBOARD ============ */
 function lvlFor(pw){ const u=S.powerUse[pw]||0; return u>=3?'Strong':u>=1?'Growing':'Just Started'; }
 function renderDash(){
- const rank=S.solved.length>=30?'Puzzle Master (Stage 4)':S.solved.length>=20?'Clue Detective (Stage 3)':S.solved.length>=10?'Pattern Hunter (Stage 2)':S.solved.length>=3?'Rookie Detective (Stage 1)':'Rookie Detective';
+ const rank=S.solved.length>=50?'Super Thinker':S.solved.length>=40?'Super Thinker (Stage 5)':S.solved.length>=30?'Puzzle Master (Stage 4)':S.solved.length>=20?'Clue Detective (Stage 3)':S.solved.length>=10?'Pattern Hunter (Stage 2)':S.solved.length>=3?'Rookie Detective (Stage 1)':'Rookie Detective';
  const stN=n=>S.solved.filter(id=>{const cc=CASES.find(x=>x.id===id);return cc&&(cc.stage||1)===n;}).length;
  $('#dash-ov').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Overview</h3><table>'
-  +'<tr><th>Cases solved</th><td>'+S.solved.length+' of '+CASES.length+' — Stage 1: '+stN(1)+'/10 • Stage 2: '+stN(2)+'/10 • Stage 3: '+stN(3)+'/10 • Stage 4: '+stN(4)+'/10</td></tr>'
+  +'<tr><th>Cases solved</th><td>'+S.solved.length+' of '+CASES.length+' — Stage 1: '+stN(1)+'/10 • Stage 2: '+stN(2)+'/10 • Stage 3: '+stN(3)+'/10 • Stage 4: '+stN(4)+'/10 • Stage 5: '+stN(5)+'/10</td></tr>'
   +'<tr><th>Rank</th><td>'+rank+'</td></tr>'
   +'<tr><th>Detective Stars</th><td>⭐ '+S.stars+'</td></tr>'
   +'<tr><th>Cap colour</th><td>'+(S.cap||'not chosen yet')+'</td></tr>'
   +'<tr><th>Baseline Adventure</th><td>'+(S.baseline?'Completed':'Not done yet — Case 1 stays locked until it is')+'</td></tr>'
-  +'<tr><th>Next Reward</th><td>'+esc(S.nextReward)+'</td></tr></table>'
+  +'<tr><th>Next Reward</th><td>'+esc(S.nextReward)+'</td></tr>'
+  +'<tr><th>Graduation</th><td>'+(S.certificate?('Super Thinker Certificate earned on '+fmtCertDate(S.certificate.dateISO)):'Not yet')+'</td></tr></table>'
   +'<p style="font-weight:700;font-size:12.5px;margin:8px 0 0">'+syncStatusText()+'</p></div>';
  $('#dash-prof').innerHTML='<div class="card"><h3 class="baloo" style="margin:0 0 6px">Thinking Profile</h3><table><tr><th>Power</th><th>Adventure start</th><th>Now</th></tr>'
   +POWERS.map(p=>{const b=S.baseline?(S.baseline[p.id]?'Solved alone':'Needed story help'):'—'; return '<tr><td>'+p.ic+' '+p.nm+'</td><td>'+b+'</td><td>'+(S.baseline?lvlFor(p.id):'—')+'</td></tr>';}).join('')+'</table><p style="font-weight:700;font-size:12.5px">Levels grow as she uses each power inside cases. The Adventure start is her Day-1 baseline and is never reset.</p></div>';
